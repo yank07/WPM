@@ -15,29 +15,25 @@ def home(request):
     return render_to_response('index.html', context_instance=RequestContext(request))
 
 
-def add_proyecto(request):
- # Get the context from the request.
-    context = RequestContext(request)
+def admin_proyecto(request):
+    return render_to_response('admin_proyectos.html', context_instance=RequestContext(request))
 
-    # A HTTP POST?
+
+def add_proyecto(request):
+ # Obtener el contexto del request.
+    context = RequestContext(request)
+    # es POST?
     if request.method == 'POST':
         form = ProyectoForm(request.POST)
-
-        # Have we been provided with a valid form?
+        # el form es valido?
         if form.is_valid():
-            # Save the new category to the database.
+            # guardar
             form.save(commit=True)
-
-            # Now call the index() view.
-            # The user will be shown the homepage.
-            return home(request)
+            return admin_proyecto(request)
         else:
-            # The supplied form contained errors - just print them to the terminal.
+            # hubo errores
             print form.errors
     else:
-        # If the request was not a POST, display the form to enter details.
+        # si no fue un post, mostrar el form
         form = ProyectoForm()
-
-    # Bad form (or form details), no form supplied...
-    # Render the form with error messages (if any).
     return render_to_response('add_proyecto.html', {'form': form}, context)
