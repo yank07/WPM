@@ -15,12 +15,20 @@ class UserProfile(models.Model):
 
 User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
 
+class UserProfile(models.Model):
+    user = models.ForeignKey(User, unique=True)
+    direccion=models.CharField(max_length=50)
+    telefono=models.CharField(max_length=15)
+
+User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
+
 
 class Proyecto(models.Model):
     usuario = models.ForeignKey(User,related_name='proyectos' )
     nombre=models.CharField(max_length=50)
     presupuesto=models.IntegerField(default=0)
     observaciones=models.TextField(max_length=200)
+
 
     def __unicode__(self):
         return unicode(self.nombre)
