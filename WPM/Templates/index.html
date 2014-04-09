@@ -53,6 +53,13 @@
 
 	<section id="contenido">
 
+        {% load crispy_forms_tags %}
+
+        <form method="post" class="uniForm">
+    {{ my_formset|crispy }}
+</form>
+
+
 	</section>
 
 

@@ -1,0 +1,12 @@
+
+{% block titulo %} Ingresar al Sistema {% endblock %}
+{% block encabezado %}
+	<h1>Ingresa</h1>
+{% endblock %}
+{% block contenido %}
+	<form id='formulario' method='post' action=''>
+	{% csrf_token %}
+	<table>{{formulario}}</table>
+	<p><input type='submit' value='ingresar'/></p>
+	</form>
+{% endblock %}

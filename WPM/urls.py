@@ -9,8 +9,10 @@ urlpatterns = patterns('',
     # url(r'^$', 'WPM.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
     url(r'^$', 'principal.views.home', name='home'),
+    url(r'^ingresar/$','principal.views.ingresar'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^admin_proyectos/$', admin_proyecto, name='admin_proyecto'),
     url(r'^add_proyecto/$', add_proyecto, name='add_proyecto'),
+
 
 )
