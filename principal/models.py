@@ -27,7 +27,7 @@ class EstadosProyecto(models.Model):
     descripcion = models.CharField(max_length=50)
 
     def __unicode__(self):
-        return unicode(self.nombre)
+        return unicode(self.descripcion)
 
 
 class Proyecto(models.Model):
