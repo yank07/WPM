@@ -35,6 +35,7 @@ class Proyecto(models.Model):
     nombre=models.CharField(max_length=50)
     presupuesto=models.IntegerField(default=0)
     observaciones=models.TextField(max_length=200)
+    estado = models.ForeignKey(EstadosProyecto, blank=True, null=True)
 
 
     def __unicode__(self):
