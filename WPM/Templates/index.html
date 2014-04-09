@@ -6,8 +6,10 @@
 	<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1"/>
 	<title>WPM:Web Project Manager </title>
 
-	<link rel="stylesheet" href="static/css/estilos.css" />
-    <link rel="stylesheet" href="static/css/bootstrap.css"/>
+	<link rel="stylesheet" href="/static/css/estilos.css" />
+
+    <link rel="stylesheet" href="/static/css/bootstrap.css"/>
+<link rel="stylesheet" href="/static/css/bootstrap-theme.css"/>
 
 	
 </head>
@@ -35,29 +37,17 @@
 			</li>
 		</ul>
 	</nav>
-    <form action="" id="formulario" class="formulario">
-		<input type="text" placeholder="Título" id="titulo" name="titulo" required>
-		<input type="url" placeholder="Link" id="link" name="link" required>
-		<input type="submit" value="Agregar">
-	</form>
+
 
 	
-	{{usuario.nombre}}
-	<ul>
-	{% for usuario in usuarios%}
-	
-	<li>{{usuario.nombre}}</li>
-	
-	{%endfor%}
-	</ul>
+
 
 	<section id="contenido">
 
-        {% load crispy_forms_tags %}
+       {%  block contenido %}
+        {% endblock %}
 
-        <form method="post" class="uniForm">
-    {{ my_formset|crispy }}
-</form>
+
 
 
 	</section>
@@ -75,7 +65,7 @@
 	</footer>
 
     <script src="static/js/jquery-1.11.0.min.js"></script>
-	<script src="static/js/formulario.js"></script>
+
 
 </body>
 </html>

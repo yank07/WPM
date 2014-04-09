@@ -20,9 +20,9 @@ class UserForm(forms.ModelForm):
         fields = ('username', 'first_name', 'last_name')
 
 class ProyectoForm(forms.ModelForm):
-    nombre = forms.CharField(max_length=50, help_text="Nombre del proyecto")
-    presupuesto = forms.IntegerField(help_text="Presupuesto del Proyecto")
-    observaciones = forms.CharField(max_length=200, help_text="Observaciones varias")
+    nombre = forms.CharField(max_length=50)
+    presupuesto = forms.IntegerField()
+    observaciones = forms.CharField(max_length=200)
     estado = forms.ModelChoiceField(queryset=EstadosProyecto.objects.all())
 
     class Meta:
