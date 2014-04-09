@@ -31,7 +31,7 @@ def ingresar(request):
             if acceso is not None:
                 if acceso.is_active:
                     login(request, acceso)
-                    return HttpResponseRedirect('/privado')
+                    return HttpResponseRedirect('/admin_proyectos')
                 else:
                     return render_to_response('noactivo.html', context_instance=RequestContext(request))
             else:
