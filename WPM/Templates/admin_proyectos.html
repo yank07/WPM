@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="/static/css/bootstrap.css"/>
 <link rel="stylesheet" href="/static/css/bootstrap-theme.css"/>
 
-	
+
 </head>
 <body>
 	<header>
@@ -19,28 +19,34 @@
 			<img src="/static/img/wpm_logo.jpg" />
 		</figure>
 		<h1>
-			Web Project Manager
+			Web Project Manager -
 		</h1>
-		<figure id="avatar">
-			<img src="/static/img/desconocido.jpg" />
-		</figure>
+        <h1> Administrador de Proyectos</h1>
+
 	</header>
 	<nav>
 		<ul>
+            <li><a href="/add_proyecto/">Crear Proyecto</a></li>
+			<li><a href="#">Documentacion</a></li>
+			<li><a href="#">Contacto</a></li>
+
 			<li><a href="#">Autores</a></li>
 			<li><a href="#">Documentacion</a></li>
 			<li><a href="#">Contacto</a></li>
-			<li><a href="#">CSS3</a></li>
-			<li><a href="#">Django</a></li>
 
+
+
+			</li>
 		</ul>
 	</nav>
 
 
-	
+
 
 
 	<section id="contenido">
+
+
 
        {%  block contenido %}
         {% endblock %}

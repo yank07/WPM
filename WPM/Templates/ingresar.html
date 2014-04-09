@@ -1,0 +1,25 @@
+{% extends 'index.html' %}
+{% block titulo %} Ingresar al Sistema {% endblock %}
+
+{% load crispy_forms_tags %}
+{% block encabezado %}
+	<h1>Ingresa</h1>
+{% endblock %}
+{% block contenido %}
+
+
+
+    <div class="row">
+
+        <div class="col-md-4  col-md-offset-4">
+            <form id='formulario' method='post' action=''>
+                    {% csrf_token %}
+                    <table>{% crispy formulario %}</table>
+                    <p><input type='submit' value='ingresar'/></p>
+            </form>
+
+        </div>
+
+      </div>
+
+{% endblock %}
