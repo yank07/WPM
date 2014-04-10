@@ -20,6 +20,11 @@ def home(request):
 
 
 def ingresar(request):
+    """
+    Login
+    @param request: Peticion HTTP
+    @return: Renderiza el form correspondiente
+    """
     if not request.user.is_anonymous():
         return HttpResponseRedirect('/admin_proyectos')
     if request.method == 'POST':
@@ -48,6 +53,11 @@ def admin_proyecto(request):
 
 
 def add_proyecto(request):
+    """
+    Vista para agregar un proyecto.
+    @param request: Peticion HTTP
+    @return renderiza el form correspondiente
+    """
  # Obtener el contexto del request.
     context = RequestContext(request)
     # es POST?
@@ -68,6 +78,11 @@ def add_proyecto(request):
 
 
 def agregar_usuario(request):
+    """
+    Permite agregar un usuario
+    @param request: La peticion HTTP
+    @return: renderiza el form correspondiente
+    """
     # Like before, get the request's context.
     context = RequestContext(request)
 

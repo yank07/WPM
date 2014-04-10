@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 
 
 class UserProfile(models.Model):
+
     user = models.ForeignKey(User, unique=True)
     direccion=models.CharField(max_length=50)
     telefono=models.CharField(max_length=15)
@@ -40,7 +41,6 @@ class Proyecto(models.Model):
 
     def __unicode__(self):
         return unicode(self.nombre)
-
 
 class Fase(models.Model):
     proyecto = models.ForeignKey(User,related_name='fases' )
