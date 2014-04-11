@@ -1,3 +1,8 @@
+"""
+Creado el 1 abril  2014
+@author: Grupo 04
+"""
+
 from django.shortcuts import render
 
 # Create your views here.

@@ -1,3 +1,8 @@
+"""
+Creado el 1 abril 2014
+@author: Grupo 04
+"""
+
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -47,6 +52,9 @@ class Proyecto(models.Model):
         return unicode(self.nombre)
 
 class Fase(models.Model):
+    """
+    Modelo que maneja las fases de un proyecto
+    """
     proyecto = models.ForeignKey(User,related_name='fases' )
     nombre=models.CharField(max_length=50)
 
