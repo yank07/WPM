@@ -1,0 +1,658 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Models &mdash; WPM 1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="WPM 1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">WPM 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-principal.models">
+<span id="models"></span><h1>Models<a class="headerlink" href="#module-principal.models" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="principal.models.EstadosProyecto">
+<em class="property">class </em><tt class="descclassname">principal.models.</tt><tt class="descname">EstadosProyecto</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/principal/models.html#EstadosProyecto"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#principal.models.EstadosProyecto" title="Permalink to this definition">¶</a></dt>
+<dd><p>EstadosProyecto(id, descripcion)</p>
+<dl class="exception">
+<dt id="principal.models.EstadosProyecto.DoesNotExist">
+<em class="property">exception </em><tt class="descname">DoesNotExist</tt><a class="headerlink" href="#principal.models.EstadosProyecto.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="principal.models.EstadosProyecto.DoesNotExist.args">
+<tt class="descname">args</tt><a class="headerlink" href="#principal.models.EstadosProyecto.DoesNotExist.args" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="principal.models.EstadosProyecto.DoesNotExist.message">
+<tt class="descname">message</tt><a class="headerlink" href="#principal.models.EstadosProyecto.DoesNotExist.message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="principal.models.EstadosProyecto.DoesNotExist.silent_variable_failure">
+<tt class="descname">silent_variable_failure</tt><em class="property"> = True</em><a class="headerlink" href="#principal.models.EstadosProyecto.DoesNotExist.silent_variable_failure" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="principal.models.EstadosProyecto.MultipleObjectsReturned">
+<em class="property">exception </em><tt class="descclassname">EstadosProyecto.</tt><tt class="descname">MultipleObjectsReturned</tt><a class="headerlink" href="#principal.models.EstadosProyecto.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="principal.models.EstadosProyecto.MultipleObjectsReturned.args">
+<tt class="descname">args</tt><a class="headerlink" href="#principal.models.EstadosProyecto.MultipleObjectsReturned.args" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="principal.models.EstadosProyecto.MultipleObjectsReturned.message">
+<tt class="descname">message</tt><a class="headerlink" href="#principal.models.EstadosProyecto.MultipleObjectsReturned.message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="method">
+<dt id="principal.models.EstadosProyecto.clean">
+<tt class="descclassname">EstadosProyecto.</tt><tt class="descname">clean</tt><big>(</big><big>)</big><a class="headerlink" href="#principal.models.EstadosProyecto.clean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hook for doing any extra model-wide validation after clean() has been
+called on every field by self.clean_fields. Any ValidationError raised
+by this method will not be associated with a particular field; it will
+have a special-case association with the field defined by NON_FIELD_ERRORS.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="principal.models.EstadosProyecto.clean_fields">
+<tt class="descclassname">EstadosProyecto.</tt><tt class="descname">clean_fields</tt><big>(</big><em>exclude=None</em><big>)</big><a class="headerlink" href="#principal.models.EstadosProyecto.clean_fields" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cleans all fields and raises a ValidationError containing message_dict
+of all validation errors if any occur.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="principal.models.EstadosProyecto.date_error_message">
+<tt class="descclassname">EstadosProyecto.</tt><tt class="descname">date_error_message</tt><big>(</big><em>lookup_type</em>, <em>field</em>, <em>unique_for</em><big>)</big><a class="headerlink" href="#principal.models.EstadosProyecto.date_error_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="principal.models.EstadosProyecto.delete">
+<tt class="descclassname">EstadosProyecto.</tt><tt class="descname">delete</tt><big>(</big><em>using=None</em><big>)</big><a class="headerlink" href="#principal.models.EstadosProyecto.delete" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="principal.models.EstadosProyecto.full_clean">
+<tt class="descclassname">EstadosProyecto.</tt><tt class="descname">full_clean</tt><big>(</big><em>exclude=None</em>, <em>validate_unique=True</em><big>)</big><a class="headerlink" href="#principal.models.EstadosProyecto.full_clean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calls clean_fields, clean, and validate_unique, on the model,
+and raises a <tt class="docutils literal"><span class="pre">ValidationError</span></tt> for any errors that occurred.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="principal.models.EstadosProyecto.objects">
+<tt class="descclassname">EstadosProyecto.</tt><tt class="descname">objects</tt><em class="property"> = &lt;django.db.models.manager.Manager object at 0x38aec90&gt;</em><a class="headerlink" href="#principal.models.EstadosProyecto.objects" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="principal.models.EstadosProyecto.pk">
+<tt class="descclassname">EstadosProyecto.</tt><tt class="descname">pk</tt><a class="headerlink" href="#principal.models.EstadosProyecto.pk" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="principal.models.EstadosProyecto.prepare_database_save">
+<tt class="descclassname">EstadosProyecto.</tt><tt class="descname">prepare_database_save</tt><big>(</big><em>unused</em><big>)</big><a class="headerlink" href="#principal.models.EstadosProyecto.prepare_database_save" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="principal.models.EstadosProyecto.proyecto_set">
+<tt class="descclassname">EstadosProyecto.</tt><tt class="descname">proyecto_set</tt><a class="headerlink" href="#principal.models.EstadosProyecto.proyecto_set" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="principal.models.EstadosProyecto.save">
+<tt class="descclassname">EstadosProyecto.</tt><tt class="descname">save</tt><big>(</big><em>force_insert=False</em>, <em>force_update=False</em>, <em>using=None</em>, <em>update_fields=None</em><big>)</big><a class="headerlink" href="#principal.models.EstadosProyecto.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves the current instance. Override this in a subclass if you want to
+control the saving process.</p>
+<p>The &#8216;force_insert&#8217; and &#8216;force_update&#8217; parameters can be used to insist
+that the &#8220;save&#8221; must be an SQL insert or update (or equivalent for
+non-SQL backends), respectively. Normally, they should not be set.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="principal.models.EstadosProyecto.save_base">
+<tt class="descclassname">EstadosProyecto.</tt><tt class="descname">save_base</tt><big>(</big><em>raw=False</em>, <em>force_insert=False</em>, <em>force_update=False</em>, <em>using=None</em>, <em>update_fields=None</em><big>)</big><a class="headerlink" href="#principal.models.EstadosProyecto.save_base" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handles the parts of saving which should be done only once per save,
+yet need to be done in raw saves, too. This includes some sanity
+checks and signal sending.</p>
+<p>The &#8216;raw&#8217; argument is telling save_base not to save any parent
+models and not to do any changes to the values before save. This
+is used by fixture loading.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="principal.models.EstadosProyecto.serializable_value">
+<tt class="descclassname">EstadosProyecto.</tt><tt class="descname">serializable_value</tt><big>(</big><em>field_name</em><big>)</big><a class="headerlink" href="#principal.models.EstadosProyecto.serializable_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the value of the field name for this instance. If the field is
+a foreign key, returns the id value, instead of the object. If there&#8217;s
+no Field object with this name on the model, the model attribute&#8217;s
+value is returned directly.</p>
+<p>Used to serialize a field&#8217;s value (in the serializer, or form output,
+for example). Normally, you would just access the attribute directly
+and not use this method.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="principal.models.EstadosProyecto.unique_error_message">
+<tt class="descclassname">EstadosProyecto.</tt><tt class="descname">unique_error_message</tt><big>(</big><em>model_class</em>, <em>unique_check</em><big>)</big><a class="headerlink" href="#principal.models.EstadosProyecto.unique_error_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="principal.models.EstadosProyecto.validate_unique">
+<tt class="descclassname">EstadosProyecto.</tt><tt class="descname">validate_unique</tt><big>(</big><em>exclude=None</em><big>)</big><a class="headerlink" href="#principal.models.EstadosProyecto.validate_unique" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks unique constraints on the model and raises <tt class="docutils literal"><span class="pre">ValidationError</span></tt>
+if any failed.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="principal.models.Fase">
+<em class="property">class </em><tt class="descclassname">principal.models.</tt><tt class="descname">Fase</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/principal/models.html#Fase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#principal.models.Fase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fase(id, proyecto_id, nombre)</p>
+<dl class="exception">
+<dt id="principal.models.Fase.DoesNotExist">
+<em class="property">exception </em><tt class="descname">DoesNotExist</tt><a class="headerlink" href="#principal.models.Fase.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="principal.models.Fase.DoesNotExist.args">
+<tt class="descname">args</tt><a class="headerlink" href="#principal.models.Fase.DoesNotExist.args" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="principal.models.Fase.DoesNotExist.message">
+<tt class="descname">message</tt><a class="headerlink" href="#principal.models.Fase.DoesNotExist.message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="principal.models.Fase.DoesNotExist.silent_variable_failure">
+<tt class="descname">silent_variable_failure</tt><em class="property"> = True</em><a class="headerlink" href="#principal.models.Fase.DoesNotExist.silent_variable_failure" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="principal.models.Fase.MultipleObjectsReturned">
+<em class="property">exception </em><tt class="descclassname">Fase.</tt><tt class="descname">MultipleObjectsReturned</tt><a class="headerlink" href="#principal.models.Fase.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="principal.models.Fase.MultipleObjectsReturned.args">
+<tt class="descname">args</tt><a class="headerlink" href="#principal.models.Fase.MultipleObjectsReturned.args" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="principal.models.Fase.MultipleObjectsReturned.message">
+<tt class="descname">message</tt><a class="headerlink" href="#principal.models.Fase.MultipleObjectsReturned.message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="method">
+<dt id="principal.models.Fase.clean">
+<tt class="descclassname">Fase.</tt><tt class="descname">clean</tt><big>(</big><big>)</big><a class="headerlink" href="#principal.models.Fase.clean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hook for doing any extra model-wide validation after clean() has been
+called on every field by self.clean_fields. Any ValidationError raised
+by this method will not be associated with a particular field; it will
+have a special-case association with the field defined by NON_FIELD_ERRORS.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="principal.models.Fase.clean_fields">
+<tt class="descclassname">Fase.</tt><tt class="descname">clean_fields</tt><big>(</big><em>exclude=None</em><big>)</big><a class="headerlink" href="#principal.models.Fase.clean_fields" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cleans all fields and raises a ValidationError containing message_dict
+of all validation errors if any occur.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="principal.models.Fase.date_error_message">
+<tt class="descclassname">Fase.</tt><tt class="descname">date_error_message</tt><big>(</big><em>lookup_type</em>, <em>field</em>, <em>unique_for</em><big>)</big><a class="headerlink" href="#principal.models.Fase.date_error_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="principal.models.Fase.delete">
+<tt class="descclassname">Fase.</tt><tt class="descname">delete</tt><big>(</big><em>using=None</em><big>)</big><a class="headerlink" href="#principal.models.Fase.delete" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="principal.models.Fase.full_clean">
+<tt class="descclassname">Fase.</tt><tt class="descname">full_clean</tt><big>(</big><em>exclude=None</em>, <em>validate_unique=True</em><big>)</big><a class="headerlink" href="#principal.models.Fase.full_clean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calls clean_fields, clean, and validate_unique, on the model,
+and raises a <tt class="docutils literal"><span class="pre">ValidationError</span></tt> for any errors that occurred.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="principal.models.Fase.objects">
+<tt class="descclassname">Fase.</tt><tt class="descname">objects</tt><em class="property"> = &lt;django.db.models.manager.Manager object at 0x38b1510&gt;</em><a class="headerlink" href="#principal.models.Fase.objects" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="principal.models.Fase.pk">
+<tt class="descclassname">Fase.</tt><tt class="descname">pk</tt><a class="headerlink" href="#principal.models.Fase.pk" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="principal.models.Fase.prepare_database_save">
+<tt class="descclassname">Fase.</tt><tt class="descname">prepare_database_save</tt><big>(</big><em>unused</em><big>)</big><a class="headerlink" href="#principal.models.Fase.prepare_database_save" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="principal.models.Fase.proyecto">
+<tt class="descclassname">Fase.</tt><tt class="descname">proyecto</tt><a class="headerlink" href="#principal.models.Fase.proyecto" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="principal.models.Fase.save">
+<tt class="descclassname">Fase.</tt><tt class="descname">save</tt><big>(</big><em>force_insert=False</em>, <em>force_update=False</em>, <em>using=None</em>, <em>update_fields=None</em><big>)</big><a class="headerlink" href="#principal.models.Fase.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves the current instance. Override this in a subclass if you want to
+control the saving process.</p>
+<p>The &#8216;force_insert&#8217; and &#8216;force_update&#8217; parameters can be used to insist
+that the &#8220;save&#8221; must be an SQL insert or update (or equivalent for
+non-SQL backends), respectively. Normally, they should not be set.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="principal.models.Fase.save_base">
+<tt class="descclassname">Fase.</tt><tt class="descname">save_base</tt><big>(</big><em>raw=False</em>, <em>force_insert=False</em>, <em>force_update=False</em>, <em>using=None</em>, <em>update_fields=None</em><big>)</big><a class="headerlink" href="#principal.models.Fase.save_base" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handles the parts of saving which should be done only once per save,
+yet need to be done in raw saves, too. This includes some sanity
+checks and signal sending.</p>
+<p>The &#8216;raw&#8217; argument is telling save_base not to save any parent
+models and not to do any changes to the values before save. This
+is used by fixture loading.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="principal.models.Fase.serializable_value">
+<tt class="descclassname">Fase.</tt><tt class="descname">serializable_value</tt><big>(</big><em>field_name</em><big>)</big><a class="headerlink" href="#principal.models.Fase.serializable_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the value of the field name for this instance. If the field is
+a foreign key, returns the id value, instead of the object. If there&#8217;s
+no Field object with this name on the model, the model attribute&#8217;s
+value is returned directly.</p>
+<p>Used to serialize a field&#8217;s value (in the serializer, or form output,
+for example). Normally, you would just access the attribute directly
+and not use this method.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="principal.models.Fase.unique_error_message">
+<tt class="descclassname">Fase.</tt><tt class="descname">unique_error_message</tt><big>(</big><em>model_class</em>, <em>unique_check</em><big>)</big><a class="headerlink" href="#principal.models.Fase.unique_error_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="principal.models.Fase.validate_unique">
+<tt class="descclassname">Fase.</tt><tt class="descname">validate_unique</tt><big>(</big><em>exclude=None</em><big>)</big><a class="headerlink" href="#principal.models.Fase.validate_unique" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks unique constraints on the model and raises <tt class="docutils literal"><span class="pre">ValidationError</span></tt>
+if any failed.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="principal.models.Proyecto">
+<em class="property">class </em><tt class="descclassname">principal.models.</tt><tt class="descname">Proyecto</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/principal/models.html#Proyecto"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#principal.models.Proyecto" title="Permalink to this definition">¶</a></dt>
+<dd><p>Guarda una entrada de un proyecto, related to <cite>auth.User</cite></p>
+<dl class="exception">
+<dt id="principal.models.Proyecto.DoesNotExist">
+<em class="property">exception </em><tt class="descname">DoesNotExist</tt><a class="headerlink" href="#principal.models.Proyecto.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="principal.models.Proyecto.DoesNotExist.args">
+<tt class="descname">args</tt><a class="headerlink" href="#principal.models.Proyecto.DoesNotExist.args" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="principal.models.Proyecto.DoesNotExist.message">
+<tt class="descname">message</tt><a class="headerlink" href="#principal.models.Proyecto.DoesNotExist.message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="principal.models.Proyecto.DoesNotExist.silent_variable_failure">
+<tt class="descname">silent_variable_failure</tt><em class="property"> = True</em><a class="headerlink" href="#principal.models.Proyecto.DoesNotExist.silent_variable_failure" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="principal.models.Proyecto.MultipleObjectsReturned">
+<em class="property">exception </em><tt class="descclassname">Proyecto.</tt><tt class="descname">MultipleObjectsReturned</tt><a class="headerlink" href="#principal.models.Proyecto.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="principal.models.Proyecto.MultipleObjectsReturned.args">
+<tt class="descname">args</tt><a class="headerlink" href="#principal.models.Proyecto.MultipleObjectsReturned.args" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="principal.models.Proyecto.MultipleObjectsReturned.message">
+<tt class="descname">message</tt><a class="headerlink" href="#principal.models.Proyecto.MultipleObjectsReturned.message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="method">
+<dt id="principal.models.Proyecto.clean">
+<tt class="descclassname">Proyecto.</tt><tt class="descname">clean</tt><big>(</big><big>)</big><a class="headerlink" href="#principal.models.Proyecto.clean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hook for doing any extra model-wide validation after clean() has been
+called on every field by self.clean_fields. Any ValidationError raised
+by this method will not be associated with a particular field; it will
+have a special-case association with the field defined by NON_FIELD_ERRORS.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="principal.models.Proyecto.clean_fields">
+<tt class="descclassname">Proyecto.</tt><tt class="descname">clean_fields</tt><big>(</big><em>exclude=None</em><big>)</big><a class="headerlink" href="#principal.models.Proyecto.clean_fields" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cleans all fields and raises a ValidationError containing message_dict
+of all validation errors if any occur.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="principal.models.Proyecto.date_error_message">
+<tt class="descclassname">Proyecto.</tt><tt class="descname">date_error_message</tt><big>(</big><em>lookup_type</em>, <em>field</em>, <em>unique_for</em><big>)</big><a class="headerlink" href="#principal.models.Proyecto.date_error_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="principal.models.Proyecto.delete">
+<tt class="descclassname">Proyecto.</tt><tt class="descname">delete</tt><big>(</big><em>using=None</em><big>)</big><a class="headerlink" href="#principal.models.Proyecto.delete" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="principal.models.Proyecto.estado">
+<tt class="descclassname">Proyecto.</tt><tt class="descname">estado</tt><a class="headerlink" href="#principal.models.Proyecto.estado" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="principal.models.Proyecto.full_clean">
+<tt class="descclassname">Proyecto.</tt><tt class="descname">full_clean</tt><big>(</big><em>exclude=None</em>, <em>validate_unique=True</em><big>)</big><a class="headerlink" href="#principal.models.Proyecto.full_clean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calls clean_fields, clean, and validate_unique, on the model,
+and raises a <tt class="docutils literal"><span class="pre">ValidationError</span></tt> for any errors that occurred.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="principal.models.Proyecto.objects">
+<tt class="descclassname">Proyecto.</tt><tt class="descname">objects</tt><em class="property"> = &lt;django.db.models.manager.Manager object at 0x38b11d0&gt;</em><a class="headerlink" href="#principal.models.Proyecto.objects" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="principal.models.Proyecto.pk">
+<tt class="descclassname">Proyecto.</tt><tt class="descname">pk</tt><a class="headerlink" href="#principal.models.Proyecto.pk" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="principal.models.Proyecto.prepare_database_save">
+<tt class="descclassname">Proyecto.</tt><tt class="descname">prepare_database_save</tt><big>(</big><em>unused</em><big>)</big><a class="headerlink" href="#principal.models.Proyecto.prepare_database_save" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="principal.models.Proyecto.save">
+<tt class="descclassname">Proyecto.</tt><tt class="descname">save</tt><big>(</big><em>force_insert=False</em>, <em>force_update=False</em>, <em>using=None</em>, <em>update_fields=None</em><big>)</big><a class="headerlink" href="#principal.models.Proyecto.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves the current instance. Override this in a subclass if you want to
+control the saving process.</p>
+<p>The &#8216;force_insert&#8217; and &#8216;force_update&#8217; parameters can be used to insist
+that the &#8220;save&#8221; must be an SQL insert or update (or equivalent for
+non-SQL backends), respectively. Normally, they should not be set.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="principal.models.Proyecto.save_base">
+<tt class="descclassname">Proyecto.</tt><tt class="descname">save_base</tt><big>(</big><em>raw=False</em>, <em>force_insert=False</em>, <em>force_update=False</em>, <em>using=None</em>, <em>update_fields=None</em><big>)</big><a class="headerlink" href="#principal.models.Proyecto.save_base" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handles the parts of saving which should be done only once per save,
+yet need to be done in raw saves, too. This includes some sanity
+checks and signal sending.</p>
+<p>The &#8216;raw&#8217; argument is telling save_base not to save any parent
+models and not to do any changes to the values before save. This
+is used by fixture loading.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="principal.models.Proyecto.serializable_value">
+<tt class="descclassname">Proyecto.</tt><tt class="descname">serializable_value</tt><big>(</big><em>field_name</em><big>)</big><a class="headerlink" href="#principal.models.Proyecto.serializable_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the value of the field name for this instance. If the field is
+a foreign key, returns the id value, instead of the object. If there&#8217;s
+no Field object with this name on the model, the model attribute&#8217;s
+value is returned directly.</p>
+<p>Used to serialize a field&#8217;s value (in the serializer, or form output,
+for example). Normally, you would just access the attribute directly
+and not use this method.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="principal.models.Proyecto.unique_error_message">
+<tt class="descclassname">Proyecto.</tt><tt class="descname">unique_error_message</tt><big>(</big><em>model_class</em>, <em>unique_check</em><big>)</big><a class="headerlink" href="#principal.models.Proyecto.unique_error_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="principal.models.Proyecto.usuario">
+<tt class="descclassname">Proyecto.</tt><tt class="descname">usuario</tt><a class="headerlink" href="#principal.models.Proyecto.usuario" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="principal.models.Proyecto.validate_unique">
+<tt class="descclassname">Proyecto.</tt><tt class="descname">validate_unique</tt><big>(</big><em>exclude=None</em><big>)</big><a class="headerlink" href="#principal.models.Proyecto.validate_unique" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks unique constraints on the model and raises <tt class="docutils literal"><span class="pre">ValidationError</span></tt>
+if any failed.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="principal.models.UserProfile">
+<em class="property">class </em><tt class="descclassname">principal.models.</tt><tt class="descname">UserProfile</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/principal/models.html#UserProfile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#principal.models.UserProfile" title="Permalink to this definition">¶</a></dt>
+<dd><p>UserProfile(id, user_id, direccion, telefono, activo)</p>
+<dl class="exception">
+<dt id="principal.models.UserProfile.DoesNotExist">
+<em class="property">exception </em><tt class="descname">DoesNotExist</tt><a class="headerlink" href="#principal.models.UserProfile.DoesNotExist" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="principal.models.UserProfile.DoesNotExist.args">
+<tt class="descname">args</tt><a class="headerlink" href="#principal.models.UserProfile.DoesNotExist.args" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="principal.models.UserProfile.DoesNotExist.message">
+<tt class="descname">message</tt><a class="headerlink" href="#principal.models.UserProfile.DoesNotExist.message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="principal.models.UserProfile.DoesNotExist.silent_variable_failure">
+<tt class="descname">silent_variable_failure</tt><em class="property"> = True</em><a class="headerlink" href="#principal.models.UserProfile.DoesNotExist.silent_variable_failure" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="principal.models.UserProfile.MultipleObjectsReturned">
+<em class="property">exception </em><tt class="descclassname">UserProfile.</tt><tt class="descname">MultipleObjectsReturned</tt><a class="headerlink" href="#principal.models.UserProfile.MultipleObjectsReturned" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="principal.models.UserProfile.MultipleObjectsReturned.args">
+<tt class="descname">args</tt><a class="headerlink" href="#principal.models.UserProfile.MultipleObjectsReturned.args" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="principal.models.UserProfile.MultipleObjectsReturned.message">
+<tt class="descname">message</tt><a class="headerlink" href="#principal.models.UserProfile.MultipleObjectsReturned.message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="method">
+<dt id="principal.models.UserProfile.clean">
+<tt class="descclassname">UserProfile.</tt><tt class="descname">clean</tt><big>(</big><big>)</big><a class="headerlink" href="#principal.models.UserProfile.clean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hook for doing any extra model-wide validation after clean() has been
+called on every field by self.clean_fields. Any ValidationError raised
+by this method will not be associated with a particular field; it will
+have a special-case association with the field defined by NON_FIELD_ERRORS.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="principal.models.UserProfile.clean_fields">
+<tt class="descclassname">UserProfile.</tt><tt class="descname">clean_fields</tt><big>(</big><em>exclude=None</em><big>)</big><a class="headerlink" href="#principal.models.UserProfile.clean_fields" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cleans all fields and raises a ValidationError containing message_dict
+of all validation errors if any occur.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="principal.models.UserProfile.date_error_message">
+<tt class="descclassname">UserProfile.</tt><tt class="descname">date_error_message</tt><big>(</big><em>lookup_type</em>, <em>field</em>, <em>unique_for</em><big>)</big><a class="headerlink" href="#principal.models.UserProfile.date_error_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="principal.models.UserProfile.delete">
+<tt class="descclassname">UserProfile.</tt><tt class="descname">delete</tt><big>(</big><em>using=None</em><big>)</big><a class="headerlink" href="#principal.models.UserProfile.delete" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="principal.models.UserProfile.full_clean">
+<tt class="descclassname">UserProfile.</tt><tt class="descname">full_clean</tt><big>(</big><em>exclude=None</em>, <em>validate_unique=True</em><big>)</big><a class="headerlink" href="#principal.models.UserProfile.full_clean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calls clean_fields, clean, and validate_unique, on the model,
+and raises a <tt class="docutils literal"><span class="pre">ValidationError</span></tt> for any errors that occurred.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="principal.models.UserProfile.objects">
+<tt class="descclassname">UserProfile.</tt><tt class="descname">objects</tt><em class="property"> = &lt;django.db.models.manager.Manager object at 0x38aea90&gt;</em><a class="headerlink" href="#principal.models.UserProfile.objects" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="principal.models.UserProfile.pk">
+<tt class="descclassname">UserProfile.</tt><tt class="descname">pk</tt><a class="headerlink" href="#principal.models.UserProfile.pk" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="principal.models.UserProfile.prepare_database_save">
+<tt class="descclassname">UserProfile.</tt><tt class="descname">prepare_database_save</tt><big>(</big><em>unused</em><big>)</big><a class="headerlink" href="#principal.models.UserProfile.prepare_database_save" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="principal.models.UserProfile.save">
+<tt class="descclassname">UserProfile.</tt><tt class="descname">save</tt><big>(</big><em>force_insert=False</em>, <em>force_update=False</em>, <em>using=None</em>, <em>update_fields=None</em><big>)</big><a class="headerlink" href="#principal.models.UserProfile.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves the current instance. Override this in a subclass if you want to
+control the saving process.</p>
+<p>The &#8216;force_insert&#8217; and &#8216;force_update&#8217; parameters can be used to insist
+that the &#8220;save&#8221; must be an SQL insert or update (or equivalent for
+non-SQL backends), respectively. Normally, they should not be set.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="principal.models.UserProfile.save_base">
+<tt class="descclassname">UserProfile.</tt><tt class="descname">save_base</tt><big>(</big><em>raw=False</em>, <em>force_insert=False</em>, <em>force_update=False</em>, <em>using=None</em>, <em>update_fields=None</em><big>)</big><a class="headerlink" href="#principal.models.UserProfile.save_base" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handles the parts of saving which should be done only once per save,
+yet need to be done in raw saves, too. This includes some sanity
+checks and signal sending.</p>
+<p>The &#8216;raw&#8217; argument is telling save_base not to save any parent
+models and not to do any changes to the values before save. This
+is used by fixture loading.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="principal.models.UserProfile.serializable_value">
+<tt class="descclassname">UserProfile.</tt><tt class="descname">serializable_value</tt><big>(</big><em>field_name</em><big>)</big><a class="headerlink" href="#principal.models.UserProfile.serializable_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the value of the field name for this instance. If the field is
+a foreign key, returns the id value, instead of the object. If there&#8217;s
+no Field object with this name on the model, the model attribute&#8217;s
+value is returned directly.</p>
+<p>Used to serialize a field&#8217;s value (in the serializer, or form output,
+for example). Normally, you would just access the attribute directly
+and not use this method.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="principal.models.UserProfile.unique_error_message">
+<tt class="descclassname">UserProfile.</tt><tt class="descname">unique_error_message</tt><big>(</big><em>model_class</em>, <em>unique_check</em><big>)</big><a class="headerlink" href="#principal.models.UserProfile.unique_error_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="principal.models.UserProfile.user">
+<tt class="descclassname">UserProfile.</tt><tt class="descname">user</tt><a class="headerlink" href="#principal.models.UserProfile.user" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="principal.models.UserProfile.validate_unique">
+<tt class="descclassname">UserProfile.</tt><tt class="descname">validate_unique</tt><big>(</big><em>exclude=None</em><big>)</big><a class="headerlink" href="#principal.models.UserProfile.validate_unique" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks unique constraints on the model and raises <tt class="docutils literal"><span class="pre">ValidationError</span></tt>
+if any failed.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/modules/models.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">WPM 1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Rodrigo, Roque Cristhian.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>
