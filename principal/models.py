@@ -32,6 +32,10 @@ class EstadosProyecto(models.Model):
 
 
 class Proyecto(models.Model):
+    """
+    Guarda una entrada de un proyecto, related to `auth.User`
+
+    """
     usuario = models.ForeignKey(User,related_name='proyectos' )
     nombre=models.CharField(max_length=50)
     presupuesto=models.IntegerField(default=0)

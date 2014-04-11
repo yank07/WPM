@@ -36,9 +36,11 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.admindocs',
     'principal',
     'crispy_forms',
     'south',
+
 )
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 MIDDLEWARE_CLASSES = (
@@ -47,6 +49,8 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+
+    'django.contrib.admindocs.middleware.XViewMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
@@ -112,3 +116,4 @@ TEMPLATE_DIRS = (
 
 )
 
+INTERNAL_IPS = ('127.0.0.1','localhost')

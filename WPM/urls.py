@@ -10,10 +10,12 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
     url(r'^$', 'principal.views.ingresar', name='home'),
     url(r'^ingresar/$','principal.views.ingresar'),
+    url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^admin_proyectos/$', admin_proyecto, name='admin_proyecto'),
     url(r'^add_proyecto/$', add_proyecto, name='add_proyecto'),
     url(r'^add_usuario/$', agregar_usuario, name='agregar_usuario'),
+
 
 
 )
