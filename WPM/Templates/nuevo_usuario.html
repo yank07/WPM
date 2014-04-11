@@ -1,0 +1,17 @@
+{% extends 'index.html' %}
+{% load crispy_forms_tags %}
+{% block titulo %} Nuevo Usuario {% endblock %}
+
+{% block encabezado %}
+	<h1>Registra un Nuevo Usuario</h1>
+{% endblock %}
+{% block contenido %}
+	<form id='formulario' method='POST' action=''>
+		{% csrf_token %}
+		<table>
+		{% crispy formulario %}
+
+		 </table>
+		<p><input type='submit' value='Siguiente'/> </p>
+	</form>
+{% endblock %}

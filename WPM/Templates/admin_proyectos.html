@@ -34,6 +34,13 @@
 			<li><a href="#">Documentacion</a></li>
 			<li><a href="#">Contacto</a></li>
 
+             {% if user.is_staff %}
+		<li>	<a id="link" href='/admin'>Admin</a></li>
+			{% endif %}
+		   	{% if user.is_authenticated %}<!-- si el usuario esta autenticado -->
+		   	<li><a id="link" href='/cerrar/'>Cerrar Sesion</a> </li>
+		   	{% endif %}
+
 
 
 			</li>

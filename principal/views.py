@@ -12,15 +12,17 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate, logout
 from django.template import RequestContext
 from principal.forms import ProyectoForm
 from principal.forms import UserForm, UserProfileForm
+from django.core.context_processors import csrf
+from django.contrib.auth.models import User
 # Create your views here.
 
 
 def home(request):
-
     return render_to_response('index.html', context_instance=RequestContext(request))
 
 
@@ -43,13 +45,48 @@ def ingresar(request):
                     login(request, acceso)
                     return HttpResponseRedirect('/admin_proyectos')
                 else:
-                    return render_to_response('noactivo.html', context_instance=RequestContext(request))
+                    return render_to_response('no_activo.html', context_instance=RequestContext(request))
             else:
-                return render_to_response('nousuario.html', context_instance=RequestContext(request))
+                return render_to_response('no_usuario.html', context_instance=RequestContext(request))
     else:
         formulario = AuthenticationForm()
-    return render_to_response('ingresar.html',{'formulario':formulario}, context_instance=RequestContext(request))
+    return render_to_response('ingresar.html', {'formulario': formulario}, context_instance=RequestContext(request))
 
+
+def nuevo_usuario(request):
+
+
+
+	if request.method=='POST':
+		formulario = UserCreationForm(request.POST)
+		if formulario.is_valid():
+			formulario.save()
+			return HttpResponseRedirect('/nuevo_usuario/perfil')
+	else:
+		formulario = UserCreationForm()
+
+	return render_to_response('nuevo_usuario.html',{'formulario':formulario},context_instance=RequestContext(request))
+
+
+def cerrar(request):
+	logout(request)
+	return HttpResponseRedirect('/')
+
+
+def user_profile(request):
+	if request.method == 'POST':
+		formulario = UserProfileForm(request.POST, instance= User.objects.last().profile)
+		if formulario.is_valid():
+			formulario.save()
+			return HttpResponseRedirect('/')
+	else:
+		user= request.user
+		profile = user.profile
+		formulario = UserProfileForm(instance=profile)
+	args = {}
+	args.update(csrf(request))
+	args['formulario']= formulario
+	return render_to_response('perfil.html', args, context_instance=RequestContext(request))
 
 
 
@@ -63,7 +100,7 @@ def add_proyecto(request):
     @param request: Peticion HTTP
     @return renderiza el form correspondiente
     """
- # Obtener el contexto del request.
+    # Obtener el contexto del request.
     context = RequestContext(request)
     # es POST?
     if request.method == 'POST':
@@ -82,62 +119,3 @@ def add_proyecto(request):
     return render_to_response('add_proyecto.html', {'form': form}, context)
 
 
-def agregar_usuario(request):
-    """
-    Permite agregar un usuario
-    @param request: La peticion HTTP
-    @return: renderiza el form correspondiente
-    """
-    # Like before, get the request's context.
-    context = RequestContext(request)
-
-    # A boolean value for telling the template whether the registration was successful.
-    # Set to False initially. Code changes value to True when registration succeeds.
-    registered = False
-
-    # If it's a HTTP POST, we're interested in processing form data.
-    if request.method == 'POST':
-        # Attempt to grab information from the raw form information.
-        # Note that we make use of both UserForm and UserProfileForm.
-        user_form = UserForm(data=request.POST)
-        profile_form = UserProfileForm(data=request.POST)
-
-        # If the two forms are valid...
-        if user_form.is_valid() and profile_form.is_valid():
-            # Save the user's form data to the database.
-            user = user_form.save()
-
-            # Now we hash the password with the set_password method.
-            # Once hashed, we can update the user object.
-            user.set_password(user.password)
-            user.save()
-
-            # Now sort out the UserProfile instance.
-            # Since we need to set the user attribute ourselves, we set commit=False.
-            # This delays saving the model until we're ready to avoid integrity problems.
-            profile = profile_form.save(commit=False)
-            profile.user = user
-
-            # Now we save the UserProfile model instance.
-            profile.save()
-
-            # Update our variable to tell the template registration was successful.
-            registered = True
-
-        # Invalid form or forms - mistakes or something else?
-        # Print problems to the terminal.
-        # They'll also be shown to the user.
-        else:
-            print user_form.errors, profile_form.errors
-
-    # Not a HTTP POST, so we render our form using two ModelForm instances.
-    # These forms will be blank, ready for user input.
-    else:
-        user_form = UserForm()
-        profile_form = UserProfileForm()
-
-    # Render the template depending on the context.
-    return render_to_response(
-            'add_usuario.html',
-            {'user_form': user_form, 'profile_form': profile_form, 'registered': registered},
-            context)
