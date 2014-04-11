@@ -54,39 +54,42 @@ def ingresar(request):
 
 
 def nuevo_usuario(request):
+    """
+    Metodo para crear un usuario
+    @param request: Peticion HTTP
+    @return: Renderiza el form correspondiente
+    """
 
+    if request.method=='POST':
+        formulario = UserCreationForm(request.POST)
+        if formulario.is_valid():
+            formulario.save()
+            return HttpResponseRedirect('/nuevo_usuario/perfil')
+    else:
+        formulario = UserCreationForm()
 
-
-	if request.method=='POST':
-		formulario = UserCreationForm(request.POST)
-		if formulario.is_valid():
-			formulario.save()
-			return HttpResponseRedirect('/nuevo_usuario/perfil')
-	else:
-		formulario = UserCreationForm()
-
-	return render_to_response('nuevo_usuario.html',{'formulario':formulario},context_instance=RequestContext(request))
+    return render_to_response('nuevo_usuario.html',{'formulario':formulario},context_instance=RequestContext(request))
 
 
 def cerrar(request):
-	logout(request)
-	return HttpResponseRedirect('/')
+    logout(request)
+    return HttpResponseRedirect('/')
 
 
 def user_profile(request):
-	if request.method == 'POST':
-		formulario = UserProfileForm(request.POST, instance= User.objects.last().profile)
-		if formulario.is_valid():
-			formulario.save()
-			return HttpResponseRedirect('/')
-	else:
-		user= request.user
-		profile = user.profile
-		formulario = UserProfileForm(instance=profile)
-	args = {}
-	args.update(csrf(request))
-	args['formulario']= formulario
-	return render_to_response('perfil.html', args, context_instance=RequestContext(request))
+    if request.method == 'POST':
+        formulario = UserProfileForm(request.POST, instance= User.objects.last().profile)
+        if formulario.is_valid():
+            formulario.save()
+            return HttpResponseRedirect('/')
+    else:
+        user= request.user
+        profile = user.profile
+        formulario = UserProfileForm(instance=profile)
+    args = {}
+    args.update(csrf(request))
+    args['formulario']= formulario
+    return render_to_response('perfil.html', args, context_instance=RequestContext(request))
 
 
 
