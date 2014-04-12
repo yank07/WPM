@@ -24,6 +24,11 @@ from django.contrib.auth.models import User, Group
 
 
 def home(request):
+    """
+    Vista que genera el index
+    @param request: Peticion HTTP
+    @return: Renderiza la pagina correspondiente
+    """
     return render_to_response('index.html', context_instance=RequestContext(request))
 
 
@@ -73,11 +78,21 @@ def nuevo_usuario(request):
 
 
 def cerrar(request):
+    """
+    Metodo para cerrar la sesion
+    @param request: Peticion HTTP
+    @return: Retorna al index
+    """
     logout(request)
     return HttpResponseRedirect('/')
 
 
 def user_profile(request):
+    """
+    Almacena el perfil de un usuario
+    @param request: Peticion HTTP
+    @return: El form correspondiente
+    """
     if request.method == 'POST':
         formulario = UserProfileForm(request.POST, instance= User.objects.last().profile)
         if formulario.is_valid():
@@ -95,6 +110,11 @@ def user_profile(request):
 
 
 def admin_proyecto(request):
+    """
+    Renderiza la pagina de proyectos
+    @param request: Peticion HTTP
+    @return: el form correspondiente
+    """
     return render_to_response('admin_proyectos.html', context_instance=RequestContext(request))
 
 
@@ -124,11 +144,21 @@ def add_proyecto(request):
 
 
 def admin_rol(request):
+    """
+    Renderiza la pagina de administracion de roles
+    @param request: Peticion HTTP
+    @return: pagina de adminsitracion de proyectos
+    """
     #return render(request, "admin_roles.html", )
     return render_to_response('admin_roles.html',{"roles": Group.objects.all()}, context_instance=RequestContext(request))
 
 
 def add_rol(request):
+    """
+    Renderiza la pagina de agregar roles
+    @param request: Peticion HTTP
+    @return: pagina de agregar roles
+    """
  # Obtener el contexto del request.
     context = RequestContext(request)
     # es POST?
@@ -148,6 +178,11 @@ def add_rol(request):
     return render_to_response('add_rol.html', {'form': form}, context)
 
 def asignar_rol(request):
+    """
+    Pagina de asignacion de roles a usuarios
+    @param request: Peticion HTTP
+    @return: pagina de asignacion de roles a usuarios
+    """
  # Obtener el contexto del request.
     context = RequestContext(request)
     # es POST?

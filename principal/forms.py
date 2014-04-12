@@ -7,6 +7,9 @@ from django.contrib.auth.forms import UserCreationForm
 
 
 class UserForm(forms.ModelForm):
+    """
+    Form para agregar usuario
+    """
     password = forms.CharField(widget=forms.PasswordInput)
 
     class Meta:
@@ -14,6 +17,9 @@ class UserForm(forms.ModelForm):
 
 
 class UserProfileForm (forms.ModelForm):
+    """
+    Form para agregar perfil de usuario
+    """
 
     class Meta:
         model = UserProfile
@@ -22,6 +28,9 @@ class UserProfileForm (forms.ModelForm):
 
 
 class ProyectoForm(forms.ModelForm):
+    """
+    Form para agregar proyecto
+    """
     nombre = forms.CharField(max_length=50)
     presupuesto = forms.IntegerField()
     observaciones = forms.CharField(max_length=200)
