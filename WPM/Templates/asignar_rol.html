@@ -1,0 +1,22 @@
+{% extends 'admin_roles.html' %}
+{% load crispy_forms_tags %}
+{% block contenido %}
+        <h3>Asignar roles a un Usuario</h3>
+<div class="row">
+
+        <div class="col-md-4  col-md-offset-4">
+
+             <form id="asignar_form" method="post" action="/asignar_rol/">
+
+            {% csrf_token %}
+            <table>
+            {% crispy form %}
+            </table>
+
+            <input type="submit" name="submit" value="Asignar Rol" />
+        </form>
+        </div>
+
+      </div>
+
+{% endblock %}
