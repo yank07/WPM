@@ -1,7 +1,8 @@
 from django.conf.urls import patterns, include, url
 
 from django.contrib import admin
-from principal.views import add_proyecto, admin_proyecto
+from principal.views import add_proyecto, admin_proyecto, admin_rol, add_rol, asignar_rol
+
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -21,6 +22,9 @@ urlpatterns = patterns('',
     url(r'^nuevo_usuario/perfil$', 'principal.views.user_profile'),
       url(r'^cerrar/$','principal.views.cerrar'),
 
+    url(r'^admin_roles/$', admin_rol, name='admin_rol'),
+    url(r'^add_rol/$', add_rol, name='add_rol'),
+    url(r'^asignar_rol/$', asignar_rol, name='asignar_rol'),
 
 
 )
