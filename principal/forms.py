@@ -2,7 +2,7 @@ __author__ = 'rodrigo'
 
 from django import forms
 from principal.models import UserProfile, Proyecto, EstadosProyecto
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.contrib.auth.forms import UserCreationForm
 
 
@@ -31,4 +31,21 @@ class ProyectoForm(forms.ModelForm):
         model = Proyecto
         fields = ['usuario', 'nombre', 'presupuesto', 'observaciones']
 
+class RolForm(forms.ModelForm):
+    """
+    Form para agregar un rol nuevo
+    """
+    class Meta:
+        model = Group
+        widgets = {'permissions': forms.SelectMultiple(attrs={'size':'10'})}
+        fields = ['permissions', 'name']
+
+class asignarForm(forms.Form):
+    """
+    Form para asignar roles a un usuario
+    """
+    #roles = forms.ModelMultipleChoiceField(Rol.objects.all())
+    #usuarios = forms.ModelChoiceField(User.objects.all())
+    groups = forms.ModelMultipleChoiceField(queryset=Group.objects.all())
+    username = forms.ModelChoiceField(queryset=User.objects.all())
 
