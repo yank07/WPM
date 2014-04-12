@@ -10,16 +10,17 @@ from django.shortcuts import render
 from django.shortcuts import render
 from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
-from django.contrib.auth.forms import UserCreationForm
+
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate, logout
 from django.template import RequestContext
-from principal.forms import ProyectoForm
+from principal.forms import ProyectoForm, RolForm, asignarForm
 from principal.forms import UserForm, UserProfileForm
 from django.core.context_processors import csrf
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 # Create your views here.
+#from principal.models import Rol
 
 
 def home(request):
@@ -122,3 +123,52 @@ def add_proyecto(request):
     return render_to_response('add_proyecto.html', {'form': form}, context)
 
 
+def admin_rol(request):
+    #return render(request, "admin_roles.html", )
+    return render_to_response('admin_roles.html',{"roles": Group.objects.all()}, context_instance=RequestContext(request))
+
+
+def add_rol(request):
+ # Obtener el contexto del request.
+    context = RequestContext(request)
+    # es POST?
+    if request.method == 'POST':
+        form = RolForm(request.POST)
+        # el form es valido?
+        if form.is_valid():
+            # guardar
+            form.save(commit=True)
+            return admin_rol(request)
+        else:
+            # hubo errores
+            print form.errors
+    else:
+        # si no fue un post, mostrar el form
+        form = RolForm()
+    return render_to_response('add_rol.html', {'form': form}, context)
+
+def asignar_rol(request):
+ # Obtener el contexto del request.
+    context = RequestContext(request)
+    # es POST?
+    if request.method == 'POST':
+        form = asignarForm(request.POST)
+        if form.is_valid():
+            # guardar
+            idUser = request.POST.__getitem__('username')
+            listidGroup = request.POST.__getitem__('groups')
+            user = User.objects.get(id=idUser)
+            grupos = []
+            for idG in listidGroup:
+                mygroup = Group.objects.get(id=idG)
+                grupos.append(mygroup);
+
+            user.groups = grupos
+            return admin_rol(request)
+        else:
+            # hubo errores
+            print form.errors
+    else:
+        # si no fue un post, mostrar el form
+        form = asignarForm()
+    return render_to_response('asignar_rol.html', {'form': form}, context)
