@@ -20,6 +20,7 @@ from principal.forms import UserForm, UserProfileForm
 from django.core.context_processors import csrf
 from django.contrib.auth.models import User
 # Create your views here.
+from principal.models import Proyecto
 
 
 def home(request):
@@ -33,7 +34,7 @@ def ingresar(request):
     @return: Renderiza el form correspondiente
     """
     if not request.user.is_anonymous():
-        return HttpResponseRedirect('/admin_proyectos')
+        return HttpResponseRedirect('/home')
     if request.method == 'POST':
         formulario = AuthenticationForm(request.POST)
         if formulario.is_valid:
@@ -43,7 +44,7 @@ def ingresar(request):
             if acceso is not None:
                 if acceso.is_active:
                     login(request, acceso)
-                    return HttpResponseRedirect('/admin_proyectos')
+                    return HttpResponseRedirect('/home')
                 else:
                     return render_to_response('no_activo.html', context_instance=RequestContext(request))
             else:
@@ -94,7 +95,8 @@ def user_profile(request):
 
 
 def admin_proyecto(request):
-    return render_to_response('admin_proyectos.html', context_instance=RequestContext(request))
+    proyectos = Proyecto.objects.all()
+    return render_to_response('admin_proyectos.html',{'lista': proyectos}, context_instance=RequestContext(request))
 
 
 def add_proyecto(request):

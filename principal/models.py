@@ -23,6 +23,8 @@ class UserProfile(models.Model):
     telefono=models.CharField(max_length=15, help_text='Telefono del usuario')
     activo=models.BooleanField(default=True, help_text='Estado del usuario')
 
+User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
+
 
 class EstadosProyecto(models.Model):
     """

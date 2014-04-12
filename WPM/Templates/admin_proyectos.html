@@ -10,13 +10,13 @@
 
     <link rel="stylesheet" href="/static/css/bootstrap.css"/>
 <link rel="stylesheet" href="/static/css/bootstrap-theme.css"/>
-
+{% load render_table from django_tables2 %}
 
 </head>
 <body>
 	<header>
 		<figure id="logo">
-			<img src="/static/img/wpm_logo.jpg" />
+			<a href="/"><img src="/static/img/wpm_logo.jpg" /></a>
 		</figure>
 		<h1>
 			Web Project Manager -
@@ -27,15 +27,15 @@
 	<nav>
 		<ul>
             <li><a href="/add_proyecto/">Crear Proyecto</a></li>
-			<li><a href="#">Documentacion</a></li>
-			<li><a href="#">Contacto</a></li>
+
 
 			<li><a href="#">Autores</a></li>
-			<li><a href="#">Documentacion</a></li>
+			<li><a href="/admin/doc">Documentacion</a></li>
 			<li><a href="#">Contacto</a></li>
 
              {% if user.is_staff %}
-		<li>	<a id="link" href='/admin'>Admin</a></li>
+		<li><a id="link" href='/admin'>Admin</a></li>
+                 <li><a id="link" href='/admin'>Admin</a></li>
 			{% endif %}
 		   	{% if user.is_authenticated %}<!-- si el usuario esta autenticado -->
 		   	<li><a id="link" href='/cerrar/'>Cerrar Sesion</a> </li>
@@ -56,6 +56,7 @@
 
 
        {%  block contenido %}
+           {% render_table lista %}
         {% endblock %}
 
 

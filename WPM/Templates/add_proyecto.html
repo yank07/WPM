@@ -9,7 +9,9 @@
              <form id="proyecto_form" method="post" action="/add_proyecto/">
 
             {% csrf_token %}
+            <table>
             {% crispy form %}
+            </table>
 
             <input type="submit" name="submit" value="Crear Proyecto" />
         </form>

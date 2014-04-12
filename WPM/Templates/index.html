@@ -16,7 +16,7 @@
 <body>
 	<header>
 		<figure id="logo">
-			<img src="/static/img/wpm_logo.jpg" />
+            <a href="/"><img src="/static/img/wpm_logo.jpg" /></a>
 		</figure>
 		<h1>
 			Web Project Manager
@@ -28,19 +28,23 @@
 	<nav>
 		<ul>
 			<li><a href="#">Autores</a></li>
-			<li><a href="#">Documentacion</a></li>
+			<li><a href="/admin/doc">Documentacion</a></li>
 			<li><a href="#">Contacto</a></li>
-			<li><a href="#">CSS3</a></li>
-			<li><a href="#">Django</a></li>
+
         {% if not user.is_authenticated %}
 			<li><a id="link" href='/ingresar'>Ingresar</a></li>
+
 			{% endif %}
             {% if user.is_staff %}
-				<a id="link" href='/admin'>Admin</a>
+				<li><a id="link" href='/admin'>Admin</a></li>
+                <li><a id="link" href='/nuevo_usuario'>Crear Usuario</a></li>
 			{% endif %}
 		   	{% if user.is_authenticated %}<!-- si el usuario esta autenticado -->
-		   		<a id="link" href='/cerrar/'>Cerrar Sesion</a>
+                <li><a href="/admin_proyectos">Administrar Proyectos</a></li>
+		   		<li><a id="link" href='/cerrar/'>Cerrar Sesion</a></li>
 		   	{% endif %}
+
+
 
 		</ul>
 	</nav>
