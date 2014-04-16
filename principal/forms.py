@@ -6,7 +6,7 @@ from django.contrib.auth.models import User, Group
 from django.contrib.auth.forms import UserCreationForm
 
 
-class UserForm(forms.ModelForm):
+class UserForm(UserCreationForm):
     """
     Form para agregar usuario
     """
@@ -14,6 +14,7 @@ class UserForm(forms.ModelForm):
 
     class Meta:
         model = User
+
 
 
 class UserProfileForm (forms.ModelForm):

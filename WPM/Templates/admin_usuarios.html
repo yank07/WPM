@@ -23,14 +23,13 @@
 		<h1>
 			Web Project Manager -
 		</h1>
-        <h1> Administrador de Roles</h1>
+        <h1> Administrador de Usuarios</h1>
 
 	</header>
 	<nav>
 		<ul>
-            <li><a href="/add_rol/">Crear Rol</a></li>
-            <li><a href="/asignar_rol/">Asignar Rol</a></li>
-			<li><a href="/admin/doc">Documentacion</a></li>
+            <li><a href="/nuevo_usuario/">Crear Usuario</a></li>
+            <li><a href="/admin/doc">Documentacion</a></li>
 			<li><a href="#">Contacto</a></li>
 
 			<li><a href="#">Autores</a></li>
@@ -42,30 +41,10 @@
 	</nav>
 
 	<section id="contenido">
-{#        <p> <b>Nombre del rol</b></p>#}
-{#        {% for rol in roles %}#}
-{#            {{ rol }} </br>#}
-{#        {% endfor %}#}
-
 
        {%  block contenido %}
-
-{#        {% render_table roles %}#}
-            {% if roles %}
-            <ul>
-                {% for rol in roles %}
-                <!-- Following line changed to add an HTML hyperlink -->
-                    <li><a href="/roles/{{ rol.url }}">{{ rol.name }}</a></li>
-                {% endfor %}
-            </ul>
-       {% else %}
-            <strong>There are no roles present.</strong>
-       {% endif %}
-
-       {% endblock %}
-
-
-
+            {% render_table lista %}
+        {% endblock %}
 
 
 	</section>

@@ -21,6 +21,7 @@ from django.core.context_processors import csrf
 from django.contrib.auth.models import User, Group
 # Create your views here.
 #from principal.models import Rol
+from principal.models import Proyecto
 
 
 def home(request):
@@ -39,7 +40,7 @@ def ingresar(request):
     @return: Renderiza el form correspondiente
     """
     if not request.user.is_anonymous():
-        return HttpResponseRedirect('/admin_proyectos')
+        return HttpResponseRedirect('/home')
     if request.method == 'POST':
         formulario = AuthenticationForm(request.POST)
         if formulario.is_valid:
@@ -49,7 +50,7 @@ def ingresar(request):
             if acceso is not None:
                 if acceso.is_active:
                     login(request, acceso)
-                    return HttpResponseRedirect('/admin_proyectos')
+                    return HttpResponseRedirect('/home')
                 else:
                     return render_to_response('no_activo.html', context_instance=RequestContext(request))
             else:
@@ -115,7 +116,8 @@ def admin_proyecto(request):
     @param request: Peticion HTTP
     @return: el form correspondiente
     """
-    return render_to_response('admin_proyectos.html', context_instance=RequestContext(request))
+    lista = Proyecto.objects.all()
+    return render_to_response('admin_proyectos.html', {'lista': lista}, context_instance=RequestContext(request))
 
 
 def add_proyecto(request):
@@ -149,8 +151,12 @@ def admin_rol(request):
     @param request: Peticion HTTP
     @return: pagina de adminsitracion de proyectos
     """
+    lista_roles = Group.objects.all()
+    for rol in lista_roles:
+        rol.url = rol.name.replace(' ', '_')
+
     #return render(request, "admin_roles.html", )
-    return render_to_response('admin_roles.html',{"roles": Group.objects.all()}, context_instance=RequestContext(request))
+    return render_to_response('admin_roles.html', {'roles': lista_roles}, context_instance=RequestContext(request))
 
 
 def add_rol(request):
@@ -176,6 +182,27 @@ def add_rol(request):
         # si no fue un post, mostrar el form
         form = RolForm()
     return render_to_response('add_rol.html', {'form': form}, context)
+
+
+def edit_rol(request, rol_name):
+    context = RequestContext(request)
+    try:
+        rol = Group.objects.get(name=rol_name)
+        print rol.name
+        form = RolForm(instance=rol)
+        if form.is_valid():
+            print 'form valido'
+            rol = form.save(commit=False)
+            rol.save()
+            return admin_rol(request)
+        else:
+            print 'form no valido'
+            print form.errors
+
+    except Group.DoesNotExist:
+        pass
+    return render_to_response('add_rol.html', {'form': form}, context)
+
 
 def asignar_rol(request):
     """
@@ -207,3 +234,15 @@ def asignar_rol(request):
         # si no fue un post, mostrar el form
         form = asignarForm()
     return render_to_response('asignar_rol.html', {'form': form}, context)
+
+def admin_usuario(request):
+    """
+    Renderiza la pagina de administracion de usuario
+    @param request: Peticion HTTP
+    @return: el form correspondiente
+    """
+    lista = User.objects.all()
+    # for u in lista (
+    #     u
+    # )
+    return render_to_response('admin_usuarios.html', {'lista': lista}, context_instance=RequestContext(request))
