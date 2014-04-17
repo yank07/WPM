@@ -38,48 +38,10 @@ class UserProfile(models.Model):
 
 User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
 
-class EstadosProyecto(models.Model):
-    """
-    Guarda los estados posibles de un proyecto.
-    """
-    descripcion = models.CharField(max_length=50, help_text='Descriocion del Estado del Proyecto')
-
-    def __unicode__(self):
-        """
-        Retorna la descripcion del estado
-        @return la descripcion del estado
-        """
-        return unicode(self.descripcion)
 
 
-class Proyecto(models.Model):
-    """
-    Guarda una entrada de un proyecto.
-
-    """
-    usuario = models.ForeignKey(User,related_name='proyectos', help_text='Usuario creador del proyecto')
-    nombre=models.CharField(max_length=50, help_text='Nombre del Proyecto')
-    presupuesto=models.IntegerField(default=0, help_text='Presupuesto del proyecto')
-    observaciones=models.TextField(max_length=200, help_text='Observaciones del proyecto')
-    estado = models.ForeignKey(EstadosProyecto, blank=True, null=True, help_text='Estado del proyecto')
 
 
-    def __unicode__(self):
-        """
-        Devuelve el nombre del proyecto
-        @return el nombre del proyecto
-        """
-        return unicode(self.nombre)
-
-class Fase(models.Model):
-    """
-    Modelo que maneja las fases de un proyecto
-    """
-    proyecto = models.ForeignKey(User,related_name='fases', help_text='Proyecto al que pertenece la fase')
-    nombre=models.CharField(max_length=50, help_text='Nombre de la fase')
-
-    def __unicode__(self):
-        return unicode(self.nombre)
 
 
 

@@ -1,5 +1,12 @@
 {% extends 'admin_proyectos.html' %}
 {% load crispy_forms_tags %}
+
+
+{% block listaproyecto %}
+
+<li><a id="link" href='/admin_proyectos'>Listar Proyecto</a></li>
+
+{% endblock %}
 {% block contenido %}
         <h3>Agregar un proyecto</h3>
 <div class="row">

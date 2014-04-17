@@ -1,7 +1,12 @@
 from django.conf.urls import patterns, include, url
 
 from django.contrib import admin
-from principal.views import add_proyecto, admin_proyecto, admin_rol, add_rol, asignar_rol, admin_usuario, edit_rol
+from principal.views import admin_rol, add_rol, asignar_rol, admin_usuario, edit_rol
+from proyecto.views import  add_proyecto, admin_proyecto
+import proyecto
+
+from bsct import views
+
 
 admin.autodiscover()
 
@@ -12,11 +17,14 @@ urlpatterns = patterns('',
     url(r'^$', 'principal.views.ingresar', name='home'),
 
     url(r'^ingresar/$','principal.views.ingresar'),
+     url(r'^accounts/login/$','principal.views.ingresar'),
+
+
     url(r'^home/$','principal.views.home'),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^admin_proyectos/$', admin_proyecto, name='admin_proyecto'),
-    url(r'^add_proyecto/$', add_proyecto, name='add_proyecto'),
+    url(r'^admin_proyectos/$', 'proyecto.views.admin_proyecto'),
+    url(r'^add_proyecto/$','proyecto.views.add_proyecto' ),
 
     url(r'^admin_usuarios/$', admin_usuario, name='admin_usuario'),
     url(r'^nuevo_usuario/$', 'principal.views.nuevo_usuario'),
@@ -30,6 +38,12 @@ urlpatterns = patterns('',
     url(r'^roles/(?P<rol_name>\w+)/$', edit_rol, name='edit_rol'),
 
     url(r'^asignar_rol/$', asignar_rol, name='asignar_rol'),
+
+
+
+
+
+
 
 
 )

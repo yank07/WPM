@@ -1,7 +1,7 @@
 __author__ = 'rodrigo'
 
 from django import forms
-from principal.models import UserProfile, Proyecto, EstadosProyecto
+from principal.models import UserProfile
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.forms import UserCreationForm
 
@@ -16,7 +16,6 @@ class UserForm(UserCreationForm):
         model = User
 
 
-
 class UserProfileForm (forms.ModelForm):
     """
     Form para agregar perfil de usuario
@@ -28,18 +27,6 @@ class UserProfileForm (forms.ModelForm):
 
 
 
-class ProyectoForm(forms.ModelForm):
-    """
-    Form para agregar proyecto
-    """
-    nombre = forms.CharField(max_length=50)
-    presupuesto = forms.IntegerField()
-    observaciones = forms.CharField(max_length=200)
-    estado = forms.ModelChoiceField(queryset=EstadosProyecto.objects.all())
-
-    class Meta:
-        model = Proyecto
-        fields = ['usuario', 'nombre', 'presupuesto', 'observaciones']
 
 class RolForm(forms.ModelForm):
     """

@@ -1,58 +1,26 @@
+{% extends 'index.html' %}
+
 {% load render_table from django_tables2 %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-	<meta charset="utf-8" />
-	<meta name="description" content="Proyecto de la primera generación del 2014 del curso de diseño web online" />
-	<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1"/>
-	<title>WPM:Web Project Manager </title>
+ {% block head %}
+     <style>
+    .admin_proyectos{
+         background-color: #343B54;
+    }
+</style>
 
-	<link rel="stylesheet" href="/static/css/estilos.css" />
+	{% endblock %}
+ {%   block nav %}
 
-    <link rel="stylesheet" href="/static/css/bootstrap.css"/>
-<link rel="stylesheet" href="/static/css/bootstrap-theme.css"/>
-{% load render_table from django_tables2 %}
+ <nav class="menu1">
 
-</head>
-<body>
-	<header>
-		<figure id="logo">
-			<a href="/"><img src="/static/img/wpm_logo.jpg" /></a>
-		</figure>
-		<h1>
-			Web Project Manager -
-		</h1>
-        <h1> Administrador de Proyectos</h1>
+        <ul >
+            <li><a id="link" href='/add_proyecto'>Crear Proyecto</a></li>
+            {% block listaproyecto %}
+                {% endblock %}
 
-	</header>
-	<nav>
-		<ul>
-            <li><a href="/add_proyecto/">Crear Proyecto</a></li>
-
-
-			<li><a href="#">Autores</a></li>
-			<li><a href="/admin/doc">Documentacion</a></li>
-			<li><a href="#">Contacto</a></li>
-
-             {% if user.is_staff %}
-		<li><a id="link" href='/admin'>Admin</a></li>
-                 <li><a id="link" href='/admin'>Admin</a></li>
-			{% endif %}
-		   	{% if user.is_authenticated %}<!-- si el usuario esta autenticado -->
-		   	<li><a id="link" href='/cerrar/'>Cerrar Sesion</a> </li>
-		   	{% endif %}
-
-
-
-			</li>
-		</ul>
-	</nav>
-
-
-
-
-
-	<section id="contenido">
+        </ul>
+    </nav>
+{% endblock %}
 
 
 
@@ -61,27 +29,6 @@
         {% endblock %}
 
 
-
-
-	</section>
-
-
-
-
-	<footer>
-		<p>
-			<strong>Grupo R04®</strong>
-		</p>
-		<p>
-			IS2-2014
-		</p>
-	</footer>
-
-    <script src="/static/js/jquery-1.11.0.min.js"></script>
-
-
-</body>
-</html>
 
 
 

@@ -15,13 +15,13 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate, logout
 from django.template import RequestContext
-from principal.forms import ProyectoForm, RolForm, asignarForm
+from principal.forms import  RolForm, asignarForm
 from principal.forms import UserForm, UserProfileForm
 from django.core.context_processors import csrf
 from django.contrib.auth.models import User, Group
 # Create your views here.
 #from principal.models import Rol
-from principal.models import Proyecto
+
 
 
 def home(request):
@@ -42,6 +42,7 @@ def ingresar(request):
     if not request.user.is_anonymous():
         return HttpResponseRedirect('/home')
     if request.method == 'POST':
+
         formulario = AuthenticationForm(request.POST)
         if formulario.is_valid:
             usuario = request.POST['username']
@@ -110,39 +111,7 @@ def user_profile(request):
 
 
 
-def admin_proyecto(request):
-    """
-    Renderiza la pagina de proyectos
-    @param request: Peticion HTTP
-    @return: el form correspondiente
-    """
-    lista = Proyecto.objects.all()
-    return render_to_response('admin_proyectos.html', {'lista': lista}, context_instance=RequestContext(request))
 
-
-def add_proyecto(request):
-    """
-    Vista para agregar un proyecto.
-    @param request: Peticion HTTP
-    @return renderiza el form correspondiente
-    """
-    # Obtener el contexto del request.
-    context = RequestContext(request)
-    # es POST?
-    if request.method == 'POST':
-        form = ProyectoForm(request.POST)
-        # el form es valido?
-        if form.is_valid():
-            # guardar
-            form.save(commit=True)
-            return admin_proyecto(request)
-        else:
-            # hubo errores
-            print form.errors
-    else:
-        # si no fue un post, mostrar el form
-        form = ProyectoForm()
-    return render_to_response('add_proyecto.html', {'form': form}, context)
 
 
 def admin_rol(request):

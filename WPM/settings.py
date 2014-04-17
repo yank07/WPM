@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admindocs',
     'principal',
+    'proyecto',
     'crispy_forms',
     'django_tables2',
     'south',
