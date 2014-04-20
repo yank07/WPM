@@ -22,7 +22,7 @@ from django.contrib.auth.decorators import login_required
 from django_tables2   import RequestConfig
 from proyecto.tables  import ProyectoTable , FasesTable
 from django.views.generic.edit import UpdateView
-
+from django.forms.util import ErrorList
 # Create your views here.
 
 
@@ -87,7 +87,10 @@ def proyecto_detail(request,id):
                 print "cambio numero de fases"
                 if proyecto.estado != "Pendiente":
                     error = "No se puede editar las fases de un Proyecto en estado distinto a Pendiente"
-                    return render_to_response('edit_proyecto1.html', {'form': form ,'id':proyecto.id, "error":error}, context_instance=RequestContext(request))
+
+                    errors = form._errors.setdefault("numero_fases", ErrorList())
+                    errors.append(error)
+                    return render_to_response('edit_proyecto1.html', {'form': form ,'id':proyecto.id}, context_instance=RequestContext(request))
 
 
             f=form.save(commit=True)
