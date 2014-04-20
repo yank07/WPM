@@ -2,7 +2,24 @@
 
 {% load render_table from django_tables2 %}
 
+{% block head %}
 
+     <link rel="stylesheet" href="{{ STATIC_URL }}django_tables2/themes/paleblue/css/screen.css" />
+
+	{% endblock %}
+
+{%   block nav %}
+
+ <nav class="menu1">
+
+        <ul >
+            <li><a id="link" href='/add_usuario'>Crear Proyecto</a></li>
+            {% block listaproyecto %}
+                {% endblock %}
+
+        </ul>
+    </nav>
+{% endblock %}
        {%  block contenido %}
             {% render_table lista %}
         {% endblock %}

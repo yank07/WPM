@@ -14,15 +14,20 @@
 
         <div class="col-md-4  col-md-offset-4">
 
-             <form id="proyecto_form" method="post" action="/add_proyecto/">
+             <form id="proyecto_form" method="post" action="/proyectos/{{ id }}/">
 
             {% csrf_token %}
             <table>
             {% crispy form %}
             </table>
 
-            <input class="btn btn-default" type="submit" name="submit" value="Crear Proyecto" />
+            <input class="btn btn-default" type="submit" name="submit" value="Editar Proyecto" />
         </form>
+
+             <form id="proyecto_form" method="post" action="/proyectos/delete/{{ id }}/">
+                 {% csrf_token %}
+                 <input class="btn btn-default btn-danger" type="submit" name="submit" value="Eliminar Proyecto" />
+                 </form>
         </div>
 
       </div>

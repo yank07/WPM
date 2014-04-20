@@ -293,6 +293,35 @@ aside{
 	}
 }*/
 
+table {
+
+    padding: 10px;
+    width: 80%;
+}
+
+table tbody tr {
+    height: 40px;
+}
+table tbody .odd {
+    height: 40px;
+    background-color: #D9EAEE;
+}
+
+
+table tbody tr td {
+max-width: 205px;
+overflow: auto;
+min-width: 100px;
+border: 1px dotted white;
+
+}
+
+
+
+table thead {
+    background-color:#343B54; ;
+}
+
 @media screen and (min-width:800px){
 	#contenido{
 		overflow: hidden;

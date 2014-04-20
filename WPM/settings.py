@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'proyecto',
     'crispy_forms',
     'django_tables2',
+    'django_filters',
     'south',
 
 )
@@ -117,6 +118,8 @@ TEMPLATE_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
     os.path.join(RUTA_PROYECTO, 'Templates'),
 )
+
+
 TEMPLATE_CONTEXT_PROCESSORS =(
 
     'django.contrib.auth.context_processors.auth',

@@ -27,7 +27,7 @@ urlpatterns = patterns('',
     url(r'^add_proyecto/$','proyecto.views.add_proyecto' ),
 
     url(r'^admin_usuarios/$', admin_usuario, name='admin_usuario'),
-    url(r'^nuevo_usuario/$', 'principal.views.nuevo_usuario'),
+    url(r'^add_usuario/$', 'principal.views.nuevo_usuario'),
     url(r'^nuevo_usuario/perfil$', 'principal.views.user_profile'),
       url(r'^cerrar/$','principal.views.cerrar'),
 
@@ -38,6 +38,20 @@ urlpatterns = patterns('',
     url(r'^roles/(?P<rol_name>\w+)/$', edit_rol, name='edit_rol'),
 
     url(r'^asignar_rol/$', asignar_rol, name='asignar_rol'),
+
+
+
+    url('proyectos/(\d+)/', 'proyecto.views.proyecto_detail', name='proyecto_detail'),
+    url('proyectos/delete/(\d+)/', 'proyecto.views.delete_proyecto', name='delete_proyecto'),
+     url('proyecto_view/(\d+)/', 'proyecto.views.proyecto_view', name='proyecto_view'),
+      url('proyectos/fases/(\d+)/', 'proyecto.views.fase_detail', name='fase_detail'),
+      url('proyectos/fases/delete/(\d+)/', 'proyecto.views.delete_fase', name='delete_fase'),
+
+
+
+
+
+
 
 
 
