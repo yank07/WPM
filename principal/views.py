@@ -141,7 +141,7 @@ def add_rol(request):
         if form.is_valid():
             # guardar
             form.save(commit=True)
-            return admin_rol(request)
+            return HttpResponseRedirect('/admin_roles')
         else:
             # hubo errores
             print form.errors
@@ -160,13 +160,28 @@ def edit_rol(request, rol_name):
         return render_to_response('edit_rol.html', {'form': form, 'name': rol_name}, context)
     else:
         rol = Group.objects.get(name=rol_name)
+        formulario = RolForm(request.POST, instance=rol)
+        if formulario.eliminar:
+            rol.delete()
+            return HttpResponseRedirect('/admin_roles')
         lista_permisos = request.POST.getlist('permissions')
         nueva_lista = []
         for permiso_id in lista_permisos:
             permiso = Permission.objects.get(id=permiso_id)
             nueva_lista.append(permiso)
         rol.permissions = nueva_lista
-        return admin_rol(request)
+        return HttpResponseRedirect('/admin_roles')
+
+
+@login_required
+def delete_rol(request, rol_name):
+    """
+    funcion para eliminar un proyecto
+    """
+    grupo = Group.objects.get(name=rol_name)
+    if request.method == 'POST':
+        grupo.delete()
+        return HttpResponseRedirect('/admin_roles')
 
 
 @login_required
@@ -189,12 +204,12 @@ def asignar_rol(request):
             grupos = []
             for idG in listidGroup:
                 mygroup = Group.objects.get(id=idG)
-                grupos.append(mygroup);
+                grupos.append(mygroup)
 
             user.groups = grupos
             if form.desasignar:
                 user.groups = []
-            return admin_rol(request)
+            return HttpResponseRedirect('/admin_roles')
         else:
             # hubo errores
             print form.errors
@@ -217,6 +232,7 @@ def admin_usuario(request):
     return render_to_response('admin_usuarios.html', {'lista': lista}, context_instance=RequestContext(request))
 
 
+@login_required
 def editar_usuario (request, username):
     context = RequestContext(request)
     if request.method == 'GET':

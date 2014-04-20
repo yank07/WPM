@@ -26,8 +26,6 @@ class UserProfileForm (forms.ModelForm):
         fields = ['direccion', 'telefono', 'activo']
 
 
-
-
 class RolForm(forms.ModelForm):
     """
     Form para agregar un rol nuevo
@@ -36,6 +34,7 @@ class RolForm(forms.ModelForm):
         model = Group
         widgets = {'permissions': forms.SelectMultiple(attrs={'size':'10'})}
         fields = ['permissions', 'name']
+
 
 class asignarForm(forms.Form):
     """

@@ -12,10 +12,12 @@
             <table>
             {% crispy form %}
             </table>
-
-
             <input type="submit" name="submit" value="Guardar" />
-        </form>
+            </form>
+            <form id="rol_delete_form" method="post" action="/roles/delete/{{ name }}/">
+                 {% csrf_token %}
+                 <input class="btn btn-default btn-danger" type="submit" name="submit" value="Eliminar Rol" />
+            </form>
         </div>
 
       </div>

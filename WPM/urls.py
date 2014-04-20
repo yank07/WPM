@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, include, url
 
 from django.contrib import admin
-from principal.views import admin_rol, add_rol, asignar_rol, admin_usuario, edit_rol, editar_usuario
+from principal.views import admin_rol, add_rol, asignar_rol, admin_usuario, edit_rol, editar_usuario, delete_rol
 
 
 admin.autodiscover()
@@ -32,6 +32,7 @@ urlpatterns = patterns('',
 
     #para manejar urls del tipo "/rol/<nombre_rol>" para editarlos
     url(r'^roles/(?P<rol_name>\w+)/$', edit_rol, name='edit_rol'),
+    url(r'^roles/delete/(?P<rol_name>\w+)/$', delete_rol, name='edit_rol'),
 
     url(r'^asignar_rol/$', asignar_rol, name='asignar_rol'),
 
