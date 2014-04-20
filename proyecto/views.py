@@ -2,7 +2,7 @@
 Creado el 1 abril  2014
 @author: Grupo 04
 """
-
+from django import forms
 
 from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
@@ -78,6 +78,18 @@ def proyecto_detail(request,id):
     # el form es valido?
         if form.is_valid():
             # guardar
+            estado = form.cleaned_data['estado']
+            num_fases = form.cleaned_data['numero_fases']
+            print "estado " + estado
+            print "numero de fases  " + str(num_fases)
+            print "proyecto numero de fases viejo" + str(  Proyecto.objects.get(pk=int(id)).numero_fases)
+            if Proyecto.objects.get(pk=int(id)).numero_fases != num_fases:
+                print "cambio numero de fases"
+                if proyecto.estado != "Pendiente":
+                    error = "No se puede editar las fases de un Proyecto en estado distinto a Pendiente"
+                    return render_to_response('edit_proyecto1.html', {'form': form ,'id':proyecto.id, "error":error}, context_instance=RequestContext(request))
+
+
             f=form.save(commit=True)
             return HttpResponseRedirect('/admin_proyectos')
         else:
