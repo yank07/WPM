@@ -15,7 +15,8 @@ class ProyectoForm(forms.ModelForm):
 
     class Meta:
         model = Proyecto
-        fields = ['usuario', 'nombre', 'presupuesto', 'observaciones','numero_fases','estado']
+        fields = ['usuario', 'nombre', 'presupuesto', 'observaciones','numero_fases','estado' ]
+
 
 class ProyectoFilter(django_filters.FilterSet):
     class Meta:
