@@ -15,13 +15,13 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate, logout
 from django.template import RequestContext
-from principal.forms import  RolForm, asignarForm, UserEditForm, UserProfileEditForm
+from django_tables2 import RequestConfig
+from principal.forms import RolForm, asignarForm, UserEditForm, UserProfileEditForm, UserFilter, GroupFilter
 from principal.forms import UserForm, UserProfileForm
 from django.core.context_processors import csrf
 from django.contrib.auth.models import User, Group, Permission
 from django.contrib.auth.decorators import login_required
-# Create your views here.
-#from principal.models import Rol
+from principal.tables import UserTable, GroupTable
 
 
 def home(request):
@@ -117,6 +117,15 @@ def admin_rol(request):
     @param request: Peticion HTTP
     @return: pagina de adminsitracion de proyectos
     """
+    filtro = GroupFilter(request.GET, queryset=Group.objects.all())
+    lista = GroupTable(filtro)
+    RequestConfig(request, paginate={"per_page": 5}).configure(lista)
+    return render_to_response('admin_roles.html', {'lista': lista, 'filter': filtro},
+                              context_instance=RequestContext(request))
+
+
+
+
     lista_roles = Group.objects.all()
     for rol in lista_roles:
         rol.url = rol.name.replace(' ', '_')
@@ -226,10 +235,12 @@ def admin_usuario(request):
     @param request: Peticion HTTP
     @return: el form correspondiente
     """
-    lista = User.objects.all()
-    for u in lista:
-        u.url = u.username.replace(" ", "_")
-    return render_to_response('admin_usuarios.html', {'lista': lista}, context_instance=RequestContext(request))
+    #lista = User.objects.all()
+    filtro = UserFilter(request.GET, queryset=User.objects.all())
+    lista = UserTable(filtro)
+    RequestConfig(request, paginate={"per_page": 5}).configure(lista)
+    return render_to_response('admin_usuarios.html', {'lista': lista, 'filter': filtro},
+                              context_instance=RequestContext(request))
 
 
 @login_required

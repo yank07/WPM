@@ -1,3 +1,5 @@
+import django_filters
+
 __author__ = 'rodrigo'
 
 from django import forms
@@ -68,3 +70,15 @@ class UserProfileEditForm (forms.ModelForm):
         model = UserProfile
         fields = ['direccion', 'telefono', 'activo']
         exclude = ('user',)
+
+
+class UserFilter(django_filters.FilterSet):
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'last_name', 'email']
+
+
+class GroupFilter(django_filters.FilterSet):
+    class Meta:
+        model = Group
+        fields = ['name']

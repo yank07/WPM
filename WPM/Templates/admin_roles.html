@@ -1,6 +1,14 @@
 {% extends 'index.html' %}
+{% load crispy_forms_tags %}
 
 {% load render_table from django_tables2 %}
+
+
+{% block head %}
+
+     <link rel="stylesheet" href="{{ STATIC_URL }}django_tables2/themes/paleblue/css/screen.css" />
+
+	{% endblock %}
 
 	<section id="contenido">
 {#        <p> <b>Nombre del rol</b></p>#}
@@ -10,18 +18,18 @@
 
 
        {%  block contenido %}
+<div class="col-md-3  ">
+    <form  action="" method="get">
+        {{ filter.form | crispy }}
+        <input type="submit" class="btn btn-default"/>
+    </form>
 
-{#        {% render_table roles %}#}
-            {% if roles %}
-            <ul>
-                {% for rol in roles %}
-                <!-- Following line changed to add an HTML hyperlink -->
-                    <li><a href="/roles/{{ rol.url }}">{{ rol.name }}</a></li>
-                {% endfor %}
-            </ul>
-       {% else %}
-            <strong>There are no roles present.</strong>
-       {% endif %}
+     </div>
+
+    <div class="col-md-8  ">
+           {% render_table lista %}
+
+     </div>
 
        {% endblock %}
 
