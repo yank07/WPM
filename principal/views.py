@@ -18,7 +18,8 @@ from django.template import RequestContext
 from principal.forms import  RolForm, asignarForm
 from principal.forms import UserForm, UserProfileForm
 from django.core.context_processors import csrf
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User, Group, Permission
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 #from principal.models import Rol
 
@@ -60,7 +61,7 @@ def ingresar(request):
         formulario = AuthenticationForm()
     return render_to_response('ingresar.html', {'formulario': formulario}, context_instance=RequestContext(request))
 
-
+@login_required
 def nuevo_usuario(request):
     """
     Metodo para crear un usuario
@@ -78,7 +79,7 @@ def nuevo_usuario(request):
 
     return render_to_response('nuevo_usuario.html',{'formulario':formulario},context_instance=RequestContext(request))
 
-
+@login_required
 def cerrar(request):
     """
     Metodo para cerrar la sesion
@@ -110,10 +111,7 @@ def user_profile(request):
     return render_to_response('perfil.html', args, context_instance=RequestContext(request))
 
 
-
-
-
-
+@login_required
 def admin_rol(request):
     """
     Renderiza la pagina de administracion de roles
@@ -128,6 +126,7 @@ def admin_rol(request):
     return render_to_response('admin_roles.html', {'roles': lista_roles}, context_instance=RequestContext(request))
 
 
+@login_required
 def add_rol(request):
     """
     Renderiza la pagina de agregar roles
@@ -153,26 +152,25 @@ def add_rol(request):
     return render_to_response('add_rol.html', {'form': form}, context)
 
 
+@login_required
 def edit_rol(request, rol_name):
     context = RequestContext(request)
-    try:
+    if request.method == 'GET':
         rol = Group.objects.get(name=rol_name)
-        print rol.name
         form = RolForm(instance=rol)
-        if form.is_valid():
-            print 'form valido'
-            rol = form.save(commit=False)
-            rol.save()
-            return admin_rol(request)
-        else:
-            print 'form no valido'
-            print form.errors
-
-    except Group.DoesNotExist:
-        pass
-    return render_to_response('add_rol.html', {'form': form}, context)
+        return render_to_response('edit_rol.html', {'form': form, 'name': rol_name}, context)
+    else:
+        rol = Group.objects.get(name=rol_name)
+        lista_permisos = request.POST.getlist('permissions')
+        nueva_lista = []
+        for permiso_id in lista_permisos:
+            permiso = Permission.objects.get(id=permiso_id)
+            nueva_lista.append(permiso)
+        rol.permissions = nueva_lista
+        return admin_rol(request)
 
 
+@login_required
 def asignar_rol(request):
     """
     Pagina de asignacion de roles a usuarios
@@ -195,6 +193,8 @@ def asignar_rol(request):
                 grupos.append(mygroup);
 
             user.groups = grupos
+            if form.desasignar:
+                user.groups = []
             return admin_rol(request)
         else:
             # hubo errores
@@ -204,6 +204,8 @@ def asignar_rol(request):
         form = asignarForm()
     return render_to_response('asignar_rol.html', {'form': form}, context)
 
+
+@login_required
 def admin_usuario(request):
     """
     Renderiza la pagina de administracion de usuario
