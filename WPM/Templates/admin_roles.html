@@ -9,6 +9,18 @@
      <link rel="stylesheet" href="{{ STATIC_URL }}django_tables2/themes/paleblue/css/screen.css" />
 
 	{% endblock %}
+ {%   block nav %}
+ <nav class="menu1">
+
+        <ul >
+            <li><a id="link" href='/add_rol'>Crear Rol</a></li>
+            <li><a id="link" href='/asignar_rol'>Asignar y Desasignar Roles</a></li>
+            {% block listaproyecto %}
+                {% endblock %}
+
+        </ul>
+    </nav>
+{% endblock %}
 
 	<section id="contenido">
 {#        <p> <b>Nombre del rol</b></p>#}
