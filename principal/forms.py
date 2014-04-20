@@ -45,4 +45,4 @@ class asignarForm(forms.Form):
     #usuarios = forms.ModelChoiceField(User.objects.all())
     groups = forms.ModelMultipleChoiceField(queryset=Group.objects.all())
     username = forms.ModelChoiceField(queryset=User.objects.all())
-
+    desasignar = forms.BooleanField()

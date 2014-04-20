@@ -2,10 +2,8 @@ from django.conf.urls import patterns, include, url
 
 from django.contrib import admin
 from principal.views import admin_rol, add_rol, asignar_rol, admin_usuario, edit_rol
-from proyecto.views import  add_proyecto, admin_proyecto
-import proyecto
 
-from bsct import views
+
 
 
 admin.autodiscover()
