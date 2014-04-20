@@ -46,3 +46,26 @@ class asignarForm(forms.Form):
     groups = forms.ModelMultipleChoiceField(queryset=Group.objects.all())
     username = forms.ModelChoiceField(queryset=User.objects.all())
     desasignar = forms.BooleanField()
+
+
+class UserEditForm(forms.ModelForm):
+    """
+    Form para editar usuario
+    """
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email']
+
+
+class UserProfileEditForm (forms.ModelForm):
+    """
+    Form para editar perfil de usuario
+    """
+    direccion = forms.CharField(max_length=50)
+    telefono = forms.CharField(max_length=15)
+    activo = forms.BooleanField(required=False)
+
+    class Meta:
+        model = UserProfile
+        fields = ['direccion', 'telefono', 'activo']
+        exclude = ('user',)

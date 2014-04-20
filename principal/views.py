@@ -15,14 +15,13 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate, logout
 from django.template import RequestContext
-from principal.forms import  RolForm, asignarForm
+from principal.forms import  RolForm, asignarForm, UserEditForm, UserProfileEditForm
 from principal.forms import UserForm, UserProfileForm
 from django.core.context_processors import csrf
 from django.contrib.auth.models import User, Group, Permission
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 #from principal.models import Rol
-
 
 
 def home(request):
@@ -213,7 +212,33 @@ def admin_usuario(request):
     @return: el form correspondiente
     """
     lista = User.objects.all()
-    # for u in lista (
-    #     u
-    # )
+    for u in lista:
+        u.url = u.username.replace(" ", "_")
     return render_to_response('admin_usuarios.html', {'lista': lista}, context_instance=RequestContext(request))
+
+
+def editar_usuario (request, username):
+    context = RequestContext(request)
+    if request.method == 'GET':
+        usuario = User.objects.get(username=username)
+        perfil_usuario = usuario.profile
+        usuario_form = UserEditForm(instance=usuario, prefix="perfil_form")
+        perfil_form = UserProfileEditForm(instance=perfil_usuario, prefix="usuario_form")
+        return render_to_response('edit_usuario.html',
+                                  {'usuario_form': usuario_form, 'perfil_form': perfil_form, 'name': usuario.username}
+                                  , context)
+    else:
+        usuario = User.objects.get(username=username)
+        perfil_usuario = usuario.profile
+        usuario_form = UserEditForm(request.POST, instance=usuario, prefix="perfil_form")
+        perfil_form = UserProfileEditForm(request.POST, instance=perfil_usuario, prefix="usuario_form")
+        if usuario_form.is_valid() and perfil_form.is_valid():
+            user1 = usuario_form.save()
+            perfil_usuario.user = user1
+            perfil_usuario.save()
+            return HttpResponseRedirect('/admin_usuarios')
+        else:
+            print usuario_form.errors, perfil_form.errors
+            return render_to_response('edit_usuario.html',
+                                      {'usuario_form': usuario_form, 'perfil_form':perfil_form, 'name': usuario.username}
+                                      , context)

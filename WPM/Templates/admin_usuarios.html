@@ -13,7 +13,7 @@
  <nav class="menu1">
 
         <ul >
-            <li><a id="link" href='/add_usuario'>Crear Proyecto</a></li>
+            <li><a id="link" href='/nuevo_usuario'>Crear Usuario</a></li>
             {% block listaproyecto %}
                 {% endblock %}
 
@@ -21,7 +21,11 @@
     </nav>
 {% endblock %}
        {%  block contenido %}
-            {% render_table lista %}
+{#            {% render_table lista %}#}
+               {% for u in lista %}
+                <!-- Following line changed to add an HTML hyperlink -->
+                    <li><a href="/usuarios/{{ u.url }}">{{ u.username }}</a></li>
+               {% endfor %}
         {% endblock %}
 
 
