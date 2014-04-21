@@ -102,14 +102,14 @@ def proyecto_detail(request,id):
         form = ProyectoForm(instance=proyecto)
         return render_to_response('edit_proyecto1.html', {'form': form ,'id':proyecto.id}, context_instance=RequestContext(request))
 
-
+@login_required
 class ProyectoUpdate(UpdateView):
     model = Proyecto
     form_class = ProyectoForm
     template_name = 'edit_proyecto.html'
     success_url = '/admin_proyectos/'
 
-
+@login_required
 def delete_proyecto(request,id):
     """
     funcion para eliminar un proyecto
@@ -118,7 +118,7 @@ def delete_proyecto(request,id):
     if request.method=='POST':
         server.delete()
         return HttpResponseRedirect('/admin_proyectos')
-
+@login_required
 def proyecto_view(request,id_proyecto):
     """
 
@@ -156,7 +156,7 @@ def fase_detail(request,id):
         form = FaseForm(instance=fase)
         return render_to_response('edit_fase.html', {'form': form ,'id':fase.id}, context_instance=RequestContext(request))
 
-
+@login_required
 def delete_fase(request,id):
     """
     funcion para eliminar una Fase

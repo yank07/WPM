@@ -11,7 +11,9 @@ from TipoItemApp.forms import add_tipoitem_form, add_atributo_form, listar_atrib
 from TipoItemApp.models import TipoItem
 from proyecto.models import Fase
 
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def admin_tipoitem(request):
     """
     Vista para administrar tipos de item.
@@ -21,6 +23,7 @@ def admin_tipoitem(request):
     return render_to_response('admin_tipoitem.html',{"TipoItemList": TipoItem.objects.all()},
                               context_instance=RequestContext(request))
 
+@login_required
 def listar_atributos(request):
     """
     Vista para listar atributos.
@@ -43,6 +46,7 @@ def listar_atributos(request):
         form = listar_atributos_form()
     return render_to_response('listar_atributos.html', {'form': form,'AttrList':attr_list}, context)
 
+@login_required
 def add_tipoitem(request):
     """
     Vista para agregar un tipo de item.
@@ -79,6 +83,7 @@ def add_tipoitem(request):
         form = add_tipoitem_form()
     return render_to_response('add_tipoitem.html', {'form': form}, context)
 
+@login_required
 def add_atributo(request):
     """
     Vista para agregar un atributo
@@ -116,6 +121,7 @@ def add_atributo(request):
     return render_to_response('add_atributo.html', {'form': form}, context)
 
 
+@login_required
 def edit_tipoitem(request, tipoitem_id):
     """
     Vista para agregar un tipo de item.
@@ -156,6 +162,7 @@ def edit_tipoitem(request, tipoitem_id):
     return render_to_response('edit_tipoitem.html', {'form': form,'tipoitem_id':tipoitem_id}, context)
 
 
+@login_required
 def edit_atributo(request, atributo_id):
     """
     Vista para agregar un tipo de item.
@@ -185,6 +192,7 @@ def edit_atributo(request, atributo_id):
     return render_to_response('edit_atributo.html', {'form': form,'atributo_id':atributo_id}, context)
 
 
+@login_required
 def delete_tipoitem(request):
     context = RequestContext(request)
     if request.method == 'POST':
@@ -200,6 +208,7 @@ def delete_tipoitem(request):
         form = delete_tipoitem_form()
     return render_to_response('delete_tipoitem.html', {'form': form}, context)
 
+@login_required
 def delete_atributo(request):
     context = RequestContext(request)
     if request.method == 'POST':
@@ -215,6 +224,7 @@ def delete_atributo(request):
         form = delete_atributo_form()
     return render_to_response('delete_atributo.html', {'form': form}, context)
 
+@login_required
 def importar_tipoitem(request):
     context = RequestContext(request)
     if request.method == 'POST':
