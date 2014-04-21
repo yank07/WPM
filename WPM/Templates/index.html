@@ -29,9 +29,9 @@
 
 	<nav>
 		<ul>
-			<li><a href="#">Autores</a></li>
+
 			<li><a href="/admin/doc">Documentacion</a></li>
-			<li><a href="#">Contacto</a></li>
+
 
         {% if not user.is_authenticated %}
 			<li><a id="link" href='/ingresar'>Ingresar</a></li>
@@ -44,7 +44,7 @@
 			{% endif %}
 		   	{% if user.is_authenticated %}<!-- si el usuario esta autenticado -->
                 <li class="admin_proyectos"> <a href="/admin_proyectos">Administrar Proyectos</a></li>
-                <li class="admin_proyectos"> <a href="/admin_tipoitem">Administrar Tipos de Item</a></li>
+                <li class="admin_tipoitem"> <a href="/admin_tipoitem">Administrar Tipos de Item</a></li>
 		   		<li><a id="link" href='/cerrar/'>Cerrar Sesion</a></li>
 		   	{% endif %}
 
