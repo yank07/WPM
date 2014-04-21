@@ -1,0 +1,83 @@
+{% load render_table from django_tables2 %}
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<head>
+	<meta charset="utf-8" />
+	<meta name="description" content="Proyecto de la primera generación del 2014 del curso de diseño web online" />
+	<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1"/>
+	<title>WPM:Web Project Manager </title>
+
+	<link rel="stylesheet" href="/static/css/estilos.css" />
+
+    <link rel="stylesheet" href="/static/css/bootstrap.css"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}django_tables2/themes/paleblue/css/screen.css" />
+<link rel="stylesheet" href="/static/css/bootstrap-theme.css"/>
+
+
+</head>
+<body>
+	<header>
+		<figure id="logo">
+			<a href="/"><img src="/static/img/wpm_logo.jpg" /></a>
+		</figure>
+		<h1>
+			Web Project Manager -
+		</h1>
+        <h1> <a href="/admin_tipoitem/">Administrador de Tipo de Items</a></h1>
+
+	</header>
+	<nav>
+		<ul>
+            <li><a href="/add_tipoitem/">Crear Tipo de Item</a></li>
+            <li><a href="/add_atributo/">Crear atributo</a></li>
+            <li><a href="/listar_atributos/">Listar Atributos</a></li>
+            <li><a href="/delete_tipoitem/">Eliminar Tipos de Item</a></li>
+            <li><a href="/delete_atributo/">Eliminar Atributo</a></li>
+            <li><a href="/importar_tipoitem/">Importar Tipo de Item</a></li>
+			<li><a href="#">Documentacion</a></li>
+			<li><a href="#">Contacto</a></li>
+
+			<li><a href="#">Autores</a></li>
+			<li><a href="#">Documentacion</a></li>
+			<li><a href="#">Contacto</a></li>
+
+
+
+			</li>
+		</ul>
+	</nav>
+
+	<section id="contenido">
+
+
+       {%  block contenido %}
+{#            {% render_table TipoItemList %}#}
+                   <p> <b>Nombre de tipo de item</b></p>
+            {% for tipoitem in TipoItemList %}
+                <li><a href="/edit_tipoitem/{{ tipoitem.id }}/">{{ tipoitem }}</a></li>
+            {% endfor %}
+        {% endblock %}
+
+
+
+
+
+	</section>
+
+
+
+
+	<footer>
+		<p>
+			<strong>Grupo R04®</strong>
+		</p>
+		<p>
+			IS2-2014
+		</p>
+	</footer>
+
+    <script src="static/js/jquery-1.11.0.min.js"></script>
+
+
+</body>
+</html>

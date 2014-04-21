@@ -63,4 +63,4 @@ class Fase(models.Model):
     nombre=models.CharField(max_length=50, help_text='Nombre de la fase')
 
     def __unicode__(self):
-        return unicode(self.nombre)
+        return unicode(self.proyecto.nombre + '_' + self.nombre)

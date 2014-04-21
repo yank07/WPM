@@ -40,6 +40,8 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'principal',
     'proyecto',
+    'eav',
+    'TipoItemApp',
     'crispy_forms',
     'django_tables2',
     'django_filters',
