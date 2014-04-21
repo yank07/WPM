@@ -1,32 +1,39 @@
 {% extends 'index.html' %}
-
-{% load render_table from django_tables2 %}
+{% load staticfiles %}
 {% load crispy_forms_tags %}
+{% load render_table from django_tables2 %}
+ {% block head %}
+     <style>
+    .admin_proyectos{
+         background-color: #343B54;
+    }
 
-{% block head %}
+
+
+     </style>
 
      <link rel="stylesheet" href="{{ STATIC_URL }}django_tables2/themes/paleblue/css/screen.css" />
 
 	{% endblock %}
-
-{%   block nav %}
+ {%   block nav %}
 
  <nav class="menu1">
 
         <ul >
-            <li><a id="link" href='/nuevo_usuario'>Crear Usuario</a></li>
+            <li><a id="link" href='/add_proyecto'>Crear Proyecto</a></li>
+            <li><a id="link" href='/admin_proyectos'>Listar Proyecto</a></li>
             {% block listaproyecto %}
                 {% endblock %}
 
         </ul>
     </nav>
 {% endblock %}
+
+
+
        {%  block contenido %}
-           <div class="col-md-3  ">
-    <form  action="" method="get">
-        {{ filter.form | crispy }}
-        <input type="submit" class="btn btn-default"/>
-    </form>
+<div class="col-md-3  ">
+
 
      </div>
 
@@ -39,7 +46,21 @@
 
 
 
+
+
         {% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

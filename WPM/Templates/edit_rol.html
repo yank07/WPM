@@ -1,0 +1,25 @@
+{% extends 'index.html' %}
+{% load crispy_forms_tags %}
+{% block contenido %}
+        <h3>Editar un Rol</h3>
+<div class="row">
+
+        <div class="col-md-4  col-md-offset-4">
+
+             <form id="rol_form" method="post" action="/roles/{{ name }}/">
+
+            {% csrf_token %}
+            <table>
+            {% crispy form %}
+            </table>
+            <input type="submit" name="submit" value="Guardar" />
+            </form>
+            <form id="rol_delete_form" method="post" action="/roles/delete/{{ name }}/">
+                 {% csrf_token %}
+                 <input class="btn btn-default btn-danger" type="submit" name="submit" value="Eliminar Rol" />
+            </form>
+        </div>
+
+      </div>
+
+{% endblock %}

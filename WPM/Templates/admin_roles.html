@@ -1,45 +1,26 @@
+{% extends 'index.html' %}
+{% load crispy_forms_tags %}
+
 {% load render_table from django_tables2 %}
-<!DOCTYPE html>
-<html lang="es" xmlns="http://www.w3.org/1999/html">
-<head>
-	<meta charset="utf-8" />
-	<meta name="description" content="Proyecto de la primera generación del 2014 del curso de diseño web online" />
-	<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1"/>
-	<title>WPM:Web Project Manager </title>
-
-	<link rel="stylesheet" href="/static/css/estilos.css" />
-
-    <link rel="stylesheet" href="/static/css/bootstrap.css"/>
-    <link rel="stylesheet" href="{{ STATIC_URL }}django_tables2/themes/paleblue/css/screen.css" />
-<link rel="stylesheet" href="/static/css/bootstrap-theme.css"/>
 
 
-</head>
-<body>
-	<header>
-		<figure id="logo">
-			<a href="/"><img src="/static/img/wpm_logo.jpg" /></a>
-		</figure>
-		<h1>
-			Web Project Manager -
-		</h1>
-        <h1> Administrador de Roles</h1>
+{% block head %}
 
-	</header>
-	<nav>
-		<ul>
-            <li><a href="/add_rol/">Crear Rol</a></li>
-            <li><a href="/asignar_rol/">Asignar Rol</a></li>
-			<li><a href="/admin/doc">Documentacion</a></li>
-			<li><a href="#">Contacto</a></li>
+     <link rel="stylesheet" href="{{ STATIC_URL }}django_tables2/themes/paleblue/css/screen.css" />
 
-			<li><a href="#">Autores</a></li>
+	{% endblock %}
+ {%   block nav %}
+ <nav class="menu1">
 
+        <ul >
+            <li><a id="link" href='/add_rol'>Crear Rol</a></li>
+            <li><a id="link" href='/asignar_rol'>Asignar y Desasignar Roles</a></li>
+            {% block listaproyecto %}
+                {% endblock %}
 
-
-			</li>
-		</ul>
-	</nav>
+        </ul>
+    </nav>
+{% endblock %}
 
 	<section id="contenido">
 {#        <p> <b>Nombre del rol</b></p>#}
@@ -49,18 +30,18 @@
 
 
        {%  block contenido %}
+<div class="col-md-3  ">
+    <form  action="" method="get">
+        {{ filter.form | crispy }}
+        <input type="submit" class="btn btn-default"/>
+    </form>
 
-{#        {% render_table roles %}#}
-            {% if roles %}
-            <ul>
-                {% for rol in roles %}
-                <!-- Following line changed to add an HTML hyperlink -->
-                    <li><a href="/roles/{{ rol.url }}">{{ rol.name }}</a></li>
-                {% endfor %}
-            </ul>
-       {% else %}
-            <strong>There are no roles present.</strong>
-       {% endif %}
+     </div>
+
+    <div class="col-md-8  ">
+           {% render_table lista %}
+
+     </div>
 
        {% endblock %}
 
@@ -72,18 +53,3 @@
 
 
 
-
-	<footer>
-		<p>
-			<strong>Grupo R04®</strong>
-		</p>
-		<p>
-			IS2-2014
-		</p>
-	</footer>
-
-    <script src="static/js/jquery-1.11.0.min.js"></script>
-
-
-</body>
-</html>

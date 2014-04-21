@@ -147,9 +147,10 @@ header #logo img:hover{
 nav
 {
 	background: #7488CD; /* #80BCA3 */
-	box-shadow: rgba(0,0,0,0.5) 0px 0px 10px;
 	padding: 0 6em 0 0;
 	position: relative;
+    border-bottom: 0,5px solid #fff;
+
 }
 nav ul
 {
@@ -197,6 +198,13 @@ nav ul li a
 	display: block;
 	padding: 0.5em;
 	-webkit-transition:.3s;
+}
+
+
+.menu1 {
+
+box-shadow: none;
+    background-color: #343B54;
 }
 aside{
 	display: none;
@@ -284,6 +292,35 @@ aside{
 		font-size: 50px;
 	}
 }*/
+
+table {
+
+    padding: 10px;
+    width: 80%;
+}
+
+table tbody tr {
+    height: 40px;
+}
+table tbody .odd {
+    height: 40px;
+    background-color: #D9EAEE;
+}
+
+
+table tbody tr td {
+max-width: 205px;
+overflow: auto;
+min-width: 100px;
+border: 1px dotted white;
+
+}
+
+
+
+table thead {
+    background-color:#343B54; ;
+}
 
 @media screen and (min-width:800px){
 	#contenido{

@@ -1,87 +1,58 @@
+{% extends 'index.html' %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
 {% load render_table from django_tables2 %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-	<meta charset="utf-8" />
-	<meta name="description" content="Proyecto de la primera generación del 2014 del curso de diseño web online" />
-	<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1"/>
-	<title>WPM:Web Project Manager </title>
-
-	<link rel="stylesheet" href="/static/css/estilos.css" />
-
-    <link rel="stylesheet" href="/static/css/bootstrap.css"/>
-<link rel="stylesheet" href="/static/css/bootstrap-theme.css"/>
-{% load render_table from django_tables2 %}
-
-</head>
-<body>
-	<header>
-		<figure id="logo">
-			<a href="/"><img src="/static/img/wpm_logo.jpg" /></a>
-		</figure>
-		<h1>
-			Web Project Manager -
-		</h1>
-        <h1> Administrador de Proyectos</h1>
-
-	</header>
-	<nav>
-		<ul>
-            <li><a href="/add_proyecto/">Crear Proyecto</a></li>
-
-
-			<li><a href="#">Autores</a></li>
-			<li><a href="/admin/doc">Documentacion</a></li>
-			<li><a href="#">Contacto</a></li>
-
-             {% if user.is_staff %}
-		<li><a id="link" href='/admin'>Admin</a></li>
-                 <li><a id="link" href='/admin'>Admin</a></li>
-			{% endif %}
-		   	{% if user.is_authenticated %}<!-- si el usuario esta autenticado -->
-		   	<li><a id="link" href='/cerrar/'>Cerrar Sesion</a> </li>
-		   	{% endif %}
+ {% block head %}
+     <style>
+    .admin_proyectos{
+         background-color: #343B54;
+    }
 
 
 
-			</li>
-		</ul>
-	</nav>
+     </style>
 
+     <link rel="stylesheet" href="{{ STATIC_URL }}django_tables2/themes/paleblue/css/screen.css" />
 
+	{% endblock %}
+ {%   block nav %}
 
+ <nav class="menu1">
 
+        <ul >
+            <li><a id="link" href='/add_proyecto'>Crear Proyecto</a></li>
+            {% block listaproyecto %}
+                {% endblock %}
 
-	<section id="contenido">
+        </ul>
+    </nav>
+{% endblock %}
 
 
 
        {%  block contenido %}
+<div class="col-md-3  ">
+    <form  action="" method="get">
+        {{ filter.form | crispy }}
+        <input type="submit" class="btn btn-default"/>
+    </form>
+
+     </div>
+
+    <div class="col-md-8  ">
            {% render_table lista %}
+
+     </div>
+
+
+
+
+
+
+
         {% endblock %}
 
 
-
-
-	</section>
-
-
-
-
-	<footer>
-		<p>
-			<strong>Grupo R04®</strong>
-		</p>
-		<p>
-			IS2-2014
-		</p>
-	</footer>
-
-    <script src="/static/js/jquery-1.11.0.min.js"></script>
-
-
-</body>
-</html>
 
 
 

@@ -14,15 +14,10 @@
 
         <div class="col-md-4  col-md-offset-4">
 
-             <form id="proyecto_form" method="post" action="/add_proyecto/">
-
-            {% csrf_token %}
-            <table>
-            {% crispy form %}
-            </table>
-
-            <input class="btn btn-default" type="submit" name="submit" value="Crear Proyecto" />
-        </form>
+            <form action="" method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Update" />
+</form>
         </div>
 
       </div>
