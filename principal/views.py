@@ -124,16 +124,6 @@ def admin_rol(request):
                               context_instance=RequestContext(request))
 
 
-
-
-    lista_roles = Group.objects.all()
-    for rol in lista_roles:
-        rol.url = rol.name.replace(' ', '_')
-
-    #return render(request, "admin_roles.html", )
-    return render_to_response('admin_roles.html', {'roles': lista_roles}, context_instance=RequestContext(request))
-
-
 @login_required
 def add_rol(request):
     """
@@ -162,6 +152,12 @@ def add_rol(request):
 
 @login_required
 def edit_rol(request, rol_name):
+    """
+    Renderiza la pagina de edicion de roles
+    @param request: La peticion HTTP
+    @param rol_name: El nombre del rol a editar
+    @return: el form correspondiente
+    """
     context = RequestContext(request)
     if request.method == 'GET':
         rol = Group.objects.get(name=rol_name)
@@ -185,7 +181,10 @@ def edit_rol(request, rol_name):
 @login_required
 def delete_rol(request, rol_name):
     """
-    funcion para eliminar un proyecto
+    funcion para eliminar un rol
+    @param request: Peticion HTTP
+    @param rol_name: Nombre del rol a eliminar
+    return: el form correspondiente
     """
     grupo = Group.objects.get(name=rol_name)
     if request.method == 'POST':
@@ -245,6 +244,12 @@ def admin_usuario(request):
 
 @login_required
 def editar_usuario (request, username):
+    """
+    Renderiza la pagina de edicion de usuario/perfil de usuario
+    @param request: Peticion HTTP
+    @param username: Nombre de usuario a editar
+    @return: el form correspondiente
+    """
     context = RequestContext(request)
     if request.method == 'GET':
         usuario = User.objects.get(username=username)
