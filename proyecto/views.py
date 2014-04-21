@@ -167,6 +167,7 @@ def delete_fase(request,id):
     proyecto.save()
 
     if request.method=='POST':
+        #Controlar si el Proyecto esta activo
         fase.delete()
         return HttpResponseRedirect('/proyecto_view/'+ str(proyecto.id)+"/")
 

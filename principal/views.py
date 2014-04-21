@@ -99,7 +99,7 @@ def user_profile(request):
         formulario = UserProfileForm(request.POST, instance= User.objects.last().profile)
         if formulario.is_valid():
             formulario.save()
-            return HttpResponseRedirect('/')
+            return HttpResponseRedirect('/admin_usuarios')
     else:
         user= request.user
         profile = user.profile
