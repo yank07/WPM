@@ -3,12 +3,14 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, render_to_response
 from django.template import RequestContext
 from django.views.generic import UpdateView
+from django_tables2 import RequestConfig
 import eav
 from eav.models import Attribute, Entity
 from eav.registry import Registry
 from TipoItemApp.forms import add_tipoitem_form, add_atributo_form, listar_atributos_form, delete_tipoitem_form, \
-    delete_atributo_form, edit_atributo_form, importar_tipooitem_form
+    delete_atributo_form, edit_atributo_form, importar_tipooitem_form, TipoItemFilter, AtributoFilter
 from TipoItemApp.models import TipoItem
+from TipoItemApp.tables import TipoItemTable, AtributoTable
 from proyecto.models import Fase
 
 from django.contrib.auth.decorators import login_required
@@ -20,7 +22,12 @@ def admin_tipoitem(request):
     @param request: Peticion HTTP
     @return renderiza el form correspondiente
     """
-    return render_to_response('admin_tipoitem.html',{"TipoItemList": TipoItem.objects.all()},
+
+    f = TipoItemFilter(request.GET, queryset=TipoItem.objects.all())
+    lista = TipoItemTable(f)
+
+    RequestConfig(request, paginate={"per_page": 5}).configure(lista)
+    return render_to_response('admin_tipoitem.html', {'lista': lista , 'filter': f},
                               context_instance=RequestContext(request))
 
 @login_required
@@ -30,21 +37,27 @@ def listar_atributos(request):
     @param request: Peticion HTTP
     @return renderiza el form correspondiente
     """
-    context = RequestContext(request)
-    if request.method == 'POST':
-        form = listar_atributos_form(request.POST)
-        if form.is_valid():
-            tipoitemID = request.POST.__getitem__('nombre')
-            tipoitem = TipoItem.objects.get(id=tipoitemID)
-            form = listar_atributos_form()
-            return render_to_response('listar_atributos.html',{'form': form,'AttrList': tipoitem.atributos.all()},
-                                      context)
-        else:
-            print form.errors
-    else:
-        attr_list = Attribute.objects.all()
-        form = listar_atributos_form()
-    return render_to_response('listar_atributos.html', {'form': form,'AttrList':attr_list}, context)
+    # context = RequestContext(request)
+    # if request.method == 'POST':
+    #     form = listar_atributos_form(request.POST)
+    #     if form.is_valid():
+    #         tipoitemID = request.POST.__getitem__('nombre')
+    #         tipoitem = TipoItem.objects.get(id=tipoitemID)
+    #         form = listar_atributos_form()
+    #         return render_to_response('listar_atributos.html',{'form': form,'AttrList': tipoitem.atributos.all()},
+    #                                   context)
+    #     else:
+    #         print form.errors
+    # else:
+    #     attr_list = Attribute.objects.all()
+    #     form = listar_atributos_form()
+    # return render_to_response('listar_atributos.html', {'form': form,'AttrList':attr_list}, context)
+    f = AtributoFilter(request.GET, queryset=Attribute.objects.all())
+    lista = AtributoTable(f)
+
+    RequestConfig(request, paginate={"per_page": 5}).configure(lista)
+    return render_to_response('listar_atributos.html', {'lista': lista , 'filter': f},
+                              context_instance=RequestContext(request))
 
 @login_required
 def add_tipoitem(request):
@@ -61,7 +74,6 @@ def add_tipoitem(request):
         # el form es valido?
         if form.is_valid():
             fasesidlist=request.POST.getlist('fases')
-            print fasesidlist
             for faseid1 in fasesidlist:
                 fase1 = Fase.objects.get(id=faseid1)
                 p1=fase1.proyecto
@@ -74,7 +86,7 @@ def add_tipoitem(request):
                         return render_to_response('add_tipoitem.html', {'form': form}, context)
 
             form.save(commit=True)
-            return admin_tipoitem(request)
+            return HttpResponseRedirect('/admin_tipoitem/')
         else:
             # hubo errores
             print form.errors
@@ -113,7 +125,7 @@ def add_atributo(request):
             else:
                 a1 = Attribute.objects.create(name=nombre, datatype=tipo,required=valor)
                 a1.save()
-            return admin_tipoitem(request)
+            return HttpResponseRedirect('/listar_atributos/')
         else:
             print form.errors
     else:
@@ -136,7 +148,6 @@ def edit_tipoitem(request, tipoitem_id):
         sw=False
         if form.is_valid():
             fasesidlist=request.POST.getlist('fases')
-            print fasesidlist
             for faseid1 in fasesidlist:
                 fase1 = Fase.objects.get(id=faseid1)
                 p1=fase1.proyecto
@@ -182,7 +193,7 @@ def edit_atributo(request, atributo_id):
             attr.name=nombre
             attr.required=obligatorio
             attr.save()
-            return admin_tipoitem(request)
+            return HttpResponseRedirect('/listar_atributos/')
         else:
             print form.errors
     else:
@@ -193,36 +204,49 @@ def edit_atributo(request, atributo_id):
 
 
 @login_required
-def delete_tipoitem(request):
-    context = RequestContext(request)
-    if request.method == 'POST':
-        form = delete_tipoitem_form(request.POST)
-        if form.is_valid():
-            tipoitemID = request.POST.__getitem__('nombre')
-            tipoitem = TipoItem.objects.get(id=tipoitemID)
-            tipoitem.delete()
-            return admin_tipoitem(request)
-        else:
-            print form.errors
-    else:
-        form = delete_tipoitem_form()
-    return render_to_response('delete_tipoitem.html', {'form': form}, context)
+def delete_tipoitem(request,tipoitem_id):
+    # context = RequestContext(request)
+    # if request.method == 'POST':
+    #     form = delete_tipoitem_form(request.POST)
+    #     if form.is_valid():
+    #         tipoitemID = request.POST.__getitem__('nombre')
+    #         tipoitem = TipoItem.objects.get(id=tipoitemID)
+    #         tipoitem.delete()
+    #         return HttpResponseRedirect('/admin_tipoitem/')
+    #     else:
+    #         print form.errors
+    # else:
+    #     form = delete_tipoitem_form()
+    # return render_to_response('delete_tipoitem.html', {'form': form}, context)
+    try:
+        tipoitem = TipoItem.objects.get(id=tipoitem_id)
+        tipoitem.delete()
+    except TipoItem.DoesNotExist:
+        pass
+    return HttpResponseRedirect('/admin_tipoitem/')
+
 
 @login_required
-def delete_atributo(request):
-    context = RequestContext(request)
-    if request.method == 'POST':
-        form = delete_atributo_form(request.POST)
-        if form.is_valid():
-            attrID = request.POST.__getitem__('nombre')
-            attr = Attribute.objects.get(id=attrID)
-            attr.delete()
-            return admin_tipoitem(request)
-        else:
-            print form.errors
-    else:
-        form = delete_atributo_form()
-    return render_to_response('delete_atributo.html', {'form': form}, context)
+def delete_atributo(request,atributo_id):
+    # context = RequestContext(request)
+    # if request.method == 'POST':
+    #     form = delete_atributo_form(request.POST)
+    #     if form.is_valid():
+    #         attrID = request.POST.__getitem__('nombre')
+    #         attr = Attribute.objects.get(id=attrID)
+    #         attr.delete()
+    #         return HttpResponseRedirect('/listar_atributos/')
+    #     else:
+    #         print form.errors
+    # else:
+    #     form = delete_atributo_form()
+    # return render_to_response('delete_atributo.html', {'form': form}, context)
+    try:
+        atributo = Attribute.objects.get(id=atributo_id)
+        atributo.delete()
+    except Attribute.DoesNotExist:
+        pass
+    return HttpResponseRedirect('/listar_atributos/')
 
 @login_required
 def importar_tipoitem(request):
@@ -235,7 +259,7 @@ def importar_tipoitem(request):
             faseID = request.POST.__getitem__('fase')
             fase = Fase.objects.get(id=faseID)
             tipoitem.fases.add(fase)
-            return admin_tipoitem(request)
+            return HttpResponseRedirect('/admin_tipoitem/')
         else:
             print form.errors
     else:

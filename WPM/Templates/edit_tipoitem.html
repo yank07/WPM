@@ -12,7 +12,11 @@
                 {% crispy form %}
                 </table>
 
-                <input type="submit" name="submit" value="Modificar Tipo de item" />
+                <input type="submit" name="submit" value="Editar" />
+            </form>
+            <form id="add_tipoitem_form" method="post" action="/delete_tipoitem/{{ tipoitem_id }}/">
+                 {% csrf_token %}
+                 <input class="btn btn-default btn-danger" type="submit" name="submit" value="Eliminar" />
             </form>
 
 

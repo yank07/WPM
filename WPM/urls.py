@@ -52,8 +52,8 @@ urlpatterns = patterns('',
     url(r'^listar_atributos/$', listar_atributos, name='listar_atributos'),
     url(r'^edit_tipoitem/(?P<tipoitem_id>\d+)/$', edit_tipoitem, name='edit_tipoitem'),
     url(r'^edit_atributo/(?P<atributo_id>\d+)/$', edit_atributo, name='edit_atributo'),
-    url(r'^delete_tipoitem/$', delete_tipoitem, name='delete_tipoitem'),
-    url(r'^delete_atributo/$', delete_atributo, name='delete_atributo'),
+    url(r'^delete_tipoitem/(?P<tipoitem_id>\d+)/$', delete_tipoitem, name='delete_tipoitem'),
+    url(r'^delete_atributo/(?P<atributo_id>\d+)/$', delete_atributo, name='delete_atributo'),
     url(r'^importar_tipoitem/$', importar_tipoitem, name='importar_tipoitem'),
 
 
