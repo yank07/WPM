@@ -11,10 +11,12 @@
             {% csrf_token %}
             <table>
             {% crispy form %}
+{#                {{ form }}#}
             </table>
 
 
-            <input type="submit" name="submit" value="Asignar Rol" />
+
+            <input type="submit" name="submit" value="Guardar" />
         </form>
         </div>
 

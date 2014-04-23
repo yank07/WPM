@@ -207,15 +207,14 @@ def asignar_rol(request):
         if form.is_valid():
             # guardar
             idUser = request.POST.__getitem__('username')
-            listidGroup = request.POST.__getitem__('groups')
+            listidGroup = request.POST.getlist('groups')
             user = User.objects.get(id=idUser)
             grupos = []
             for idG in listidGroup:
                 mygroup = Group.objects.get(id=idG)
                 grupos.append(mygroup)
-
             user.groups = grupos
-            if form.desasignar:
+            if request.POST.__contains__('eliminar_roles'):
                 user.groups = []
             return HttpResponseRedirect('/admin_roles')
         else:
