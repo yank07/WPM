@@ -1,6 +1,6 @@
 # from unittest import TestCase
 from django.test import TestCase
-from principal.models import Proyecto
+from proyecto.models import Proyecto
 
 __author__ = 'ccaballero'
 

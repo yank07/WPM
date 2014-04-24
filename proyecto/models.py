@@ -42,6 +42,7 @@ class Proyecto(models.Model):
     observaciones=models.TextField(max_length=200, help_text='Observaciones del proyecto')
     estado = models.CharField(max_length=50, help_text='Descripcion del Estado del Proyecto', choices=ESTADO_CHOICES, default='Pendiente')
     numero_fases=models.IntegerField(default=1, help_text='Presupuesto del proyecto')
+    miembros = models.ManyToManyField(User, related_name='miembros', help_text='Miembros del proyecto')
 
 
     def __unicode__(self):
