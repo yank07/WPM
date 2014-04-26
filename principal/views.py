@@ -24,7 +24,7 @@ from django.contrib.auth.decorators import login_required
 from principal.tables import UserTable, GroupTable
 from proyecto.forms import ProyectoFilter
 from proyecto.models import Proyecto
-from proyecto.tables import ProyectoTable
+from proyecto.tables import ProyectoTable, ProyectoDashboardTable
 
 
 def home(request):
@@ -34,7 +34,7 @@ def home(request):
     @return: Renderiza la pagina correspondiente
     """
     f = ProyectoFilter(request.GET, queryset=request.user.miembros.all())
-    lista = ProyectoTable(f)
+    lista = ProyectoDashboardTable(f)
     RequestConfig(request, paginate={"per_page": 5}).configure(lista)
 
     return render_to_response('index.html', {'lista': lista, 'filter': f},

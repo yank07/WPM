@@ -27,9 +27,9 @@
 		<h1>
 			Web Project Manager
 		</h1>
-		<figure id="avatar">
-			<img src="/static/img/desconocido.jpg" />
-		</figure>
+<div id="avatar">
+    <h5>Bienvenido, {{ user.username }} (<a id="link" href='/cerrar/'>Cerrar Sesión</a>) </h5>
+</div>
 	</header>
 
 	<nav>
@@ -46,11 +46,13 @@
 				<li><a id="link" href='/admin'>Admin</a></li>
                 <li class="admin_usuarios"><a id="link" href='/admin_usuarios'>Administrar Usuarios</a></li>
                 <li class="admin_roles"><a id="link" href='/admin_roles'>Administrar Roles</a></li>
-			{% endif %}
-		   	{% if user.is_authenticated %}<!-- si el usuario esta autenticado -->
                 <li class="admin_proyectos"> <a href="/admin_proyectos">Administrar Proyectos</a></li>
                 <li class="admin_tipoitem"> <a href="/admin_tipoitem">Administrar Tipos de Item</a></li>
-		   		<li><a id="link" href='/cerrar/'>Cerrar Sesion</a></li>
+			{% endif %}
+		   	{% if user.is_authenticated %}<!-- si el usuario esta autenticado -->
+{#                <li class="admin_proyectos"> <a href="/admin_proyectos">Administrar Proyectos</a></li>#}
+{#                <li class="admin_tipoitem"> <a href="/admin_tipoitem">Administrar Tipos de Item</a></li>#}
+		   		<li></li>
 		   	{% endif %}
 
 

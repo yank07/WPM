@@ -13,6 +13,9 @@ class TipoItem(models.Model):
     observacion = models.CharField(null=True,max_length=50, help_text='Observacion del Tipo de Item')
     atributos = models.ManyToManyField(Attribute,related_name='tipoitem', help_text='Atributos del tipo de item',null=True)
     fases = models.ManyToManyField(Fase,related_name='tipoitem', help_text='Fases asociadas al tipo de item',null=True)
+    fecha_creacion = models.DateField(auto_now_add=True, help_text="Fecha de creacion")
+    fecha_modificacion = models.DateField(auto_now=True, help_text="Fecha de ultima modificacion")
+
     def __unicode__(self):
         return unicode(self.nombre)
 

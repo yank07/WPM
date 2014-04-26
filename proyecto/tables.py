@@ -10,6 +10,7 @@ class ProyectoTable(tables.Table):
     my_column = tables.TemplateColumn(verbose_name=('Editar'),
                                     template_name='my_column.html',
                                     sortable=False)
+
     class Meta:
         model = Proyecto
         # add class="paleblue" to <table> tag
@@ -32,5 +33,12 @@ class FasesTable(tables.Table):
         sequence = ("nombre", "proyecto", "id")
 
 
+class ProyectoDashboardTable(tables.Table):
+    nombre = tables.Column(verbose_name="Nombre del Proyecto")
+    columna = tables.TemplateColumn(verbose_name=('Ver'), template_name='my_column.html', sortable=False)
 
-
+    class Meta:
+        model = Proyecto
+        attrs = {"class": "paleblue"}
+        fields = ("nombre", "observaciones" , "estado", "numero_fases", "presupuesto" , "usuario")
+        sequence = ("nombre", "observaciones", "estado", "numero_fases", "presupuesto" , "usuario")

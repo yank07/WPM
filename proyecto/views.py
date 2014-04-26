@@ -55,7 +55,9 @@ def add_proyecto(request):
         # el form es valido?
         if form.is_valid():
             # guardar
-            form.save(commit=True)
+            p = form.save(commit=False)
+            p.usuario_modificacion = request.user
+            p.save()
             return HttpResponseRedirect('/admin_proyectos')
         else:
             # hubo errores
@@ -93,7 +95,9 @@ def proyecto_detail(request,id):
                     return render_to_response('edit_proyecto1.html', {'form': form ,'id':proyecto.id}, context_instance=RequestContext(request))
 
 
-            f=form.save(commit=True)
+            f=form.save(commit=False)
+            f.usuario_modificacion = request.user
+            f.save()
             return HttpResponseRedirect('/admin_proyectos')
         else:
             # hubo errores
@@ -102,12 +106,14 @@ def proyecto_detail(request,id):
         form = ProyectoForm(instance=proyecto)
         return render_to_response('edit_proyecto1.html', {'form': form ,'id':proyecto.id}, context_instance=RequestContext(request))
 
+
 @login_required
 class ProyectoUpdate(UpdateView):
     model = Proyecto
     form_class = ProyectoForm
     template_name = 'edit_proyecto.html'
     success_url = '/admin_proyectos/'
+
 
 @login_required
 def delete_proyecto(request,id):
@@ -118,6 +124,8 @@ def delete_proyecto(request,id):
     if request.method=='POST':
         server.delete()
         return HttpResponseRedirect('/admin_proyectos')
+
+
 @login_required
 def proyecto_view(request,id_proyecto):
     """
@@ -133,7 +141,6 @@ def proyecto_view(request,id_proyecto):
     return render_to_response('proyecto_view.html', {'lista': lista }, context_instance=RequestContext(request))
 
 
-
 @login_required
 def fase_detail(request,id):
     """Metodo de para Editar una Fase en Particular
@@ -147,7 +154,9 @@ def fase_detail(request,id):
     # el form es valido?
         if form.is_valid():
             # guardar
-            f=form.save(commit=True)
+            f = form.save(commit=False)
+            f.usuario_modificacion = request.user
+            f.save()
             return HttpResponseRedirect('/proyecto_view/'+ str(proyecto.id)+"/")
         else:
             # hubo errores
@@ -155,6 +164,7 @@ def fase_detail(request,id):
     else:
         form = FaseForm(instance=fase)
         return render_to_response('edit_fase.html', {'form': form ,'id':fase.id}, context_instance=RequestContext(request))
+
 
 @login_required
 def delete_fase(request,id):

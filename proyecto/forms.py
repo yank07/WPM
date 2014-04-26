@@ -14,6 +14,8 @@ class ProyectoForm(forms.ModelForm):
     presupuesto = forms.IntegerField()
     observaciones = forms.CharField(max_length=200)
     miembros = forms.ModelMultipleChoiceField(queryset=User.objects.all())
+    # fecha_creacion = forms.DateField(required=False)
+    # fecha_modificacion = forms.DateField(required=False)
 
 
     class Meta:
