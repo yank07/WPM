@@ -58,7 +58,7 @@ urlpatterns = patterns('',
 
 
 
-
+    url(r'^item/', include('item.urls')),
 
 
 

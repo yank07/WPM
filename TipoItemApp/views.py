@@ -37,21 +37,6 @@ def listar_atributos(request):
     @param request: Peticion HTTP
     @return renderiza el form correspondiente
     """
-    # context = RequestContext(request)
-    # if request.method == 'POST':
-    #     form = listar_atributos_form(request.POST)
-    #     if form.is_valid():
-    #         tipoitemID = request.POST.__getitem__('nombre')
-    #         tipoitem = TipoItem.objects.get(id=tipoitemID)
-    #         form = listar_atributos_form()
-    #         return render_to_response('listar_atributos.html',{'form': form,'AttrList': tipoitem.atributos.all()},
-    #                                   context)
-    #     else:
-    #         print form.errors
-    # else:
-    #     attr_list = Attribute.objects.all()
-    #     form = listar_atributos_form()
-    # return render_to_response('listar_atributos.html', {'form': form,'AttrList':attr_list}, context)
     f = AtributoFilter(request.GET, queryset=Attribute.objects.all())
     lista = AtributoTable(f)
 
@@ -136,8 +121,8 @@ def add_atributo(request):
 @login_required
 def edit_tipoitem(request, tipoitem_id):
     """
-    Vista para agregar un tipo de item.
-    @param request: Peticion HTTP
+    Vista para editar un tipo de item.
+    @param request: Peticion HTTP,, itentificador de tipo de item
     @return renderiza el form correspondiente
     """
     #solo ejecutar esta vista si proyecto.estado = pendiente
@@ -176,8 +161,8 @@ def edit_tipoitem(request, tipoitem_id):
 @login_required
 def edit_atributo(request, atributo_id):
     """
-    Vista para agregar un tipo de item.
-    @param request: Peticion HTTP
+    Vista para editar un atributo de tipo de item.
+    @param request: Peticion HTTP, itentificador de atributo
     @return renderiza el form correspondiente
     """
     #solo ejecutar esta vista si proyecto.estado = pendiente
@@ -205,19 +190,11 @@ def edit_atributo(request, atributo_id):
 
 @login_required
 def delete_tipoitem(request,tipoitem_id):
-    # context = RequestContext(request)
-    # if request.method == 'POST':
-    #     form = delete_tipoitem_form(request.POST)
-    #     if form.is_valid():
-    #         tipoitemID = request.POST.__getitem__('nombre')
-    #         tipoitem = TipoItem.objects.get(id=tipoitemID)
-    #         tipoitem.delete()
-    #         return HttpResponseRedirect('/admin_tipoitem/')
-    #     else:
-    #         print form.errors
-    # else:
-    #     form = delete_tipoitem_form()
-    # return render_to_response('delete_tipoitem.html', {'form': form}, context)
+    """
+    Vista para eliminar un tipo de item.
+    @param request: Peticion HTTP, identificador de tipo de item
+    @return renderiza el form correspondiente
+    """
     try:
         tipoitem = TipoItem.objects.get(id=tipoitem_id)
         tipoitem.delete()
@@ -228,19 +205,11 @@ def delete_tipoitem(request,tipoitem_id):
 
 @login_required
 def delete_atributo(request,atributo_id):
-    # context = RequestContext(request)
-    # if request.method == 'POST':
-    #     form = delete_atributo_form(request.POST)
-    #     if form.is_valid():
-    #         attrID = request.POST.__getitem__('nombre')
-    #         attr = Attribute.objects.get(id=attrID)
-    #         attr.delete()
-    #         return HttpResponseRedirect('/listar_atributos/')
-    #     else:
-    #         print form.errors
-    # else:
-    #     form = delete_atributo_form()
-    # return render_to_response('delete_atributo.html', {'form': form}, context)
+    """
+    Vista para eliminar un tipo de item.
+    @param request: Peticion HTTP, identificador de atributo
+    @return renderiza el form correspondiente
+    """
     try:
         atributo = Attribute.objects.get(id=atributo_id)
         atributo.delete()
@@ -250,6 +219,11 @@ def delete_atributo(request,atributo_id):
 
 @login_required
 def importar_tipoitem(request):
+    """
+    Vista para importar un tipo de item a una fase
+    @param request: Peticion HTTP
+    @return renderiza el form correspondiente
+    """
     context = RequestContext(request)
     if request.method == 'POST':
         form = importar_tipooitem_form(request.POST)
