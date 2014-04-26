@@ -22,6 +22,9 @@ from django.core.context_processors import csrf
 from django.contrib.auth.models import User, Group, Permission
 from django.contrib.auth.decorators import login_required
 from principal.tables import UserTable, GroupTable
+from proyecto.forms import ProyectoFilter
+from proyecto.models import Proyecto
+from proyecto.tables import ProyectoTable
 
 
 def home(request):
@@ -30,7 +33,12 @@ def home(request):
     @param request: Peticion HTTP
     @return: Renderiza la pagina correspondiente
     """
-    return render_to_response('index.html', context_instance=RequestContext(request))
+    f = ProyectoFilter(request.GET, queryset=request.user.miembros.all())
+    lista = ProyectoTable(f)
+    RequestConfig(request, paginate={"per_page": 5}).configure(lista)
+
+    return render_to_response('index.html', {'lista': lista, 'filter': f},
+                              context_instance=RequestContext(request))
 
 
 def ingresar(request):
