@@ -22,8 +22,8 @@
             <li><a href="/add_tipoitem/">Crear Tipo de Item</a></li>
             <li><a href="/add_atributo/">Crear atributo</a></li>
             <li><a href="/listar_atributos/">Listar Atributos</a></li>
-            <li><a href="/delete_tipoitem/">Eliminar Tipos de Item</a></li>
-            <li><a href="/delete_atributo/">Eliminar Atributo</a></li>
+{#            <li><a href="/delete_tipoitem/">Eliminar Tipos de Item</a></li>#}
+{#            <li><a href="/delete_atributo/">Eliminar Atributo</a></li>#}
             <li><a href="/importar_tipoitem/">Importar Tipo de Item</a></li>
 
 
@@ -37,14 +37,28 @@
         {% endblock %}
 
 
-       {%  block contenido %}
+{#       {%  block contenido %}#}
 {#            {% render_table TipoItemList %}#}
-                   <p> <b>Nombre de tipo de item</b></p>
-            {% for tipoitem in TipoItemList %}
-                <li><a href="/edit_tipoitem/{{ tipoitem.id }}/">{{ tipoitem }}</a></li>
-            {% endfor %}
-        {% endblock %}
+{#                   <p> <b>Nombre de tipo de item</b></p>#}
+{#            {% for tipoitem in TipoItemList %}#}
+{#                <li><a href="/edit_tipoitem/{{ tipoitem.id }}/">{{ tipoitem }}</a></li>#}
+{#            {% endfor %}#}
+{#        {% endblock %}#}
 
+{%  block contenido %}
+<div class="col-md-3  ">
+    <form  action="" method="get">
+        {{ filter.form | crispy }}
+        <input type="submit" class="btn btn-default"/>
+    </form>
+
+     </div>
+
+    <div class="col-md-8  ">
+           {% render_table lista %}
+
+     </div>
+{% endblock %}
 
 
 

@@ -1,3 +1,4 @@
+import django_filters
 from eav.models import Attribute
 from TipoItemApp.models import TipoItem
 from proyecto.models import Fase
@@ -72,3 +73,14 @@ class delete_atributo_form(forms.Form):
 class importar_tipooitem_form(forms.Form):
     tipoitem = forms.ModelChoiceField(queryset=TipoItem.objects.all(),help_text='Nombre de tipo de item')
     fase = forms.ModelChoiceField(queryset=Fase.objects.all(),help_text='Nombre de Fase')
+
+
+class TipoItemFilter(django_filters.FilterSet):
+    class Meta:
+        model = TipoItem
+        fields = ['nombre', 'descripcion']
+
+class AtributoFilter(django_filters.FilterSet):
+    class Meta:
+        model = Attribute
+        fields = ['name', 'datatype']

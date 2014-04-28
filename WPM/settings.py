@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'proyecto',
     'eav',
     'TipoItemApp',
+    'item',
     'crispy_forms',
     'django_tables2',
     'django_filters',
@@ -149,3 +150,6 @@ TEMPLATE_CONTEXT_PROCESSORS=(
     'django.contrib.messages.context_processors.messages',
     'django.core.context_processors.request'
     )
+
+MEDIA_ROOT = os.path.join(RUTA_PROYECTO,'uploaded_files/')
+print MEDIA_ROOT
