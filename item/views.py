@@ -25,7 +25,7 @@ def add_item(request):
     """
     context = RequestContext(request)
     if request.method == 'POST':
-        form = add_item_form(request.POST)
+        form = add_item_form(request.POST,request.FILES)
         if form.is_valid():
             nombre = request.POST.__getitem__('nombre')
             tipoitemID = request.POST.__getitem__('tipoitem')
@@ -36,7 +36,7 @@ def add_item(request):
             costo = request.POST.__getitem__('costo')
             descripcion = request.POST.__getitem__('descripcion')
             observacion = request.POST.__getitem__('observacion')
-            archivo = request.POST.__getitem__('archivo')
+            #archivo = request.FILES['file']
             t=TipoItem.objects.filter(fases__id__exact=faseID,id=tipoitemID)
             if t.__len__()==0:
                 errors=form._errors.setdefault("fase",ErrorList())
@@ -47,7 +47,7 @@ def add_item(request):
                 errors=form._errors.setdefault("complejidad",ErrorList())
                 errors.append("Ingrese un valor comprendido entre [1-100]")
                 return render_to_response('add_item.html', {'form': form}, context)
-            form.save(commit=True)
+            form.save()
             return HttpResponseRedirect('/item/')
         else:
             print form.errors

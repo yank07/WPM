@@ -37,4 +37,6 @@ class relaciones(models.Model):
     tipo_relacion=models.CharField(max_length=3,choices=RELACION_CHOICES,default='HIJ',help_text='Tipo de relacion')
     item_origen=models.ForeignKey(Item,related_name='item_origen',help_text='Item Origen de la relacion')
     item_destino=models.ForeignKey(Item,related_name='item_destino',help_text='Item Destino de la relacion')
+    class Meta:
+        unique_together=('item_origen','item_destino')
     #unique(origen+destino)

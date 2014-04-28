@@ -152,3 +152,4 @@ TEMPLATE_CONTEXT_PROCESSORS=(
     )
 
 MEDIA_ROOT = os.path.join(RUTA_PROYECTO,'uploaded_files/')
+print MEDIA_ROOT
