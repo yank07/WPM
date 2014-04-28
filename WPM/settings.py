@@ -151,4 +151,4 @@ TEMPLATE_CONTEXT_PROCESSORS=(
     'django.core.context_processors.request'
     )
 
-MEDIA_ROOT = '~/files/'
+MEDIA_ROOT = os.path.join(RUTA_PROYECTO,'uploaded_files/')
