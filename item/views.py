@@ -52,7 +52,7 @@ def add_item(request):
         else:
             print form.errors
     else:
-        form = add_item_form()
+        form = add_item_form(request.GET.__getitem__())
     return render_to_response('add_item.html', {'form': form}, context)
 
 class value_form(forms.Form):

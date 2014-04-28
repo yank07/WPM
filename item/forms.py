@@ -9,12 +9,21 @@ class add_item_form(forms.ModelForm):
     """
     Form para crear items
     """
+
+    def __init__(self, *args, **kwargs):
+        id_fase = kwargs.pop('id_fase')
+        super(add_item_form, self).__init__(*args, **kwargs)
+        self.fields['id_fase'] = id_fase
+
     #observacion=forms.CharField(required=False)
     #archivo = forms.FileField(required=False)
+    tipoitem = forms.ModelChoiceField(queryset=TipoItem.objects.filter(fases__id=self.fields.id_fase))
+
 
     class Meta:
         model=Item
         exclude=['fecha_creacion','fecha_modificacion','estado','id_item','version']
+
 
 class asignar_valor_item_form(forms.Form):
     """

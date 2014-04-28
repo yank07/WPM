@@ -45,7 +45,7 @@ class Proyecto(models.Model):
     miembros = models.ManyToManyField(User, related_name='miembros', help_text='Miembros del proyecto')
     fecha_creacion = models.DateField(auto_now_add=True, help_text="Fecha de Creacion")
     fecha_modificacion = models.DateField(auto_now=True, help_text="Fecha de Ultima Modificacion")
-    usuario_modificacion = models.ForeignKey(User, help_text="Usuario que realizo la ultima modificacion")
+    usuario_modificacion = models.ForeignKey(User, help_text="Usuario que realizo la ultima modificacion", blank=True, default=1)
 
 
     def __unicode__(self):
@@ -67,7 +67,7 @@ class Fase(models.Model):
     nombre=models.CharField(max_length=50, help_text='Nombre de la fase')
     fecha_creacion = models.DateField(auto_now_add=True, help_text="Fecha de Creacion")
     fecha_modificacion = models.DateField(auto_now=True, help_text="Fecha de Ultima Modificacion")
-    usuario_modificacion = models.ForeignKey(User, help_text="Usuario que realizo la ultima modificacion")
+    usuario_modificacion = models.ForeignKey(User, help_text="Usuario que realizo la ultima modificacion", default=1, blank=True)
 
     def __unicode__(self):
         return unicode(self.proyecto.nombre + '_' + self.nombre)
