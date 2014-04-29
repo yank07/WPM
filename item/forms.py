@@ -17,7 +17,7 @@ class add_item_form(forms.ModelForm):
 
     #observacion=forms.CharField(required=False)
     #archivo = forms.FileField(required=False)
-    tipoitem = forms.ModelChoiceField(queryset=TipoItem.objects.filter(fases__id=self.fields.id_fase))
+    #tipoitem = forms.ModelChoiceField(queryset=TipoItem.objects.filter(fases__id=self.fields.id_fase))
 
 
     class Meta:
