@@ -15,6 +15,7 @@ from proyecto.models import Fase
 
 from django.contrib.auth.decorators import login_required
 
+
 @login_required
 def admin_tipoitem(request):
     """
@@ -30,6 +31,7 @@ def admin_tipoitem(request):
     return render_to_response('admin_tipoitem.html', {'lista': lista , 'filter': f},
                               context_instance=RequestContext(request))
 
+
 @login_required
 def listar_atributos(request):
     """
@@ -43,6 +45,7 @@ def listar_atributos(request):
     RequestConfig(request, paginate={"per_page": 5}).configure(lista)
     return render_to_response('listar_atributos.html', {'lista': lista , 'filter': f},
                               context_instance=RequestContext(request))
+
 
 @login_required
 def add_tipoitem(request):
@@ -80,6 +83,7 @@ def add_tipoitem(request):
         form = add_tipoitem_form()
     return render_to_response('add_tipoitem.html', {'form': form}, context)
 
+
 @login_required
 def add_atributo(request):
     """
@@ -100,7 +104,8 @@ def add_atributo(request):
             valor = False
             if obligatorio == 'on':
                 valor = True
-            if request.POST.__getitem__('tipo_item') != '':
+            #if request.POST.__getitem__('tipo_item') != '':
+            if request.POST.__contains__('tipo_item'):
                 tipoitemID = request.POST.__getitem__('tipo_item')
                 print tipoitemID
                 tipoitem = TipoItem.objects.get(id=tipoitemID)
