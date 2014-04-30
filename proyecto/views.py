@@ -40,6 +40,7 @@ def admin_proyecto(request):
     RequestConfig(request, paginate={"per_page": 5}).configure(lista)
     return render_to_response('admin_proyectos.html', {'lista': lista , 'filter': f}, context_instance=RequestContext(request))
 
+
 @login_required
 def add_proyecto(request):
     """
@@ -94,8 +95,6 @@ def proyecto_detail(request,id):
                     errors = form._errors.setdefault("numero_fases", ErrorList())
                     errors.append(error)
                     return render_to_response('edit_proyecto1.html', {'form': form ,'id':proyecto.id}, context_instance=RequestContext(request))
-
-
             f=form.save(commit=False)
             f.usuario_modificacion = request.user
             f.save()
