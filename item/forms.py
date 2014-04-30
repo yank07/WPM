@@ -9,16 +9,13 @@ class add_item_form(forms.ModelForm):
     """
     Form para crear items
     """
+    # def __init__(self, *args, **kwargs):
+    #     id_f = kwargs.pop('id_fase')
+    #     super(add_item_form, self).__init__(*args, **kwargs)
+    #     self.fields['id_fase'] = id_f
+    #     self.fields['tipoitem'].queryset = TipoItem.objects.filter(fases__id=self.fields['id_fase'])
 
-    def __init__(self, *args, **kwargs):
-        id_fase = kwargs.pop('id_fase')
-        super(add_item_form, self).__init__(*args, **kwargs)
-        self.fields['id_fase'] = id_fase
-
-    #observacion=forms.CharField(required=False)
-    #archivo = forms.FileField(required=False)
-    tipoitem = forms.ModelChoiceField(queryset=TipoItem.objects.filter(fases__id=self.fields.id_fase))
-
+    tipoitem = forms.ModelChoiceField(queryset=TipoItem.objects.all())
 
     class Meta:
         model=Item
@@ -31,19 +28,21 @@ class asignar_valor_item_form(forms.Form):
     """
     def __init__(self, *args, **kwargs):
         attrs = kwargs.pop('atributos')
-        print attrs
         super(asignar_valor_item_form, self).__init__(*args, **kwargs)
         for attr in attrs:
-            print attr.datatype
             if attr.datatype == 'int':
                 self.fields[attr.name] = forms.IntegerField(label=attr.name+'('+attr.datatype+')',required=attr.required)
             if attr.datatype == 'float':
                 self.fields[attr.name] = forms.DecimalField(label=attr.name+'('+attr.datatype+')',required=attr.required)
             if attr.datatype == 'date':
                 self.fields[attr.name] = forms.DateField(label=attr.name+'('+attr.datatype+')',required=attr.required,
-                                                         show_hidden_initial='2014-01-01',input_formats='YYYY-MM-DD')
+                                                         show_hidden_initial='2014-01-01')
             if attr.datatype == 'text':
                 self.fields[attr.name] = forms.CharField(label=attr.name+'('+attr.datatype+')',required=attr.required)
             if attr.datatype == 'bool':
                 self.fields[attr.name] = forms.BooleanField(label=attr.name+'('+attr.datatype+')',required=attr.required)
 
+class ItemFilter(django_filters.FilterSet):
+    class Meta:
+        model = Item
+        fields = ['nombre']
