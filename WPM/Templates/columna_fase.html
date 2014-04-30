@@ -1,5 +1,6 @@
 {% if user.is_staff %}
  <a href="/proyectos/fases/{{ record.id }}"><input class="btn btn-xs btn-default" type="submit" name="submit" value="Editar" /></a>
+ <a href="/proyectos/fases/importar_fase/{{ record.id }}"><input class="btn btn-xs btn-default" type="submit" name="submit" value="Imp T. Items de fase" /></a>
 {% endif %}
 {% if not user.is_staff %}
  <a href="/item/add_item/?id_fase={{ record.id }}"><input class="btn btn-xs btn-default" type="submit" name="submit" value="Ver Items" /></a>

@@ -23,6 +23,8 @@ from django_tables2   import RequestConfig
 from proyecto.tables  import ProyectoTable , FasesTable
 from django.views.generic.edit import UpdateView
 from django.forms.util import ErrorList
+from proyecto.forms import *
+from TipoItemApp.models import TipoItem
 # Create your views here.
 
 
@@ -180,6 +182,40 @@ def delete_fase(request,id):
         #Controlar si el Proyecto esta activo
         fase.delete()
         return HttpResponseRedirect('/proyecto_view/'+ str(proyecto.id)+"/")
+
+
+
+@login_required
+def importar_fase(request,fase_id):
+    """
+    Vista para importar un tipo de item a una fase
+    @param request: Peticion HTTP
+    @return renderiza el form correspondiente
+    """
+    context = RequestContext(request)
+    if request.method == 'POST':
+        form = importar_fase_form(request.POST)
+        if form.is_valid():
+            faseID = request.POST.__getitem__('fase')
+            fase = Fase.objects.get(id=faseID)
+
+            fase2 = Fase.objects.get(id=fase_id)
+
+            ti=TipoItem.objects.filter(fases__id=fase.id)
+            n=0
+            for t in ti:
+
+                print ti[n].fases.add(fase2)
+                n=n+1
+
+
+            #tipoitem.fases.add(fase)
+            return HttpResponseRedirect('/admin_proyecto/')
+        else:
+            print form.errors
+    else:
+        form = importar_fase_form()
+    return render_to_response('importar_fase.html', {'form': form}, context)
 
 
 
