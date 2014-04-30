@@ -19,8 +19,8 @@ from django.contrib.auth.models import User, Group
 #from principal.models import Rol
 from proyecto.models import Proyecto, Fase
 from django.contrib.auth.decorators import login_required
-from django_tables2   import RequestConfig
-from proyecto.tables  import ProyectoTable , FasesTable
+from django_tables2 import RequestConfig
+from proyecto.tables import ProyectoTable , FasesTable
 from django.views.generic.edit import UpdateView
 from django.forms.util import ErrorList
 from proyecto.forms import *
@@ -58,9 +58,9 @@ def add_proyecto(request):
         # el form es valido?
         if form.is_valid():
             # guardar
-            p = form.save(commit=False)
+            p = form.save()
+            # p = form.save(commit=False)
             p.usuario_modificacion = request.user
-            print p.usuario_modificacion
             p.save()
             return HttpResponseRedirect('/admin_proyectos')
         else:
@@ -97,7 +97,7 @@ def proyecto_detail(request,id):
                     errors = form._errors.setdefault("numero_fases", ErrorList())
                     errors.append(error)
                     return render_to_response('edit_proyecto1.html', {'form': form ,'id':proyecto.id}, context_instance=RequestContext(request))
-            f=form.save(commit=False)
+            f=form.save()
             f.usuario_modificacion = request.user
             f.save()
             return HttpResponseRedirect('/admin_proyectos')
