@@ -222,6 +222,7 @@ def delete_atributo(request,atributo_id):
         pass
     return HttpResponseRedirect('/listar_atributos/')
 
+
 @login_required
 def importar_tipoitem(request):
     """
