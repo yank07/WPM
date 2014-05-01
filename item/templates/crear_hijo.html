@@ -1,0 +1,22 @@
+{% extends 'index.html' %}
+{% load crispy_forms_tags %}
+{% block contenido %}
+        <h3>Crear Relacion Padre-Hijo</h3>
+<div class="row">
+
+        <div class="col-md-4  col-md-offset-4">
+
+             <form id="crear_sucesor_form" method="post" action="{% url 'item.views.crear_hijo' id_fase %}">
+
+                {% csrf_token %}
+                <table>
+                {% crispy form %}
+                </table>
+
+                <input type="submit" name="submit" value="Crear Hijo" />
+            </form>
+
+        </div>
+      </div>
+
+{% endblock %}

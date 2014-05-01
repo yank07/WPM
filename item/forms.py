@@ -46,3 +46,18 @@ class ItemFilter(django_filters.FilterSet):
     class Meta:
         model = Item
         fields = ['nombre']
+
+class edit_item_form(forms.ModelForm):
+    """
+    Form para editar item
+    """
+    class Meta:
+        model=Item
+        fields=['complejidad','costo','estado','descripcion','observacion','archivo']
+
+class crear_sucesor_form(forms.Form):
+    """
+    Form para crear relacion Sucesor entre fases adyacentes
+    """
+    items_origen = forms.ModelChoiceField(queryset=Item.objects.all())
+    items_destino = forms.ModelChoiceField(queryset=Item.objects.all())

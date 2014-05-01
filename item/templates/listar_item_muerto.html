@@ -19,10 +19,6 @@
     <nav class="menu1">
 
         <ul>
-            <li><a id="link" href={% url 'item.views.add_item' id_fase %}>Crear Item</a></li>
-            <li><a id="link" href={% url 'item.views.listar_item_muerto' id_fase %}>Revivir Items</a></li>
-            <li><a id="link" href={% url 'item.views.crear_sucesor' id_fase %}>Crear Sucesor</a></li>
-            <li><a id="link" href={% url 'item.views.crear_hijo' id_fase %}>Crear Hijo</a></li>
             {% block listaproyecto %}
             {% endblock %}
 

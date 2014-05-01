@@ -19,15 +19,17 @@ class Item(models.Model):
     estado=models.CharField(max_length=5,choices=ESTADOS_CHOICES,default='ACT')
     descripcion = models.CharField(max_length=50, help_text='Descripcion del Item')
     observacion = models.CharField(blank=True,max_length=50, help_text='Observacion del Item')
-    id_item=models.IntegerField(blank=True, null=True,help_text='Diferentes versiones de un item tienen el mismo id_item')
+    #id_item=models.IntegerField(blank=True, null=True,help_text='Diferentes versiones de un item tienen el mismo id_item')
     version=models.IntegerField(blank=True,default=0,help_text='Version del Item')
     fecha_creacion=models.DateField(auto_now_add=True)
     fecha_modificacion=models.DateField(auto_now=True)
     archivo=models.FileField(blank=True,upload_to='files')
 
     #estuvo en linea base?
+    class Meta:
+        unique_together=('nombre','version')
     def __unicode__(self):
-        return unicode(self.nombre)
+        return unicode(self.fase.nombre+'_'+self.nombre)
 
 class relaciones(models.Model):
     RELACION_CHOICES = (
@@ -38,5 +40,5 @@ class relaciones(models.Model):
     item_origen=models.ForeignKey(Item,related_name='item_origen',help_text='Item Origen de la relacion')
     item_destino=models.ForeignKey(Item,related_name='item_destino',help_text='Item Destino de la relacion')
     class Meta:
-        unique_together=('item_origen','item_destino')
+        unique_together=(('item_origen','item_destino'),('item_destino','item_origen'))
     #unique(origen+destino)
