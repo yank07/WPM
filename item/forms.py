@@ -19,7 +19,7 @@ class add_item_form(forms.ModelForm):
 
     class Meta:
         model=Item
-        exclude=['fecha_creacion','fecha_modificacion','estado','id_item','version']
+        exclude=['fecha_creacion','fecha_modificacion','estado','id_item','version','rango_valor_inicio','rango_valor_final']
 
 
 class asignar_valor_item_form(forms.Form):

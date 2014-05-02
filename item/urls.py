@@ -13,5 +13,8 @@ urlpatterns = patterns('',
     url(r'^revivir_item/(\d+)/$', views.revivir_item, name='revivir_item'),
 
     url(r'^crear_sucesor/(\d+)/$', views.crear_sucesor, name='crear_sucesor'),
-    url(r'^crear_hjio/(\d+)/$', views.crear_hijo, name='crear_hijo'),
+    url(r'^crear_hijo/(\d+)/$', views.crear_hijo, name='crear_hijo'),
+
+    url(r'^listar_versiones/(\d+)/$', views.listar_versiones, name='listar_versiones'),
+    url(r'^revertir_item/(?P<id_item>\d+)/(?P<version>\d+)$', views.revertir_item, name='revertir_item'),
 )

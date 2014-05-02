@@ -13,7 +13,7 @@ from TipoItemApp.models import TipoItem
 from TipoItemApp.tables import TipoItemTable, AtributoTable
 from item.forms import add_item_form, asignar_valor_item_form, ItemFilter, edit_item_form, crear_sucesor_form
 from item.models import Item, relaciones
-from item.tables import ItemTable, RevivirItemTable
+from item.tables import ItemTable, RevivirItemTable, RevertirItemTable
 from proyecto.models import Fase, Proyecto
 from django.contrib.auth.decorators import login_required
 from django.forms.formsets import formset_factory
@@ -26,6 +26,7 @@ def add_item(request,id_fase):
     @param request: Peticion HTTP
     @return renderiza el form correspondiente
     """
+    #revisar por que id ya existe (algunas veces)
     context = RequestContext(request)
     if request.method == 'POST':
         form = add_item_form(request.POST,request.FILES)
@@ -86,43 +87,49 @@ def asignar_valor_item(request,id_item):
         form = asignar_valor_item_form(request.POST,atributos=attr_list)
 
         if form.is_valid():
+            rango_valor_inicio = Value.objects.last().id
+            rango_valor_final = 0
+            first=True
             for attr in attr_list:
+                print attr
                 valor = request.POST.__getitem__(attr.name)
-                if Value.objects.filter(entity_id=item.id, attribute_id=attr.id).__len__() == 0:
-                    Value.objects.create(entity=item, attribute=attr,value=valor)
-                else:
-                    item_nuevo = item
-                    item_nuevo.id = Item.objects.last().id+1
-                    item_nuevo.version=item_nuevo.version+1
-                    item_nuevo.save()
-                    Value.objects.create(entity=item_nuevo, attribute=attr, value=valor)
-                    #value = Value.objects.get(entity_id=item_nuevo.id, attribute_id=attr.id)
-                    #value.value=valor
-                    #value.save()
+                print valor
+                Value.objects.create(entity=item, attribute=attr, value=valor)
+                id = Value.objects.last().id
+                if first:
+                    rango_valor_inicio = id
+                    first=False
+                rango_valor_final = id
+            #endfor
+            item_nuevo = item
+            item_nuevo.version=item_nuevo.version+1
+            item_nuevo.rango_valor_inicio=rango_valor_inicio
+            item_nuevo.rango_valor_final=rango_valor_final
+            item_nuevo.save()
             id_fase = item.fase_id
             return HttpResponseRedirect('/item/listar_item/'+str(id_fase))
         else:
             print form.errors
     else:
         attr_value_dict=[]
-        try:
+        if item.rango_valor_inicio < item.rango_valor_final:
+            valor_id=item.rango_valor_inicio
             for attr in attr_list:
-                value = Value.objects.get(entity_id=id_item, attribute_id=attr.id)
+                value = Value.objects.get(id=valor_id)
                 valor=value.value
                 if attr.datatype=='date':
                     iso=valor.isoformat()
                     tokens = iso.strip().split("T")
                     valor = "%s" % (tokens[0])
-
-
                 attr_value = attr.name, valor
                 attr_value_dict.append(attr_value)
-        except Value.DoesNotExist:
-            print 'Ningun valor'
+                valor_id = valor_id + 1
+            #endfor
+        #endif
         attr_value_dict = dict(attr_value_dict)
-        print attr_value_dict
         form = asignar_valor_item_form(atributos=attr_list, initial=attr_value_dict)
     return render_to_response('asignar_valor_item.html', {'form': form,'id_item':id_item}, context)
+
 
 def listar_item(request,id_fase):
     """
@@ -192,6 +199,8 @@ def edit_item(request,id_item):
                 item_nuevo.version=item_nuevo.version+1
 
             item_nuevo.save()
+            if change==False:
+                item_nuevo.history.last().delete()
 
             return HttpResponseRedirect('/item/listar_item/'+str(item_original.fase_id))
         else:
@@ -229,6 +238,8 @@ def revivir_item(request,id_item):
     item = Item.objects.get(id=id_item)
     item.estado='ACT'
     item.save()
+    #un cambio de estado no implica una nueva version del item
+    item.history.last().delete()
     return HttpResponseRedirect('/item/listar_item/'+str(item.fase_id))
 
 def crear_sucesor(request,id_fase):
@@ -253,8 +264,8 @@ def crear_sucesor(request,id_fase):
     else:
         form = crear_sucesor_form()
         fase=Fase.objects.get(id=id_fase)
-        proyectos=Fase.objects.filter(proyecto_id=fase.proyecto_id)
-        id_fase_ultimo = proyectos.aggregate(Max('id'))
+        fases=Fase.objects.filter(proyecto_id=fase.proyecto_id)
+        id_fase_ultimo = fases.aggregate(Max('id'))
         if str(id_fase) == str(id_fase_ultimo['id__max']):
             error=True
         else:
@@ -307,3 +318,32 @@ def crear_hijo(request,id_fase):
         form.fields["items_origen"].queryset = Item.objects.filter(fase__id=id_fase)
         form.fields["items_destino"].queryset = Item.objects.filter(fase__id=id_fase)
     return render_to_response('crear_hijo.html', {'form': form,'id_fase':id_fase}, context)
+
+def listar_versiones(request, id_item):
+    """
+    Vista para ver las versiones anteriores de un item
+    @param request: Peticion HTTP, id del item
+    @return renderiza el form correspondiente
+    """
+    item = Item.objects.get(id=id_item)
+    queryset = item.history
+
+    f = ItemFilter(request.GET, queryset=queryset)
+    lista = RevertirItemTable(f)
+
+    RequestConfig(request, paginate={"per_page": 5}).configure(lista)
+    return render_to_response('historial_item.html', {'lista': lista , 'filter': f,'id_item':id_item},
+                              context_instance=RequestContext(request))
+
+def revertir_item(request, id_item, version):
+    """
+    Vista para revertir un item a una version anterior
+    @param request: Peticion HTTP, id del item
+    @return renderiza el form correspondiente
+    """
+    item = Item.objects.get(id=id_item)
+    item_nuevo = item.history.get(id=id_item,version=version)
+    item.copy(item_nuevo)
+    item.save()
+    item_nuevo.delete()
+    return HttpResponseRedirect('/item/listar_item/'+str(item.fase_id))

@@ -24,3 +24,14 @@ class RevivirItemTable(tables.Table):
         attrs = {"class": "paleblue"}
         fields = ("nombre", "id","complejidad","costo","estado","version","archivo")
         sequence = ("nombre", "id","complejidad","costo","estado","version","archivo")
+
+class RevertirItemTable(tables.Table):
+    nombre = tables.Column(verbose_name="Nombre del item")
+    my_column = tables.TemplateColumn(verbose_name=('Editar'),
+                                    template_code='<a href="/item/revertir_item/{{ record.id }}/{{ record.version }}"><input class="btn btn-xs btn-default" type="submit" name="submit" value="Revertir" /></a>',
+                                    sortable=False)
+    class Meta:
+        model = Item
+        attrs = {"class": "paleblue"}
+        fields = ("nombre", "id","complejidad","costo","estado","version","archivo")
+        sequence = ("nombre", "id","complejidad","costo","estado","version","archivo")

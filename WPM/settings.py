@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'eav',
     'TipoItemApp',
     'item',
+    'simple_history',
     'crispy_forms',
     'django_tables2',
     'django_filters',
