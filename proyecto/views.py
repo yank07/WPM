@@ -19,10 +19,12 @@ from django.contrib.auth.models import User, Group
 #from principal.models import Rol
 from proyecto.models import Proyecto, Fase
 from django.contrib.auth.decorators import login_required
-from django_tables2   import RequestConfig
-from proyecto.tables  import ProyectoTable , FasesTable
+from django_tables2 import RequestConfig
+from proyecto.tables import ProyectoTable , FasesTable
 from django.views.generic.edit import UpdateView
 from django.forms.util import ErrorList
+from proyecto.forms import *
+from TipoItemApp.models import TipoItem
 # Create your views here.
 
 
@@ -39,6 +41,7 @@ def admin_proyecto(request):
 
     RequestConfig(request, paginate={"per_page": 5}).configure(lista)
     return render_to_response('admin_proyectos.html', {'lista': lista , 'filter': f}, context_instance=RequestContext(request))
+
 
 @login_required
 def add_proyecto(request):
@@ -57,7 +60,6 @@ def add_proyecto(request):
             # guardar
             p = form.save()
             p.usuario_modificacion = request.user
-            print p.usuario_modificacion
             p.save()
             return HttpResponseRedirect('/admin_proyectos')
         else:
@@ -94,8 +96,6 @@ def proyecto_detail(request,id):
                     errors = form._errors.setdefault("numero_fases", ErrorList())
                     errors.append(error)
                     return render_to_response('edit_proyecto1.html', {'form': form ,'id':proyecto.id}, context_instance=RequestContext(request))
-
-
             f=form.save()
             f.usuario_modificacion = request.user
             f.save()
@@ -181,6 +181,40 @@ def delete_fase(request,id):
         #Controlar si el Proyecto esta activo
         fase.delete()
         return HttpResponseRedirect('/proyecto_view/'+ str(proyecto.id)+"/")
+
+
+
+@login_required
+def importar_fase(request,fase_id):
+    """
+    Vista para importar un tipo de item a una fase
+    @param request: Peticion HTTP
+    @return renderiza el form correspondiente
+    """
+    context = RequestContext(request)
+    if request.method == 'POST':
+        form = importar_fase_form(request.POST)
+        if form.is_valid():
+            faseID = request.POST.__getitem__('fase')
+            fase = Fase.objects.get(id=faseID)
+
+            fase2 = Fase.objects.get(id=fase_id)
+
+            ti=TipoItem.objects.filter(fases__id=fase.id)
+            n=0
+            for t in ti:
+
+                print ti[n].fases.add(fase2)
+                n=n+1
+
+
+            #tipoitem.fases.add(fase)
+            return HttpResponseRedirect('/admin_proyecto/')
+        else:
+            print form.errors
+    else:
+        form = importar_fase_form()
+    return render_to_response('importar_fase.html', {'form': form}, context)
 
 
 

@@ -174,9 +174,6 @@ def edit_rol(request, rol_name):
     else:
         rol = Group.objects.get(name=rol_name)
         formulario = RolForm(request.POST, instance=rol)
-        if formulario.eliminar:
-            rol.delete()
-            return HttpResponseRedirect('/admin_roles')
         lista_permisos = request.POST.getlist('permissions')
         nueva_lista = []
         for permiso_id in lista_permisos:

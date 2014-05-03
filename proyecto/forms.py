@@ -38,3 +38,8 @@ class FaseForm(forms.ModelForm):
     class Meta:
         model = Fase
         fields = [ 'nombre','proyecto']
+
+
+class importar_fase_form(forms.Form):
+
+    fase = forms.ModelChoiceField(queryset=Fase.objects.all(),help_text='Nombre de Fase')
