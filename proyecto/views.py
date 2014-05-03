@@ -209,7 +209,7 @@ def importar_fase(request,fase_id):
 
 
             #tipoitem.fases.add(fase)
-            return HttpResponseRedirect('/admin_proyecto/')
+            return HttpResponseRedirect('/admin_proyectos/')
         else:
             print form.errors
     else:
