@@ -1,4 +1,4 @@
-from ORBit.CORBA import completion_status
+
 from django import forms
 from django.db.models import Max, Min
 from django.forms.util import ErrorList
