@@ -36,7 +36,7 @@ class Proyecto(models.Model):
     Guarda una entrada de un proyecto.
 
     """
-    usuario = models.ForeignKey(User,related_name='proyectos', help_text='Usuario creador del proyecto')
+    usuario = models.ForeignKey(User,related_name='proyectos', help_text='Usuario creador del proyecto',verbose_name='Lider De Proyecto')
     nombre=models.CharField(max_length=50, help_text='Nombre del Proyecto')
     presupuesto=models.IntegerField(default=0, help_text='Presupuesto del proyecto')
     observaciones=models.TextField(max_length=200, help_text='Observaciones del proyecto')
