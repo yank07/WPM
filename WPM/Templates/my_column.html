@@ -1,5 +1,6 @@
-
+{% if user.is_staff %}
  <a href="/proyectos/{{ record.id }}"><input class="btn btn-xs btn-default" type="submit" name="submit" value="Editar" /></a>
-
-
+{% endif %}
+{% if not user.is_staff %}
  <a href="/proyecto_view/{{ record.id }}"><input class="btn btn-xs btn-default" type="submit" name="submit" value="Ver Fases" /></a>
+{% endif %}
