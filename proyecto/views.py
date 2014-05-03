@@ -59,7 +59,6 @@ def add_proyecto(request):
         if form.is_valid():
             # guardar
             p = form.save()
-            # p = form.save(commit=False)
             p.usuario_modificacion = request.user
             p.save()
             return HttpResponseRedirect('/admin_proyectos')
