@@ -1,5 +1,6 @@
+from ORBit.CORBA import completion_status
 from django import forms
-from django.db.models import Max
+from django.db.models import Max, Min
 from django.forms.util import ErrorList
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, render_to_response
@@ -18,6 +19,7 @@ from proyecto.models import Fase, Proyecto
 from django.contrib.auth.decorators import login_required
 from django.forms.formsets import formset_factory
 import time
+from django.db import IntegrityError
 
 @login_required
 def add_item(request,id_fase):
@@ -32,15 +34,15 @@ def add_item(request,id_fase):
         form = add_item_form(request.POST,request.FILES)
 
         if form.is_valid():
-            #nombre = request.POST.__getitem__('nombre')
-            #tipoitemID = request.POST.__getitem__('tipoitem')
-            #tipoitem = TipoItem.objects.get(id=tipoitemID)
+            nombre = request.POST.__getitem__('nombre')
+            tipoitemID = request.POST.__getitem__('tipoitem')
+            tipoitem = TipoItem.objects.get(id=tipoitemID)
             faseID = request.POST.__getitem__('fase')
             #fase = TipoItem.objects.get(fases__id=faseID)
             complejidad = request.POST.__getitem__('complejidad')
-            #costo = request.POST.__getitem__('costo')
-            #descripcion = request.POST.__getitem__('descripcion')
-            #observacion = request.POST.__getitem__('observacion')
+            costo = request.POST.__getitem__('costo')
+            descripcion = request.POST.__getitem__('descripcion')
+            observacion = request.POST.__getitem__('observacion')
             #archivo = request.FILES['file']
             # t=TipoItem.objects.filter(fases__id__exact=faseID,id=tipoitemID)
             # if t.__len__()==0:
@@ -56,15 +58,53 @@ def add_item(request,id_fase):
                 errors=form._errors.setdefault("complejidad",ErrorList())
                 errors.append("Ingrese un valor comprendido entre [1-100]")
                 return render_to_response('add_item.html', {'form': form,'id_fase':id_fase}, context)
-            form.save()
+
+            #item = Item.objects.create(nombre=nombre,fase=faseID,costo=costo,complejidad=complejidad,descripcion=descripcion,archivo=archivo,observacion=observacion)
+            #item.tipoitem.add(tipoitem)
+            try:
+                item=form.save()
+            except IntegrityError:
+                errors=form._errors.setdefault("nombre",ErrorList())
+                errors.append("El nombre del Item debe ser unico")
+                return render_to_response('add_item.html', {'form': form,'id_fase':id_fase}, context)
+
+
+
+            item_origen_id_list = request.POST.getlist('antecesor')
+            for item_origen_id in item_origen_id_list:
+                item_origen = Item.objects.get(id=item_origen_id)
+                relaciones.objects.create(tipo_relacion='SUC',item_origen_id=item_origen_id,item_destino_id=item.id,
+                                          item_origen_version=item_origen.version,item_destino_version=item.version)
+            item_origen_id_list = request.POST.getlist('padre')
+            for item_origen_id in item_origen_id_list:
+                item_origen = Item.objects.get(id=item_origen_id)
+                relaciones.objects.create(tipo_relacion='HIJ',item_origen_id=item_origen_id,item_destino_id=item.id,
+                                          item_origen_version=item_origen.version,item_destino_version=item.version)
+
             return HttpResponseRedirect('/item/listar_item/'+id_fase)
         else:
             print form.errors
             form.fields["tipoitem"].queryset = TipoItem.objects.filter(fases__id=id_fase)
+            form.fields["antecesor"].queryset = Item.objects.filter(fase__id=int(id_fase)-1, estado="BLOQ")
+            form.fields["padre"].queryset = Item.objects.filter(fase__id=int(id_fase)).exclude(estado='ELIM')
+
     else:
         form = add_item_form(initial={'fase':id_fase})
+        print id_fase
+        fase=Fase.objects.get(id=id_fase)
+        fases=Fase.objects.filter(proyecto_id=fase.proyecto_id)
+        id_fase_primero = fases.aggregate(Min('id'))
+        print id_fase_primero
+        form.fields["padre"].queryset = Item.objects.filter(fase__id=int(id_fase)).exclude(estado='ELIM')
+        if id_fase_primero != id_fase:
+            print "no primero"
+            fase_anterior=int(id_fase)-1
+            form.fields["antecesor"].queryset = Item.objects.filter(fase__id=fase_anterior, estado="BLOQ")
+        else:
+            form.fields["antecesor"].queryset = Item.objects.none()
         form.fields["tipoitem"].queryset = TipoItem.objects.filter(fases__id=id_fase)
-        print form.as_table()
+
+       # print form.as_table()
 
     return render_to_response('add_item.html', {'form': form,'id_fase':id_fase}, context)
 
@@ -87,15 +127,15 @@ def asignar_valor_item(request,id_item):
         form = asignar_valor_item_form(request.POST,atributos=attr_list)
 
         if form.is_valid():
-            rango_valor_inicio = Value.objects.last().id
+            rango_valor_inicio = 0
             rango_valor_final = 0
             first=True
             for attr in attr_list:
                 print attr
                 valor = request.POST.__getitem__(attr.name)
                 print valor
-                Value.objects.create(entity=item, attribute=attr, value=valor)
-                id = Value.objects.last().id
+                valor =Value.objects.create(entity=item, attribute=attr, value=valor)
+                id = valor.id
                 if first:
                     rango_valor_inicio = id
                     first=False
@@ -160,42 +200,60 @@ def edit_item(request,id_item):
         if form.is_valid():
             change=False
             item_nuevo=item_original
-            complejidad = request.POST.__getitem__('complejidad')
+            item_nuevo.copy(item_original)
+            complejidad_form = request.POST.__getitem__('complejidad')
+            complejidad_item = item_original.complejidad
 
-            item_nuevo.complejidad=complejidad
-            if int(complejidad) > 100 or int(complejidad) < 1:
+            item_nuevo.complejidad=complejidad_form
+
+            if int(complejidad_form) > 100 or int(complejidad_form) < 1:
                 errors=form._errors.setdefault("complejidad",ErrorList())
                 errors.append("Ingrese un valor comprendido entre [1-100]")
-                return render_to_response('add_item.html', {'form': form,'id_item':id_item}, context)
-            if complejidad != item_original.complejidad:
+                return render_to_response('edit_item.html', {'form': form,'id_item':id_item}, context)
+            if int(complejidad_item) != int(complejidad_form):
                 change = True
 
-            costo = request.POST.__getitem__('costo')
-            item_nuevo.costo=costo
-            if costo != item_original.costo:
+            costo_form = request.POST.__getitem__('costo')
+            costo_item = item_original.costo
+            item_nuevo.costo=costo_form
+            if int(costo_item) != int(costo_form):
                 change = True
 
-            descripcion = request.POST.__getitem__('descripcion')
-            item_nuevo.descripcion=descripcion
-            if descripcion != item_original.descripcion:
+            descripcion_form = request.POST.__getitem__('descripcion')
+            item_nuevo.descripcion=descripcion_form
+            descripcion_item = item_original.descripcion
+            if descripcion_form != descripcion_item:
                 change = True
 
-            observacion = request.POST.__getitem__('observacion')
-            item_nuevo.observacion=observacion
-            if observacion != item_original.observacion:
+            observacion_form = request.POST.__getitem__('observacion')
+            item_nuevo.observacion=observacion_form
+            observacion_item = item_original.observacion
+            if observacion_form != observacion_item:
                 change = True
 
-            estado = request.POST.__getitem__('estado')
-            item_nuevo.estado=estado
+            estado_form = request.POST.__getitem__('estado')
+            estado_item = item_original.estado
+            item_nuevo.estado=estado_form
+            print estado_form
+            print estado_item
+            if estado_form != estado_item:
+                print 'ENTRO!'
+                if estado_form == 'ELIM':
+                    sucesores_hijos = relaciones.objects.filter(item_origen_id=id_item)
+                    print 'ENTRO2!'
+                    for sh in sucesores_hijos:
+                        sh.delete()
+                    antecesore_padres = relaciones.objects.filter(item_destino_id=id_item)
+                    for ap in antecesore_padres:
+                        ap.activo=False
+                        ap.save()
 
             file = form.cleaned_data['archivo']
             if file is not None:
                 change=True
-                #print file.name
                 item_nuevo.archivo=file
 
             if change:
-                item_nuevo.id = Item.objects.last().id+1
                 item_nuevo.version=item_nuevo.version+1
 
             item_nuevo.save()
@@ -238,6 +296,12 @@ def revivir_item(request,id_item):
     item = Item.objects.get(id=id_item)
     item.estado='ACT'
     item.save()
+    #existe_inconsistencia?
+    ancestros =relaciones.objects.filter(item_destino_id=id_item, item_destino_version = item.version)
+    for relacion in ancestros:
+        relacion.activo=True
+        relacion.save()
+
     #un cambio de estado no implica una nueva version del item
     item.history.last().delete()
     return HttpResponseRedirect('/item/listar_item/'+str(item.fase_id))
@@ -255,9 +319,11 @@ def crear_sucesor(request,id_fase):
         if form.is_valid():
             item_origen_id = request.POST.__getitem__('items_origen')
             item_destino_id = request.POST.__getitem__('items_destino')
-            print item_origen_id
-            print item_destino_id
-            relaciones.objects.create(tipo_relacion='SUC',item_origen_id=item_origen_id,item_destino_id=item_destino_id)
+            item_origen = Item.objects.get(id=item_origen_id)
+            item_destino = Item.objects.get(id=item_destino_id)
+
+            relaciones.objects.create(tipo_relacion='SUC',item_origen_id=item_origen_id,item_destino_id=item_destino_id,
+                                      item_origen_version=item_origen.version,item_destino_version=item_destino.version)
             return HttpResponseRedirect('/item/listar_item/'+id_fase)
         else:
             print form.errors
@@ -269,7 +335,7 @@ def crear_sucesor(request,id_fase):
         if str(id_fase) == str(id_fase_ultimo['id__max']):
             error=True
         else:
-            form.fields["items_origen"].queryset = Item.objects.filter(fase__id=id_fase)
+            form.fields["items_origen"].queryset = Item.objects.filter(fase__id=id_fase,estado="BLOQ")
             form.fields["items_destino"].queryset = Item.objects.filter(fase__id=str(int(id_fase)+1))
     return render_to_response('crear_sucesor.html', {'form': form,'id_fase':id_fase,'error':error}, context)
 
@@ -307,9 +373,13 @@ def crear_hijo(request,id_fase):
                     form.fields["items_destino"].queryset = Item.objects.filter(fase__id=id_fase)
                     return render_to_response('crear_hijo.html', {'form': form,'id_fase':id_fase}, context)
                 else:
+                    item_origen = Item.objects.get(id=item_origen_id)
+                    item_destino = Item.objects.get(id=item_destino_id)
                     relaciones.objects.create(tipo_relacion='HIJ',
                                       item_origen_id=item_origen_id,
-                                      item_destino_id=item_destino_id)
+                                      item_destino_id=item_destino_id,
+                                      item_origen_version=item_origen.version,
+                                      item_destino_version=item_destino.version)
             return HttpResponseRedirect('/item/listar_item/'+id_fase)
         else:
             print form.errors

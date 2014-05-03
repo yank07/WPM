@@ -9,18 +9,12 @@ class add_item_form(forms.ModelForm):
     """
     Form para crear items
     """
-    # def __init__(self, *args, **kwargs):
-    #     id_f = kwargs.pop('id_fase')
-    #     super(add_item_form, self).__init__(*args, **kwargs)
-    #     self.fields['id_fase'] = id_f
-    #     self.fields['tipoitem'].queryset = TipoItem.objects.filter(fases__id=self.fields['id_fase'])
-
     tipoitem = forms.ModelChoiceField(queryset=TipoItem.objects.all())
-
+    antecesor = forms.ModelMultipleChoiceField(queryset=Item.objects.all(), required=False)
+    padre = forms.ModelMultipleChoiceField(queryset=Item.objects.all(), required=False)
     class Meta:
         model=Item
         exclude=['fecha_creacion','fecha_modificacion','estado','id_item','version','rango_valor_inicio','rango_valor_final']
-
 
 class asignar_valor_item_form(forms.Form):
     """

@@ -33,5 +33,5 @@ class RevertirItemTable(tables.Table):
     class Meta:
         model = Item
         attrs = {"class": "paleblue"}
-        fields = ("nombre", "id","complejidad","costo","estado","version","archivo")
-        sequence = ("nombre", "id","complejidad","costo","estado","version","archivo")
+        fields = ("nombre", "id","complejidad","costo","estado","version")
+        sequence = ("nombre", "id","complejidad","costo","estado","version")

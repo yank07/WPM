@@ -55,7 +55,7 @@ def add_proyecto(request):
         # el form es valido?
         if form.is_valid():
             # guardar
-            p = form.save(commit=False)
+            p = form.save()
             p.usuario_modificacion = request.user
             print p.usuario_modificacion
             p.save()
@@ -96,7 +96,7 @@ def proyecto_detail(request,id):
                     return render_to_response('edit_proyecto1.html', {'form': form ,'id':proyecto.id}, context_instance=RequestContext(request))
 
 
-            f=form.save(commit=False)
+            f=form.save()
             f.usuario_modificacion = request.user
             f.save()
             return HttpResponseRedirect('/admin_proyectos')
