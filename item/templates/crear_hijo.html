@@ -1,5 +1,12 @@
-{% extends 'index.html' %}
+{% extends 'listar_item.html' %}
 {% load crispy_forms_tags %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb 'Crear Hijo' "item.views.crear_hijo" id_fase %}
+{% endblock %}
+
 {% block contenido %}
         <h3>Crear Relacion Padre-Hijo</h3>
 <div class="row">

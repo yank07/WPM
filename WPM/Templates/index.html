@@ -16,6 +16,7 @@
  {% block head %}
     {% load crispy_forms_tags %}
     {% load render_table from django_tables2 %}
+    {% load django_bootstrap_breadcrumbs %}
 {% endblock %}
 
 </head>
@@ -66,6 +67,22 @@
    {%   block nav %}
     {% endblock %}
 
+{% if not user.is_staff %}
+    {% block breadcrumbs %}
+        {% breadcrumb 'Inicio' 'principal.views.home' %}
+    {% endblock %}
+
+    {% block breadcrumbs_render %}
+        <div>
+            {% render_breadcrumbs "django_bootstrap_breadcrumbs/bootstrap3.html" %}
+        </div>
+    {% endblock %}
+
+{% endif %}
+{#    {% block breadcrumbs %}#}
+{#        <a href="/">Inicio</a>#}
+{#    {% endblock %}#}
+
 
 
 
@@ -85,9 +102,8 @@
 
      </div>
 
-
-
         {% endblock %}
+
 
 
 

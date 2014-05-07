@@ -72,9 +72,8 @@ def add_proyecto(request):
 
 
 @login_required
-def proyecto_detail(request,id):
+def proyecto_detail(request, id):
     """Metodo de para Editar un Proyecto en Particular
-
     """
     proyecto = Proyecto.objects.get(pk=int(id))
 
@@ -87,7 +86,7 @@ def proyecto_detail(request,id):
             num_fases = form.cleaned_data['numero_fases']
             print "estado " + estado
             print "numero de fases  " + str(num_fases)
-            print "proyecto numero de fases viejo" + str(  Proyecto.objects.get(pk=int(id)).numero_fases)
+            print "proyecto numero de fases viejo" + str(Proyecto.objects.get(pk=int(id)).numero_fases)
             if Proyecto.objects.get(pk=int(id)).numero_fases != num_fases:
                 print "cambio numero de fases"
                 if proyecto.estado != "Pendiente":
@@ -95,7 +94,9 @@ def proyecto_detail(request,id):
 
                     errors = form._errors.setdefault("numero_fases", ErrorList())
                     errors.append(error)
-                    return render_to_response('edit_proyecto1.html', {'form': form ,'id':proyecto.id}, context_instance=RequestContext(request))
+                    return render_to_response('edit_proyecto1.html', {'form': form ,'id':proyecto.id,
+                                                                      'proy_nombre':proyecto.nombre},
+                                              context_instance=RequestContext(request))
             f=form.save()
             f.usuario_modificacion = request.user
             f.save()
@@ -105,7 +106,9 @@ def proyecto_detail(request,id):
             print form.errors
     else:
         form = ProyectoForm(instance=proyecto)
-        return render_to_response('edit_proyecto1.html', {'form': form ,'id':proyecto.id}, context_instance=RequestContext(request))
+        return render_to_response('edit_proyecto1.html', {'form': form ,'id':proyecto.id,
+                                                          'proy_nombre':proyecto.nombre},
+                                  context_instance=RequestContext(request))
 
 
 @login_required
@@ -137,9 +140,11 @@ def proyecto_view(request,id_proyecto):
 
     fases = Fase.objects.filter(proyecto= id_proyecto)
     lista = FasesTable(fases)
+    nombre = Proyecto.objects.get(id=id_proyecto).nombre
 
     RequestConfig(request, paginate={"per_page": 5}).configure(lista)
-    return render_to_response('proyecto_view.html', {'lista': lista }, context_instance=RequestContext(request))
+    return render_to_response('proyecto_view.html', {'lista': lista, 'proy_nombre': nombre, 'id_proyecto': id_proyecto},
+                              context_instance=RequestContext(request))
 
 
 @login_required

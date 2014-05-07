@@ -1,5 +1,12 @@
-{% extends 'index.html' %}
+{% extends 'listar_item.html' %}
 {% load crispy_forms_tags %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb 'Crear Sucesor' "item.views.crear_sucesor" id_fase %}
+{% endblock %}
+
 {% block contenido %}
         <h3>Crear Sucesor</h3>
 <div class="row">

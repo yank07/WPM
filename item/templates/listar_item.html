@@ -1,7 +1,8 @@
-{% extends 'index.html' %}
+{% extends 'proyecto_view.html' %}
 {% load staticfiles %}
 {% load crispy_forms_tags %}
 {% load render_table from django_tables2 %}
+{% load django_bootstrap_breadcrumbs %}
 {% block head %}
     <style>
         .admin_proyectos {
@@ -29,6 +30,12 @@
         </ul>
     </nav>
 {% endblock %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb nombre_fase "item.views.listar_item" id_fase %}
+{% endblock %}
+
 
 
 
