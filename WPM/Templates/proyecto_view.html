@@ -2,6 +2,7 @@
 {% load staticfiles %}
 {% load crispy_forms_tags %}
 {% load render_table from django_tables2 %}
+{% load django_bootstrap_breadcrumbs %}
  {% block head %}
      <style>
     .admin_proyectos{
@@ -17,21 +18,18 @@
 	{% endblock %}
  {%   block nav %}
 
- <nav class="menu1">
-
-        <ul >
-            <li><a id="link" href='/add_proyecto'>Crear Proyecto</a></li>
-            <li><a id="link" href='/admin_proyectos'>Listar Proyecto</a></li>
-            {% block listaproyecto %}
-                {% endblock %}
-
-        </ul>
-    </nav>
 {% endblock %}
 
+{% if not user.is_staff %}
+    {% block breadcrumbs %}
+        {{ block.super }}
+{#        {{ block.super }}  » <a href="{% url 'proyecto.views.proyecto_view' id_proyecto %}">{{ proy_nombre }}</a>#}
+        {% breadcrumb proy_nombre "proyecto.views.proyecto_view" id_proyecto %}
 
+    {% endblock %}
+{% endif %}
 
-       {%  block contenido %}
+{%  block contenido %}
 <div class="col-md-3  ">
 
 

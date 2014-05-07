@@ -68,8 +68,6 @@ def add_item(request,id_fase):
                 errors.append("El nombre del Item debe ser unico")
                 return render_to_response('add_item.html', {'form': form,'id_fase':id_fase}, context)
 
-
-
             item_origen_id_list = request.POST.getlist('antecesor')
             for item_origen_id in item_origen_id_list:
                 item_origen = Item.objects.get(id=item_origen_id)
@@ -106,7 +104,9 @@ def add_item(request,id_fase):
 
        # print form.as_table()
 
-    return render_to_response('add_item.html', {'form': form,'id_fase':id_fase}, context)
+    return render_to_response('add_item.html', {'form': form,'id_fase':id_fase,
+                                                'proy_nombre': fase.proyecto.nombre, 'id_proyecto': fase.proyecto.id,
+                                                'nombre_fase': fase.nombre}, context)
 
 class value_form(forms.Form):
     valor = forms.CharField()
@@ -182,9 +182,14 @@ def listar_item(request,id_fase):
 
     f = ItemFilter(request.GET, queryset=queryset)
     lista = ItemTable(f)
+    fase = Fase.objects.get(id=id_fase)
+    id_proyecto = fase.proyecto.id
+    proy_nombre = fase.proyecto.nombre
 
     RequestConfig(request, paginate={"per_page": 5}).configure(lista)
-    return render_to_response('listar_item.html', {'lista': lista , 'filter': f,'id_fase':id_fase},
+    return render_to_response('listar_item.html', {'lista': lista , 'filter': f,'id_fase':id_fase,
+                                                   'nombre_fase': fase.nombre, 'id_proyecto': id_proyecto,
+                                                   'proy_nombre': proy_nombre},
                               context_instance=RequestContext(request))
 
 def edit_item(request,id_item):
@@ -282,9 +287,12 @@ def listar_item_muerto(request,id_fase):
 
     f = ItemFilter(request.GET, queryset=queryset)
     lista = RevivirItemTable(f)
+    fase = Fase.objects.get(id=id_fase)
 
     RequestConfig(request, paginate={"per_page": 5}).configure(lista)
-    return render_to_response('listar_item_muerto.html', {'lista': lista , 'filter': f,'id_fase':id_fase},
+    return render_to_response('listar_item_muerto.html', {'lista': lista, 'filter': f, 'id_fase': id_fase,
+                                                          'proy_nombre': fase.proyecto.nombre,
+                                                          'id_proyecto': fase.proyecto.id, 'nombre_fase': fase.nombre},
                               context_instance=RequestContext(request))
 
 def revivir_item(request,id_item):
@@ -337,7 +345,10 @@ def crear_sucesor(request,id_fase):
         else:
             form.fields["items_origen"].queryset = Item.objects.filter(fase__id=id_fase,estado="BLOQ")
             form.fields["items_destino"].queryset = Item.objects.filter(fase__id=str(int(id_fase)+1))
-    return render_to_response('crear_sucesor.html', {'form': form,'id_fase':id_fase,'error':error}, context)
+    return render_to_response('crear_sucesor.html', {'form': form,'id_fase':id_fase,'error':error,
+                                                     'proy_nombre': fase.proyecto.nombre,
+                                                     'id_proyecto': fase.proyecto.id,
+                                                     'nombre_fase': fase.nombre}, context)
 
 def crear_hijo(request,id_fase):
     """
@@ -385,9 +396,13 @@ def crear_hijo(request,id_fase):
             print form.errors
     else:
         form = crear_sucesor_form()
+        fase = Fase.objects.get(id=id_fase)
         form.fields["items_origen"].queryset = Item.objects.filter(fase__id=id_fase)
         form.fields["items_destino"].queryset = Item.objects.filter(fase__id=id_fase)
-    return render_to_response('crear_hijo.html', {'form': form,'id_fase':id_fase}, context)
+    return render_to_response('crear_hijo.html', {'form': form,'id_fase':id_fase,
+                                                  'proy_nombre': fase.proyecto.nombre,
+                                                  'id_proyecto': fase.proyecto.id,
+                                                  'nombre_fase': fase.nombre}, context)
 
 def listar_versiones(request, id_item):
     """

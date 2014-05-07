@@ -104,8 +104,8 @@ def add_atributo(request):
             valor = False
             if obligatorio == 'on':
                 valor = True
-            #if request.POST.__getitem__('tipo_item') != '':
-            if request.POST.__contains__('tipo_item'):
+            if request.POST.__getitem__('tipo_item') != '':
+            # if request.POST.__contains__('tipo_item'):
                 tipoitemID = request.POST.__getitem__('tipo_item')
                 print tipoitemID
                 tipoitem = TipoItem.objects.get(id=tipoitemID)
