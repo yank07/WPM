@@ -49,6 +49,7 @@ INSTALLED_APPS = (
     'django_filters',
     'django_bootstrap_breadcrumbs',
     'south',
+    'lineaBase'
 
 )
 CRISPY_TEMPLATE_PACK = 'bootstrap3'

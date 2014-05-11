@@ -60,6 +60,7 @@ urlpatterns = patterns('',
 
 
     url(r'^item/', include('item.urls')),
+     url(r'^lineabase/', include('lineaBase.urls')),
 
 
 
