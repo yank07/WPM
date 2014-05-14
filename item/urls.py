@@ -17,4 +17,8 @@ urlpatterns = patterns('',
 
     url(r'^listar_versiones/(\d+)/$', views.listar_versiones, name='listar_versiones'),
     url(r'^revertir_item/(?P<id_item>\d+)/(?P<version>\d+)$', views.revertir_item, name='revertir_item'),
+
+    url(r'^delete_relacion/(\d+)/$', views.delete_relacion, name='delete_relacion'),
+
+    #url(r'^ver_grafo_relaciones/(\d+)/$', views.ver_grafo_relaciones, name='ver_grafo_relaciones'),
 )

@@ -4,4 +4,4 @@
 {% endif %}
 {% if not user.is_staff %}
  <a href="/proyecto_view/{{ record.id }}"><input class="btn btn-xs btn-default" type="submit" name="submit" value="Ver Fases" /></a>
-{% endif %}
+{% endif %} <a href="{% url 'proyecto.views.ver_grafo_relaciones' record.id %}"><input class="btn btn-xs btn-default" type="submit" name="submit" value="Grafo" /></a>
