@@ -416,8 +416,12 @@ def listar_versiones(request, id_item):
     f = ItemFilter(request.GET, queryset=queryset)
     lista = RevertirItemTable(f)
 
+
     RequestConfig(request, paginate={"per_page": 5}).configure(lista)
-    return render_to_response('historial_item.html', {'lista': lista , 'filter': f,'id_item':id_item},
+    return render_to_response('historial_item.html', {'lista': lista , 'filter': f,'id_item':item.id,
+                                                      'id_fase': item.fase.id, 'nombre_fase': item.fase.nombre,
+                                                      'id_proyecto': item.fase.proyecto.id,
+                                                      'proy_nombre': item.fase.proyecto.nombre},
                               context_instance=RequestContext(request))
 
 def revertir_item(request, id_item, version):
