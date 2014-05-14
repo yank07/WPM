@@ -70,6 +70,6 @@ class relaciones(models.Model):
     item_origen_version=models.IntegerField(default=0,help_text='Version del Item Origen')
     item_destino_version=models.IntegerField(default=0,help_text='Version del Item Destino')
     class Meta:
-        unique_together=('item_origen','item_destino')
+        unique_together=('item_origen','item_destino','item_destino_version','item_origen_version')
     def __unicode__(self):
         return unicode(str(self.item_origen) + '->' + str(self.item_destino))

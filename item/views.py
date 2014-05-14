@@ -23,7 +23,7 @@ import time
 from django.db import IntegrityError
 
 import networkx as nx
-import matplotlib.pyplot as plt
+
 
 
 @login_required
@@ -116,7 +116,6 @@ def add_item(request, id_fase):
 
         # print form.as_table()
 
-    return render_to_response('add_item.html', {'form': form, 'id_fase': id_fase}, context)
     return render_to_response('add_item.html', {'form': form,'id_fase':id_fase,
                                                 'proy_nombre': fase.proyecto.nombre, 'id_proyecto': fase.proyecto.id,
                                                 'nombre_fase': fase.nombre}, context)
@@ -278,10 +277,10 @@ def edit_item(request, id_item):
                         errors = form._errors.setdefault("estado", ErrorList())
                         errors.append("Para que un item pueda ser eliminado, debe estar en un estado activo")
                         return render_to_response('edit_item.html', {'form': form, 'id_item': id_item}, context)
-                    sucesores_hijos = relaciones.objects.filter(item_origen_id=id_item)
+                    sucesores_hijos = relaciones.objects.filter(item_origen_id=id_item, item_origen_version=item_original.version)
                     for sh in sucesores_hijos:
                         sh.delete()
-                    antecesore_padres = relaciones.objects.filter(item_destino_id=id_item)
+                    antecesore_padres = relaciones.objects.filter(item_destino_id=id_item, item_destino_version=item_original.version)
                     for ap in antecesore_padres:
                         ap.activo = False
                         ap.save()
@@ -292,6 +291,12 @@ def edit_item(request, id_item):
                 item_nuevo.archivo = file
 
             if change:
+                relist = relaciones.objects.filter(item_destino_id=id_item, item_destino_version=item_nuevo.version)
+                for r in relist:
+                    relaciones.objects.create(tipo_relacion=r.tipo_relacion, item_origen_id=r.item_origen.id,
+                                      item_destino_id=r.item_destino.id,
+                                      item_origen_version=r.item_origen_version,
+                                      item_destino_version=r.item_destino_version+1)
                 item_nuevo.version = item_nuevo.version + 1
 
             item_nuevo.save()
@@ -354,7 +359,7 @@ def revivir_item(request, id_item):
             relacion.save()
         item.history.last().delete()
     else:
-        #mostrar la pagina de error
+        #mostrar la pagina de error cuando no es consistente
         pass
 
     return HttpResponseRedirect('/item/listar_item/' + str(item.fase_id))
@@ -458,7 +463,6 @@ def crear_hijo(request, id_fase):
         fase = Fase.objects.get(id=id_fase)
         form.fields["items_origen"].queryset = Item.objects.filter(fase__id=id_fase)
         form.fields["items_destino"].queryset = Item.objects.filter(fase__id=id_fase)
-    return render_to_response('crear_hijo.html', {'form': form, 'id_fase': id_fase}, context)
     return render_to_response('crear_hijo.html', {'form': form,'id_fase':id_fase,
                                                   'proy_nombre': fase.proyecto.nombre,
                                                   'id_proyecto': fase.proyecto.id,
@@ -506,8 +510,14 @@ def revertir_item(request, id_item, version):
         else:
             itemlist.append(i.history.get(id=id_item, version=version))
 
-    if es_consistente(id_fase=item.fase_id,nodelist=itemlist):
+    if es_consistente(id_fase=item.fase_id, nodelist=itemlist):
+        current = item.version
         item.copy(item_nuevo)
+        item.version = current + 1
+        r_list = relaciones.objects.filter(item_destino_id=id_item, item_destino_version=version)
+        for r in r_list:
+            r.item_destino_version = item.version
+            r.save()
         item.save()
         item_nuevo.delete()
         return HttpResponseRedirect('/item/listar_item/' + str(item.fase_id))
@@ -548,6 +558,7 @@ def delete_relacion(request, id_item):
     Vista para modificar las relaciones de un item
     """
     context = RequestContext(request)
+    item = Item.objects.get(id=id_item)
     if request.method == 'POST':
         form = delete_relacion_form(request.POST)
 
@@ -555,12 +566,12 @@ def delete_relacion(request, id_item):
             relacion_id = request.POST.__getitem__('relacion')
             relacion = relaciones.objects.get(id=relacion_id)
             relacion.delete()
-            item = Item.objects.get(id=id_item)
+            #item = Item.objects.get(id=id_item)
             return HttpResponseRedirect('/item/listar_item/' + str(item.fase_id))
         else:
             print form.errors
     else:
         form = delete_relacion_form()
-        form.fields["relacion"].queryset = relaciones.objects.filter(item_destino=id_item)
+        form.fields["relacion"].queryset = relaciones.objects.filter(item_destino=id_item, item_destino_version=item.version)
 
     return render_to_response('delete_relacion.html', {'form': form, 'id_item': id_item}, context)

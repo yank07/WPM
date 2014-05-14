@@ -246,6 +246,7 @@ def ver_grafo_relaciones(request, id_proyecto):
     labels = {}
     for fase in fases:
         items = Item.objects.filter(fase_id=fase.id).exclude(estado='ELIM')
+        print items
         i = i + 1
         for item in items:
             x = x + 1
@@ -264,9 +265,9 @@ def ver_grafo_relaciones(request, id_proyecto):
     #crear arcos
     edge_labels = []
     for fase in fases:
-        items = Item.objects.filter(fase_id=fase.id)
+        items = Item.objects.filter(fase_id=fase.id).exclude(estado='ELIM')
         for item in items:
-            antecesores_padres = relaciones.objects.filter(item_destino_id=item.id).exclude(activo=False)
+            antecesores_padres = relaciones.objects.filter(item_destino_id=item.id, item_destino_version=item.version).exclude(activo=False)
             for ap in antecesores_padres:
                 item_origen = ap.item_origen
                 item_destino = ap.item_destino
