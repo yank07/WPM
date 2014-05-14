@@ -2,7 +2,9 @@
 Creado el 1 abril  2014
 @author: Grupo 04
 """
+import os
 from django import forms
+from django.db.models.query import QuerySet
 
 from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
@@ -11,6 +13,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate, logout
 from django.template import RequestContext
+from WPM.settings import RUTA_PROYECTO
 from item.models import Item, relaciones
 from proyecto.forms import ProyectoForm , ProyectoFilter, FaseForm
 from principal.forms import UserForm, UserProfileForm
@@ -20,7 +23,7 @@ from django.contrib.auth.models import User, Group
 #from principal.models import Rol
 from proyecto.models import Proyecto, Fase
 from django.contrib.auth.decorators import login_required
-from django_tables2 import RequestConfig
+from django_tables2 import RequestConfig, Table
 from proyecto.tables import ProyectoTable , FasesTable
 from django.views.generic.edit import UpdateView
 from django.forms.util import ErrorList
@@ -270,11 +273,23 @@ def ver_grafo_relaciones(request, id_proyecto):
     #agregar etiquetas a los arcos
     edge_labels = dict(edge_labels)
     nx.draw_networkx_edge_labels(MG, pos=pos, edge_labels=edge_labels)
-    image_path = "image.png"
+
+    image_path = os.path.join(RUTA_PROYECTO,"static/grafos/image.png")
+    print image_path
     #verificar que no existan conflictos de nombres
     plt.savefig(image_path)
     #plt.show()
-    return render_to_response('ver_grafo_relaciones.html', {'image_path': image_path}, context)
+
+    itemlist=[]
+    for fase in fases:
+        items = Item.objects.filter(fase_id=fase.id)
+        for item in items:
+            itemlist.append(item)
+
+    itemlist = Table(itemlist)
+    itemlist = Item.objects.filter(fase__proyecto_id=id_proyecto)
+    return render_to_response('ver_grafo_relaciones.html', {'image_name': "image.png",'lista':itemlist,
+                                                            'id_proyecto':id_proyecto}, context)
 
 
 

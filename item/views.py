@@ -176,7 +176,7 @@ def asignar_valor_item(request, id_item):
             print form.errors
     else:
         attr_value_dict = []
-        if item.rango_valor_inicio < item.rango_valor_final:
+        if item.rango_valor_inicio <= item.rango_valor_final:
             values = Value.objects.filter(id__in=range(item.rango_valor_inicio,item.rango_valor_final+1))
             attr_list_with_values = [value.attribute for value in values]
             valor_id = item.rango_valor_inicio
