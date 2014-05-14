@@ -24,6 +24,10 @@
             <li><a id="link" href={% url 'item.views.listar_item_muerto' id_fase %}>Revivir Items</a></li>
             <li><a id="link" href={% url 'item.views.crear_sucesor' id_fase %}>Crear Sucesor</a></li>
             <li><a id="link" href={% url 'item.views.crear_hijo' id_fase %}>Crear Hijo</a></li>
+            <li><a id="link" href={% url 'lineaBase.views.crear_lb' id_fase %}>Crear Linea Base</a></li>
+        <li><a id="link" href={% url 'lineaBase.views.admin_lb' id_fase %}>Admin Linea Base</a></li>
+
+
             {% block listaproyecto %}
             {% endblock %}
 
