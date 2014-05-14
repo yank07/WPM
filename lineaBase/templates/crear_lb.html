@@ -1,8 +1,11 @@
-{% extends 'index.html' %}
+{% extends 'listar_item.html' %}
 {% load crispy_forms_tags %}
 {% load django_bootstrap_breadcrumbs %}
 
-
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb 'Crear Linea Base' 'lineaBase.views.crear_lb' id_fase %}
+{% endblock %}
 
 {% block contenido %}
         <h3>Crear Linea Base</h3>
