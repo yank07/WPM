@@ -11,6 +11,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate, logout
 from django.template import RequestContext
+from item.models import Item, relaciones
 from proyecto.forms import ProyectoForm , ProyectoFilter, FaseForm
 from principal.forms import UserForm, UserProfileForm
 from django.core.context_processors import csrf
@@ -25,6 +26,9 @@ from django.views.generic.edit import UpdateView
 from django.forms.util import ErrorList
 from proyecto.forms import *
 from TipoItemApp.models import TipoItem
+
+import networkx as nx
+import matplotlib.pyplot as plt
 # Create your views here.
 
 
@@ -218,6 +222,59 @@ def importar_fase(request,fase_id):
 
 
 
+@login_required
+def ver_grafo_relaciones(request, id_proyecto):
+    """
+    Vista para crear el grafo de relaciones entre items de un proyecto dado
+    """
+    context = RequestContext(request)
+    fases = Fase.objects.filter(proyecto=id_proyecto)
+    MG = nx.MultiDiGraph()
+
+    #crear nodos
+    i = 0
+
+    x = 0
+    labels = {}
+    for fase in fases:
+        items = Item.objects.filter(fase_id=fase.id).exclude(estado='ELIM')
+        i = i + 1
+        for item in items:
+            x = x + 1
+            labels[item.id] = item.id
+            MG.add_node(item.id, pos=(item.id, x))
+
+    color_list = []
+    for node in nx.nodes(MG):
+        item = Item.objects.get(id=node)
+        color_list.append(item.fase_id)
+    pos = nx.get_node_attributes(MG, 'pos')
+    pos = nx.circular_layout(MG)
+    nx.draw_networkx_nodes(MG, pos=pos, node_color=color_list, node_size=1500)
+    nx.draw_networkx_labels(MG, pos=pos, labels=labels)
+
+    #crear arcos
+    edge_labels = []
+    for fase in fases:
+        items = Item.objects.filter(fase_id=fase.id)
+        for item in items:
+            antecesores_padres = relaciones.objects.filter(item_destino_id=item.id).exclude(activo=False)
+            for ap in antecesores_padres:
+                item_origen = ap.item_origen
+                item_destino = ap.item_destino
+                edge = MG.add_edge(item_origen.id, item_destino.id)
+                edge_labels.append(((item_origen.id, item_destino.id), ap.tipo_relacion))
+    #endfor
+    nx.draw_networkx_edges(MG, pos=pos)
+
+    #agregar etiquetas a los arcos
+    edge_labels = dict(edge_labels)
+    nx.draw_networkx_edge_labels(MG, pos=pos, edge_labels=edge_labels)
+    image_path = "image.png"
+    #verificar que no existan conflictos de nombres
+    plt.savefig(image_path)
+    #plt.show()
+    return render_to_response('ver_grafo_relaciones.html', {'image_path': image_path}, context)
 
 
 
