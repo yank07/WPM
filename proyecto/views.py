@@ -4,6 +4,7 @@ Creado el 1 abril  2014
 """
 import os
 from django import forms
+from django.contrib.admin.views.decorators import staff_member_required
 from django.db.models.query import QuerySet
 
 from django.shortcuts import render_to_response, get_object_or_404
@@ -24,7 +25,7 @@ from django.contrib.auth.models import User, Group
 from proyecto.models import Proyecto, Fase
 from django.contrib.auth.decorators import login_required
 from django_tables2 import RequestConfig, Table
-from proyecto.tables import ProyectoTable , FasesTable
+from proyecto.tables import ProyectoTable , FasesTable, ListaItemTable
 from django.views.generic.edit import UpdateView
 from django.forms.util import ErrorList
 from proyecto.forms import *
@@ -36,6 +37,7 @@ import matplotlib.pyplot as plt
 
 
 @login_required
+@staff_member_required
 def admin_proyecto(request):
     """
     Renderiza la pagina de proyectos
@@ -51,6 +53,7 @@ def admin_proyecto(request):
 
 
 @login_required
+@staff_member_required
 def add_proyecto(request):
     """
     Vista para agregar un proyecto.
@@ -127,6 +130,7 @@ class ProyectoUpdate(UpdateView):
 
 
 @login_required
+@staff_member_required
 def delete_proyecto(request,id):
     """
     funcion para eliminar un proyecto
@@ -144,7 +148,11 @@ def proyecto_view(request,id_proyecto):
     Lista las fases de un proyecto
 
     """
-
+    # pry = Proyecto.objects.get(id=id_proyecto)
+    # if request.user not in pry.miembros:
+    #     #pagina de error
+    #     msg = 'No es miembro de este proyecto'
+    #     return render_to_response('template', {'mensaje': msg}, context_instance=RequestContext(request))
     fases = Fase.objects.filter(proyecto= id_proyecto)
     lista = FasesTable(fases)
     nombre = Proyecto.objects.get(id=id_proyecto).nombre
@@ -286,24 +294,16 @@ def ver_grafo_relaciones(request, id_proyecto):
     plt.savefig(image_path)
     #plt.show()
 
-    itemlist=[]
+    itemlist = []
     for fase in fases:
         items = Item.objects.filter(fase_id=fase.id)
         for item in items:
             itemlist.append(item)
 
-    itemlist = Table(itemlist)
-    itemlist = Item.objects.filter(fase__proyecto_id=id_proyecto)
-    return render_to_response('ver_grafo_relaciones.html', {'image_name': "image.png",'lista':itemlist,
-                                                            'id_proyecto':id_proyecto}, context)
-
-
-
-
-
-
-
-
-
-
-
+    items = Item.objects.filter(fase__proyecto_id=id_proyecto)
+    itemlist = ListaItemTable(items)
+    proy_nombre = Proyecto.objects.get(id=id_proyecto).nombre
+    RequestConfig(request, paginate={"per_page": 5}).configure(itemlist)
+    return render_to_response('ver_grafo_relaciones.html', {'image_name': "image.png", 'lista': itemlist,
+                                                            'id_proyecto': id_proyecto, 'proy_nombre': proy_nombre},
+                              context)

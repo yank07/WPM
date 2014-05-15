@@ -31,7 +31,7 @@ class Item(models.Model):
     #estuvo en linea base?
     class Meta:
         unique_together=('nombre','version')
-        permissions = (("add_item", "add_item"),("asignar_valor_item", "asignar_valor_item"),
+        permissions = (("asignar_valor_item", "asignar_valor_item"),
                        ("listar_item", "listar_item"),("edit_item", "edit_item"),("listar_item_muerto", "listar_item_muerto"),
                        ("revivir_item", "revivir_item"),("crear_sucesor", "crear_sucesor"),("crear_hijo", "crear_hijo"),
                        ("listar_versiones", "listar_versiones"),("revertir_item", "revertir_item"),)

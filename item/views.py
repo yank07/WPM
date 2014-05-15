@@ -196,7 +196,12 @@ def asignar_valor_item(request, id_item):
         #endif
         attr_value_dict = dict(attr_value_dict)
         form = asignar_valor_item_form(atributos=attr_list, initial=attr_value_dict)
-    return render_to_response('asignar_valor_item.html', {'form': form, 'id_item': id_item}, context)
+    fase = item.fase
+    proyecto = fase.proyecto
+    return render_to_response('asignar_valor_item.html', {'form': form, 'id_item': id_item, 'nombre_item': item.nombre,
+                                                          'id_fase': fase.id, 'nombre_fase': fase.nombre,
+                                                          'id_proyecto': proyecto.id, 'proy_nombre': proyecto.nombre}
+                              , context)
 
 
 @login_required
@@ -311,8 +316,12 @@ def edit_item(request, id_item):
                       'estado': item_original.estado, 'descripcion': item_original.descripcion,
                       'observacion': item_original.observacion}
         form = edit_item_form(initial=dictionary)
+    fase = item_original.fase
+    proyecto = fase.proyecto
 
-    return render_to_response('edit_item.html', {'form': form, 'id_item': id_item}, context)
+    return render_to_response('edit_item.html', {'form': form, 'id_item': id_item, 'nombre_item': item_original.nombre,
+                                                 'id_fase': fase.id, 'nombre_fase': fase.nombre,
+                                                 'id_proyecto': proyecto.id, 'proy_nombre': proyecto.nombre}, context)
 
 
 @login_required
@@ -485,7 +494,8 @@ def listar_versiones(request, id_item):
 
     RequestConfig(request, paginate={"per_page": 5}).configure(lista)
     #return render_to_response('historial_item.html', {'lista': lista, 'filter': f, 'id_item': id_item},
-    return render_to_response('historial_item.html', {'lista': lista , 'filter': f,'id_item':item.id,
+    return render_to_response('historial_item.html', {'lista': lista, 'filter': f, 'id_item': item.id,
+                                                      'nombre_item': item.nombre,
                                                       'id_fase': item.fase.id, 'nombre_fase': item.fase.nombre,
                                                       'id_proyecto': item.fase.proyecto.id,
                                                       'proy_nombre': item.fase.proyecto.nombre},
@@ -539,9 +549,8 @@ def es_consistente(id_fase, nodelist=None):
 
     for item in items:
         MG.add_node(item.id, pos=(item.id, item.id))
-        padres = relaciones.objects.filter(item_destino_id=item.id,
-                                                       item_destino_version=item.version,
-                                                       tipo_relacion='HIJ').exclude(activo=False)
+        padres = relaciones.objects.filter(item_destino_id=item.id, item_destino_version=item.version,
+                                           tipo_relacion='HIJ').exclude(activo=False)
         for ap in padres:
             item_origen = ap.item_origen
             item_destino = ap.item_destino
@@ -574,4 +583,8 @@ def delete_relacion(request, id_item):
         form = delete_relacion_form()
         form.fields["relacion"].queryset = relaciones.objects.filter(item_destino=id_item, item_destino_version=item.version)
 
-    return render_to_response('delete_relacion.html', {'form': form, 'id_item': id_item}, context)
+    fase = item.fase
+    proy = fase.proyecto
+    return render_to_response('delete_relacion.html', {'form': form, 'id_item': id_item, 'nombre_item': item.nombre,
+                                                       'id_fase': fase.id, 'nombre_fase': fase.nombre,
+                                                       'id_proyecto': proy.id, 'proy_nombre': proy.nombre}, context)

@@ -1,5 +1,6 @@
 import django_tables2 as tables
 from proyecto.models import Proyecto, Fase
+from item.models import Item
 from django_tables2.utils import A
 
 
@@ -42,3 +43,13 @@ class ProyectoDashboardTable(tables.Table):
         attrs = {"class": "paleblue"}
         fields = ("nombre", "observaciones" , "estado", "numero_fases", "presupuesto" , "usuario")
         sequence = ("nombre", "observaciones", "estado", "numero_fases", "presupuesto" , "usuario")
+
+
+class ListaItemTable(tables.Table):
+    nombre = tables.Column(verbose_name='Nombre del Item')
+
+    class Meta:
+        model = Item
+        attrs = {"class": "paleblue"}
+        fields = ("id", "nombre", "tipoitem", "fase", "complejidad", "costo", "estado", "descripcion", "archivo")
+        sequence = ("id", "nombre", "tipoitem", "fase", "complejidad", "costo", "estado", "descripcion", "archivo")
