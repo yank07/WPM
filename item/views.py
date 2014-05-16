@@ -179,7 +179,14 @@ def listar_item(request,id_fase):
     @return renderiza el form correspondiente
     """
     itemXfase = Item.objects.filter(fase_id=id_fase)
+
+
+
     queryset=itemXfase.exclude(estado='ELIM')
+    finalizado = True
+    for item in itemXfase:
+        if item.estado != "BLOQ":
+            finalizado = False
 
     f = ItemFilter(request.GET, queryset=queryset)
     lista = ItemTable(f)
@@ -190,7 +197,7 @@ def listar_item(request,id_fase):
     RequestConfig(request, paginate={"per_page": 5}).configure(lista)
     return render_to_response('listar_item.html', {'lista': lista , 'filter': f,'id_fase':id_fase,
                                                    'nombre_fase': fase.nombre, 'id_proyecto': id_proyecto,
-                                                   'proy_nombre': proy_nombre},
+                                                   'proy_nombre': proy_nombre, 'finalizado':finalizado },
                               context_instance=RequestContext(request))
 
 def edit_item(request,id_item):

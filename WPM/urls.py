@@ -45,6 +45,7 @@ urlpatterns = patterns('',
     url('proyecto_view/(\d+)/', 'proyecto.views.proyecto_view', name='proyecto_view'),
     url('proyectos/fases/(\d+)/', 'proyecto.views.fase_detail', name='fase_detail'),
     url('proyectos/fases/delete/(\d+)/', 'proyecto.views.delete_fase', name='delete_fase'),
+    url('proyectos/fases/finalizar/(\d+)/', 'proyecto.views.finalizar_fase', name='finalizar_fase'),
     url('proyectos/fases/importar_fase/(\d+)/', 'proyecto.views.importar_fase', name='importar_fase'),
 
     url(r'^admin_tipoitem/$', admin_tipoitem, name='admin_tipoitem'),
