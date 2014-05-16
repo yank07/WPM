@@ -240,7 +240,7 @@ def importar_fase(request,fase_id):
 
 
 @login_required
-def finalizar_fase(request,fase_id):
+def finalizar_fase(request, fase_id):
     """
     Vista para finalizar una fase
     @param request: Peticion HTTP
@@ -248,8 +248,13 @@ def finalizar_fase(request,fase_id):
     """
     if request.method == 'POST':
         fase = Fase.objects.get(id=fase_id)
-        fase.estado = "Finalizado"
-        fase.save()
+        if request.user == fase.proyecto.usuario:
+            fase.estado = "Finalizado"
+            fase.save()
+        else:
+            context = RequestContext(request)
+            mensaje = 'Usted no es el lider del proyecto, no puede finalizar una fase'
+            return render_to_response('pagina_error.html', {'mensaje': mensaje}, context)
     return HttpResponseRedirect('/item/listar_item/'+ str(fase_id)+"/")
 
 @login_required
