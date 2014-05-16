@@ -30,6 +30,7 @@ def add_item(request,id_fase):
     """
     #revisar por que id ya existe (algunas veces)
     context = RequestContext(request)
+    fase=Fase.objects.get(id=id_fase)
     if request.method == 'POST':
         form = add_item_form(request.POST,request.FILES)
 
@@ -89,7 +90,7 @@ def add_item(request,id_fase):
     else:
         form = add_item_form(initial={'fase':id_fase})
         print id_fase
-        fase=Fase.objects.get(id=id_fase)
+
         fases=Fase.objects.filter(proyecto_id=fase.proyecto_id)
         id_fase_primero = fases.aggregate(Min('id'))
         print id_fase_primero

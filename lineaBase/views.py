@@ -1,9 +1,9 @@
-
+from django.forms.util import ErrorList
 from django.shortcuts import render, render_to_response
 from django.template import RequestContext
 from forms import add_lb_form, LBFilter, edit_lb_form
 from models import LineaBase
-from item.models import Item
+from item.models import Item, relaciones
 from proyecto.models import Fase
 from django.http import HttpResponse, HttpResponseRedirect
 from tables import LBTable, ItemTable
@@ -24,17 +24,29 @@ def crear_lb(request,id_fase):
             linea_base.fase = fase
             linea_base.save()
             print linea_base.items.all()
-            print 'asdfa'
+
             for item in linea_base.items.all():
                 #print item.id
                 print "entre"
+                if relaciones.objects.filter(item_destino_id=item.id ,tipo_relacion="HIJ").exclude(item_origen__estado ="BLOQ").exists():
+                     errors=form._errors.setdefault("items",ErrorList())
+                     errors.append("El padre de algun item no esta bloqueado")
+                     form.fields["items"].queryset = Item.objects.filter(fase__id=id_fase, estado="APROB")
+
+                     return render_to_response('crear_lb.html', {'form': form,'id_fase':id_fase,  'nombre_fase': fase.nombre, 'id_proyecto': fase.proyecto.id,
+                                                   'proy_nombre': fase.proyecto.nombre }, context)
+
+
                 item.estado = "BLOQ"
+
                 item.save()
 
             return HttpResponseRedirect('/item/listar_item/'+ str(id_fase))
     else:
          form = add_lb_form()
-         form.fields["items"].queryset = Item.objects.filter(fase__id=id_fase,estado="APROB")
+         i = Item.objects.filter(fase__id=id_fase, estado="APROB")
+         form.fields["items"].queryset = i
+
     return render_to_response('crear_lb.html', {'form': form,'id_fase':id_fase,  'nombre_fase': fase.nombre, 'id_proyecto': fase.proyecto.id,
                                                    'proy_nombre': fase.proyecto.nombre }, context)
 
