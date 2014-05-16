@@ -26,8 +26,14 @@
             <li><a id="link" href={% url 'item.views.crear_hijo' id_fase %}>Crear Hijo</a></li>
             <li><a id="link" href={% url 'lineaBase.views.crear_lb' id_fase %}>Crear Linea Base</a></li>
         <li><a id="link" href={% url 'lineaBase.views.admin_lb' id_fase %}>Admin Linea Base</a></li>
-
-
+        {% if finalizado %}
+        <li>
+            <form action="{% url 'proyecto.views.finalizar_fase' id_fase %}" method="post">
+                {% csrf_token %}
+                <a href="javascript:;" onclick="parentNode.submit();">Finalizar Fase</a>
+            </form>
+        </li>
+{% endif %}
             {% block listaproyecto %}
             {% endblock %}
 

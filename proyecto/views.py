@@ -46,6 +46,7 @@ def admin_proyecto(request):
     """
     #lista = Proyecto.objects.all()
     f = ProyectoFilter(request.GET, queryset=Proyecto.objects.all())
+
     lista = ProyectoTable(f)
 
     RequestConfig(request, paginate={"per_page": 5}).configure(lista)
@@ -237,6 +238,19 @@ def importar_fase(request,fase_id):
     return render_to_response('importar_fase.html', {'form': form}, context)
 
 
+
+@login_required
+def finalizar_fase(request,fase_id):
+    """
+    Vista para finalizar una fase
+    @param request: Peticion HTTP
+    @return renderiza el form correspondiente
+    """
+    if request.method == 'POST':
+        fase = Fase.objects.get(id=fase_id)
+        fase.estado = "Finalizado"
+        fase.save()
+    return HttpResponseRedirect('/item/listar_item/'+ str(fase_id)+"/")
 
 @login_required
 def ver_grafo_relaciones(request, id_proyecto):

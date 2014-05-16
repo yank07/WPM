@@ -35,6 +35,7 @@ def add_item(request, id_fase):
     """
     #revisar por que id ya existe (algunas veces)
     context = RequestContext(request)
+    fase=Fase.objects.get(id=id_fase)
     if request.method == 'POST':
         form = add_item_form(request.POST, request.FILES)
 
@@ -91,7 +92,7 @@ def add_item(request, id_fase):
                     errors.append("INCONSISTENCIA: Se crean ciclos en el grafo de relaciones!")
                     return render_to_response('add_item.html', {'form': form, 'id_fase': id_fase}, context)
 
-            return HttpResponseRedirect('/item/listar_item/' + id_fase)
+            return HttpResponseRedirect('/item/listar_item/'+id_fase)
         else:
             print form.errors
             form.fields["tipoitem"].queryset = TipoItem.objects.filter(fases__id=id_fase)
@@ -101,6 +102,8 @@ def add_item(request, id_fase):
     else:
         form = add_item_form(initial={'fase': id_fase})
         print id_fase
+
+        fases=Fase.objects.filter(proyecto_id=fase.proyecto_id)
         fase = Fase.objects.get(id=id_fase)
         fases = Fase.objects.filter(proyecto_id=fase.proyecto_id)
         id_fase_primero = fases.aggregate(Min('id'))
@@ -212,6 +215,14 @@ def listar_item(request, id_fase):
     @return renderiza el form correspondiente
     """
     itemXfase = Item.objects.filter(fase_id=id_fase)
+
+
+
+    queryset=itemXfase.exclude(estado='ELIM')
+    finalizado = True
+    for item in itemXfase:
+        if item.estado != "BLOQ":
+            finalizado = False
     queryset = itemXfase.exclude(estado='ELIM')
 
     f = ItemFilter(request.GET, queryset=queryset)
@@ -339,7 +350,6 @@ def listar_item_muerto(request, id_fase):
     fase = Fase.objects.get(id=id_fase)
 
     RequestConfig(request, paginate={"per_page": 5}).configure(lista)
-#    return render_to_response('listar_item_muerto.html', {'lista': lista, 'filter': f, 'id_fase': id_fase},
     return render_to_response('listar_item_muerto.html', {'lista': lista, 'filter': f, 'id_fase': id_fase,
                                                           'proy_nombre': fase.proyecto.nombre,
                                                           'id_proyecto': fase.proyecto.id, 'nombre_fase': fase.nombre},
