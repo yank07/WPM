@@ -47,6 +47,7 @@ INSTALLED_APPS = (
     'crispy_forms',
     'django_tables2',
     'django_filters',
+    'django_bootstrap_breadcrumbs',
     'south',
 
 )

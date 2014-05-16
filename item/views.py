@@ -1,5 +1,7 @@
 from ORBit.CORBA import completion_status
 from django import forms
+from django.contrib.auth.models import Permission
+from django.contrib.contenttypes.models import ContentType
 from django.db.models import Max, Min
 from django.forms.util import ErrorList
 from django.http import HttpResponse, HttpResponseRedirect
@@ -25,6 +27,14 @@ from django.db import IntegrityError
 import networkx as nx
 import matplotlib.pyplot as plt
 
+def es_miembro(id_user,id_proyecto):
+    p=Proyecto.objects.get(id=id_proyecto)
+    miembros=p.miembros.filter(id=id_user)
+    if miembros.__len__() == 0:
+        return False
+    else:
+        return True
+
 
 @login_required
 def add_item(request, id_fase):
@@ -33,90 +43,94 @@ def add_item(request, id_fase):
     @param request: Peticion HTTP
     @return renderiza el form correspondiente
     """
-    #revisar por que id ya existe (algunas veces)
+    fase=Fase.objects.get(id=id_fase)
     context = RequestContext(request)
-    if request.method == 'POST':
-        form = add_item_form(request.POST, request.FILES)
-
-        if form.is_valid():
-            nombre = request.POST.__getitem__('nombre')
-            tipoitemID = request.POST.__getitem__('tipoitem')
-            tipoitem = TipoItem.objects.get(id=tipoitemID)
-            faseID = request.POST.__getitem__('fase')
-            #fase = TipoItem.objects.get(fases__id=faseID)
-            complejidad = request.POST.__getitem__('complejidad')
-            costo = request.POST.__getitem__('costo')
-            descripcion = request.POST.__getitem__('descripcion')
-            observacion = request.POST.__getitem__('observacion')
-            #archivo = request.FILES['file']
-            # t=TipoItem.objects.filter(fases__id__exact=faseID,id=tipoitemID)
-            # if t.__len__()==0:
-            #     errors=form._errors.setdefault("fase",ErrorList())
-            #     errors.append("Elegir fases que posean el tipo de item seleccionado")
-            #     return render_to_response('add_item.html', {'form': form,'id_fase':id_fase}, context)
-            if faseID != id_fase:
-                errors = form._errors.setdefault("fase", ErrorList())
-                errors.append("Este valor es de solo lectura")
-                return render_to_response('add_item.html', {'form': form, 'id_fase': id_fase}, context)
-
-            if int(complejidad) > 100 or int(complejidad) < 1:
-                errors = form._errors.setdefault("complejidad", ErrorList())
-                errors.append("Ingrese un valor comprendido entre [1-100]")
-                return render_to_response('add_item.html', {'form': form, 'id_fase': id_fase}, context)
-
-            #item = Item.objects.create(nombre=nombre,fase=faseID,costo=costo,complejidad=complejidad,descripcion=descripcion,archivo=archivo,observacion=observacion)
-            #item.tipoitem.add(tipoitem)
-            try:
-                item = form.save()
-            except IntegrityError:
-                errors = form._errors.setdefault("nombre", ErrorList())
-                errors.append("El nombre del Item debe ser unico")
-                return render_to_response('add_item.html', {'form': form, 'id_fase': id_fase}, context)
-
-            item_origen_id_list = request.POST.getlist('antecesor')
-            for item_origen_id in item_origen_id_list:
-                item_origen = Item.objects.get(id=item_origen_id)
-                relaciones.objects.create(tipo_relacion='SUC', item_origen_id=item_origen_id, item_destino_id=item.id,
-                                          item_origen_version=item_origen.version, item_destino_version=item.version)
-            item_origen_id_list = request.POST.getlist('padre')
-            for item_origen_id in item_origen_id_list:
-                if es_consistente(id_fase) == True:
-                    item_origen = Item.objects.get(id=item_origen_id)
-                    relaciones.objects.create(tipo_relacion='HIJ', item_origen_id=item_origen_id,
-                                              item_destino_id=item.id,
-                                              item_origen_version=item_origen.version,
-                                              item_destino_version=item.version)
-                else:
-                    errors = form._errors.setdefault("padre", ErrorList())
-                    errors.append("INCONSISTENCIA: Se crean ciclos en el grafo de relaciones!")
+    if es_miembro(request.user.id,fase.proyecto_id):
+        if request.method == 'POST':
+            form = add_item_form(request.POST, request.FILES)
+            if form.is_valid():
+                nombre = request.POST.__getitem__('nombre')
+                tipoitemID = request.POST.__getitem__('tipoitem')
+                tipoitem = TipoItem.objects.get(id=tipoitemID)
+                faseID = request.POST.__getitem__('fase')
+                #fase = TipoItem.objects.get(fases__id=faseID)
+                complejidad = request.POST.__getitem__('complejidad')
+                costo = request.POST.__getitem__('costo')
+                descripcion = request.POST.__getitem__('descripcion')
+                observacion = request.POST.__getitem__('observacion')
+                #archivo = request.FILES['file']
+                # t=TipoItem.objects.filter(fases__id__exact=faseID,id=tipoitemID)
+                # if t.__len__()==0:
+                #     errors=form._errors.setdefault("fase",ErrorList())
+                #     errors.append("Elegir fases que posean el tipo de item seleccionado")
+                #     return render_to_response('add_item.html', {'form': form,'id_fase':id_fase}, context)
+                if faseID != id_fase:
+                    errors = form._errors.setdefault("fase", ErrorList())
+                    errors.append("Este valor es de solo lectura")
                     return render_to_response('add_item.html', {'form': form, 'id_fase': id_fase}, context)
 
-            return HttpResponseRedirect('/item/listar_item/' + id_fase)
+                if int(complejidad) > 100 or int(complejidad) < 1:
+                    errors = form._errors.setdefault("complejidad", ErrorList())
+                    errors.append("Ingrese un valor comprendido entre [1-100]")
+                    return render_to_response('add_item.html', {'form': form, 'id_fase': id_fase}, context)
+
+                #item = Item.objects.create(nombre=nombre,fase=faseID,costo=costo,complejidad=complejidad,descripcion=descripcion,archivo=archivo,observacion=observacion)
+                #item.tipoitem.add(tipoitem)
+                try:
+                    item = form.save()
+                except IntegrityError:
+                    errors = form._errors.setdefault("nombre", ErrorList())
+                    errors.append("El nombre del Item debe ser unico")
+                    return render_to_response('add_item.html', {'form': form, 'id_fase': id_fase}, context)
+
+                item_origen_id_list = request.POST.getlist('antecesor')
+                for item_origen_id in item_origen_id_list:
+                    item_origen = Item.objects.get(id=item_origen_id)
+                    relaciones.objects.create(tipo_relacion='SUC', item_origen_id=item_origen_id, item_destino_id=item.id,
+                                              item_origen_version=item_origen.version, item_destino_version=item.version)
+                item_origen_id_list = request.POST.getlist('padre')
+                for item_origen_id in item_origen_id_list:
+                    if es_consistente(id_fase) == True:
+                        item_origen = Item.objects.get(id=item_origen_id)
+                        relaciones.objects.create(tipo_relacion='HIJ', item_origen_id=item_origen_id,
+                                                  item_destino_id=item.id,
+                                                  item_origen_version=item_origen.version,
+                                                  item_destino_version=item.version)
+                    else:
+                        errors = form._errors.setdefault("padre", ErrorList())
+                        errors.append("INCONSISTENCIA: Se crean ciclos en el grafo de relaciones!")
+                        return render_to_response('add_item.html', {'form': form, 'id_fase': id_fase}, context)
+
+                return HttpResponseRedirect('/item/listar_item/' + id_fase)
+            else:
+                print form.errors
+                form.fields["tipoitem"].queryset = TipoItem.objects.filter(fases__id=id_fase)
+                form.fields["antecesor"].queryset = Item.objects.filter(fase__id=int(id_fase) - 1, estado="BLOQ")
+                form.fields["padre"].queryset = Item.objects.filter(fase__id=int(id_fase)).exclude(estado='ELIM')
+
         else:
-            print form.errors
-            form.fields["tipoitem"].queryset = TipoItem.objects.filter(fases__id=id_fase)
-            form.fields["antecesor"].queryset = Item.objects.filter(fase__id=int(id_fase) - 1, estado="BLOQ")
+            form = add_item_form(initial={'fase': id_fase})
+            print id_fase
+            fase = Fase.objects.get(id=id_fase)
+            fases = Fase.objects.filter(proyecto_id=fase.proyecto_id)
+            id_fase_primero = fases.aggregate(Min('id'))
+            print id_fase_primero
             form.fields["padre"].queryset = Item.objects.filter(fase__id=int(id_fase)).exclude(estado='ELIM')
+            if id_fase_primero != id_fase:
+                print "no primero"
+                fase_anterior = int(id_fase) - 1
+                form.fields["antecesor"].queryset = Item.objects.filter(fase__id=fase_anterior, estado="BLOQ")
+            else:
+                form.fields["antecesor"].queryset = Item.objects.none()
+            form.fields["tipoitem"].queryset = TipoItem.objects.filter(fases__id=id_fase)
 
+            # print form.as_table()
+
+        return render_to_response('add_item.html', {'form': form, 'id_fase': id_fase}, context)
     else:
-        form = add_item_form(initial={'fase': id_fase})
-        print id_fase
-        fase = Fase.objects.get(id=id_fase)
-        fases = Fase.objects.filter(proyecto_id=fase.proyecto_id)
-        id_fase_primero = fases.aggregate(Min('id'))
-        print id_fase_primero
-        form.fields["padre"].queryset = Item.objects.filter(fase__id=int(id_fase)).exclude(estado='ELIM')
-        if id_fase_primero != id_fase:
-            print "no primero"
-            fase_anterior = int(id_fase) - 1
-            form.fields["antecesor"].queryset = Item.objects.filter(fase__id=fase_anterior, estado="BLOQ")
-        else:
-            form.fields["antecesor"].queryset = Item.objects.none()
-        form.fields["tipoitem"].queryset = TipoItem.objects.filter(fases__id=id_fase)
-
-        # print form.as_table()
-
-    return render_to_response('add_item.html', {'form': form, 'id_fase': id_fase}, context)
+        #ERROR:USTED NO ES MIEMBRO DEL PROYECTO
+        mensaje="Usted no es miembro del proyecto, no puede crear un item"
+        return render_to_response('pagina_error.html', {'mensaje': mensaje}, context)
 
 
 class value_form(forms.Form):
@@ -224,81 +238,100 @@ def edit_item(request, id_item):
     """
     context = RequestContext(request)
     item_original = Item.objects.get(id=id_item)
-    if request.method == 'POST':
-        form = edit_item_form(request.POST, request.FILES)
-        if form.is_valid():
-            change = False
-            item_nuevo = item_original
-            item_nuevo.copy(item_original)
-            complejidad_form = request.POST.__getitem__('complejidad')
-            complejidad_item = item_original.complejidad
+    fase=Fase.objects.get(id=item_original.fase_id)
+    if es_miembro(request.user.id,fase.proyecto.id):
+        # content_type = ContentType.objects.get_for_model(Item)
+        # permission = Permission.objects.create(codename='edit_item',
+        #                                name='edit_item',
+        #                                content_type=content_type)
+        # request.user.user_permissions=[permission]
+        if request.user.has_perm('item.edit_item'):
+            if request.method == 'POST':
+                form = edit_item_form(request.POST, request.FILES)
+                if form.is_valid():
+                    change = False
+                    item_nuevo = item_original
+                    item_nuevo.copy(item_original)
+                    complejidad_form = request.POST.__getitem__('complejidad')
+                    complejidad_item = item_original.complejidad
 
-            item_nuevo.complejidad = complejidad_form
+                    item_nuevo.complejidad = complejidad_form
 
-            if int(complejidad_form) > 100 or int(complejidad_form) < 1:
-                errors = form._errors.setdefault("complejidad", ErrorList())
-                errors.append("Ingrese un valor comprendido entre [1-100]")
-                return render_to_response('edit_item.html', {'form': form, 'id_item': id_item}, context)
-            if int(complejidad_item) != int(complejidad_form):
-                change = True
-
-            costo_form = request.POST.__getitem__('costo')
-            costo_item = item_original.costo
-            item_nuevo.costo = costo_form
-            if int(costo_item) != int(costo_form):
-                change = True
-
-            descripcion_form = request.POST.__getitem__('descripcion')
-            descripcion_item = item_original.descripcion
-            item_nuevo.descripcion = descripcion_form
-            if descripcion_form != descripcion_item:
-                change = True
-
-            observacion_form = request.POST.__getitem__('observacion')
-            observacion_item = item_original.observacion
-            item_nuevo.observacion = observacion_form
-            if str(observacion_form) != str(observacion_item):
-                change = True
-
-            estado_form = request.POST.__getitem__('estado')
-            estado_item = item_original.estado
-            item_nuevo.estado = estado_form
-            if estado_form != estado_item:
-                if estado_form == 'ELIM':
-                    if estado_item != 'ACT':
-                        errors = form._errors.setdefault("estado", ErrorList())
-                        errors.append("Para que un item pueda ser eliminado, debe estar en un estado activo")
+                    if int(complejidad_form) > 100 or int(complejidad_form) < 1:
+                        errors = form._errors.setdefault("complejidad", ErrorList())
+                        errors.append("Ingrese un valor comprendido entre [1-100]")
                         return render_to_response('edit_item.html', {'form': form, 'id_item': id_item}, context)
-                    sucesores_hijos = relaciones.objects.filter(item_origen_id=id_item)
-                    for sh in sucesores_hijos:
-                        sh.delete()
-                    antecesore_padres = relaciones.objects.filter(item_destino_id=id_item)
-                    for ap in antecesore_padres:
-                        ap.activo = False
-                        ap.save()
+                    if int(complejidad_item) != int(complejidad_form):
+                        change = True
 
-            file = form.cleaned_data['archivo']
-            if file is not None:
-                change = True
-                item_nuevo.archivo = file
+                    costo_form = request.POST.__getitem__('costo')
+                    costo_item = item_original.costo
+                    item_nuevo.costo = costo_form
+                    if int(costo_item) != int(costo_form):
+                        change = True
 
-            if change:
-                item_nuevo.version = item_nuevo.version + 1
+                    descripcion_form = request.POST.__getitem__('descripcion')
+                    descripcion_item = item_original.descripcion
+                    item_nuevo.descripcion = descripcion_form
+                    if descripcion_form != descripcion_item:
+                        change = True
 
-            item_nuevo.save()
-            if change == False:
-                item_nuevo.history.last().delete()
+                    observacion_form = request.POST.__getitem__('observacion')
+                    observacion_item = item_original.observacion
+                    item_nuevo.observacion = observacion_form
+                    if str(observacion_form) != str(observacion_item):
+                        change = True
 
-            return HttpResponseRedirect('/item/listar_item/' + str(item_original.fase_id))
+                    estado_form = request.POST.__getitem__('estado')
+                    estado_item = item_original.estado
+                    item_nuevo.estado = estado_form
+                    if estado_form != estado_item:
+                        if estado_item == 'ACT' and estado_form == 'APROB':
+                            errors = form._errors.setdefault("estado", ErrorList())
+                            errors.append("No se puede pasar un item de estado activo a aprobado sin pasar por revision")
+                            return render_to_response('edit_item.html', {'form': form, 'id_item': id_item}, context)
+                        if estado_form == 'ELIM':
+                            if estado_item != 'ACT':
+                                errors = form._errors.setdefault("estado", ErrorList())
+                                errors.append("Para que un item pueda ser eliminado, debe estar en un estado activo")
+                                return render_to_response('edit_item.html', {'form': form, 'id_item': id_item}, context)
+                            sucesores_hijos = relaciones.objects.filter(item_origen_id=id_item)
+                            for sh in sucesores_hijos:
+                                sh.delete()
+                            antecesore_padres = relaciones.objects.filter(item_destino_id=id_item)
+                            for ap in antecesore_padres:
+                                ap.activo = False
+                                ap.save()
+
+                    file = form.cleaned_data['archivo']
+                    if file is not None:
+                        change = True
+                        item_nuevo.archivo = file
+
+                    if change:
+                        item_nuevo.version = item_nuevo.version + 1
+
+                    item_nuevo.save()
+                    if change == False:
+                        item_nuevo.history.last().delete()
+
+                    return HttpResponseRedirect('/item/listar_item/' + str(item_original.fase_id))
+                else:
+                    print form.errors
+            else:
+                dictionary = {'complejidad': item_original.complejidad, 'costo': item_original.costo,
+                              'estado': item_original.estado, 'descripcion': item_original.descripcion,
+                              'observacion': item_original.observacion}
+                form = edit_item_form(initial=dictionary)
+
+            return render_to_response('edit_item.html', {'form': form, 'id_item': id_item}, context)
         else:
-            print form.errors
+            mensaje="Usted no puede editar un item, no tiene el permiso"
+            return render_to_response('pagina_error.html', {'mensaje': mensaje}, context)
     else:
-        dictionary = {'complejidad': item_original.complejidad, 'costo': item_original.costo,
-                      'estado': item_original.estado, 'descripcion': item_original.descripcion,
-                      'observacion': item_original.observacion}
-        form = edit_item_form(initial=dictionary)
-
-    return render_to_response('edit_item.html', {'form': form, 'id_item': id_item}, context)
+        #ERROR:USTED NO ES MIEMBRO DEL PROYECTO
+        mensaje="Usted no es miembro del proyecto, no puede editar un item"
+        return render_to_response('pagina_error.html', {'mensaje': mensaje}, context)
 
 
 @login_required
@@ -510,7 +543,6 @@ def es_consistente(id_fase, nodelist=None):
             item_origen = ap.item_origen
             item_destino = ap.item_destino
             MG.add_edge(item_origen.id, item_destino.id)
-
     if nx.simple_cycles(MG).__len__() == 0:
         return True
     else:
