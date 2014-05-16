@@ -43,13 +43,13 @@ INSTALLED_APPS = (
     'eav',
     'TipoItemApp',
     'item',
+    'lineaBase',
     'simple_history',
     'crispy_forms',
     'django_tables2',
     'django_filters',
     'django_bootstrap_breadcrumbs',
     'south',
-    'lineaBase'
 
 )
 CRISPY_TEMPLATE_PACK = 'bootstrap3'

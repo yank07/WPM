@@ -4,6 +4,7 @@ from django.contrib import admin
 from principal.views import admin_rol, add_rol, asignar_rol, admin_usuario, edit_rol, editar_usuario, delete_rol
 from TipoItemApp.views import admin_tipoitem, add_tipoitem, add_atributo, listar_atributos, edit_tipoitem, \
     delete_tipoitem, delete_atributo, edit_atributo, importar_tipoitem
+from proyecto.views import ver_grafo_relaciones
 
 
 admin.autodiscover()
@@ -59,6 +60,7 @@ urlpatterns = patterns('',
     url(r'^importar_tipoitem/$', importar_tipoitem, name='importar_tipoitem'),
 
 
+    url(r'^ver_grafo_relaciones/(\d+)$', ver_grafo_relaciones, name='ver_grafo_relaciones'),
 
     url(r'^item/', include('item.urls')),
      url(r'^lineabase/', include('lineaBase.urls')),

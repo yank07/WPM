@@ -2,7 +2,7 @@ from django import forms
 import django_filters
 from eav.models import Attribute, Value
 from TipoItemApp.models import TipoItem
-from item.models import Item
+from item.models import Item, relaciones
 from proyecto.models import Fase
 
 class add_item_form(forms.ModelForm):
@@ -34,7 +34,7 @@ class asignar_valor_item_form(forms.Form):
             if attr.datatype == 'text':
                 self.fields[attr.name] = forms.CharField(label=attr.name+'('+attr.datatype+')',required=attr.required)
             if attr.datatype == 'bool':
-                self.fields[attr.name] = forms.BooleanField(label=attr.name+'('+attr.datatype+')',required=attr.required)
+                self.fields[attr.name] = forms.BooleanField(label=attr.name+'('+attr.datatype+')',required=False)
 
 class ItemFilter(django_filters.FilterSet):
     class Meta:
@@ -45,6 +45,13 @@ class edit_item_form(forms.ModelForm):
     """
     Form para editar item
     """
+    ESTADOS_CHOICES = (
+        ('ACT','Activo'),
+        ('REV','Revision'),
+        ('APROB','Aprobado'),
+        ('ELIM','Eliminado')
+    )
+    estado = forms.ChoiceField(ESTADOS_CHOICES)
     class Meta:
         model=Item
         fields=['complejidad','costo','estado','descripcion','observacion','archivo']
@@ -55,3 +62,9 @@ class crear_sucesor_form(forms.Form):
     """
     items_origen = forms.ModelChoiceField(queryset=Item.objects.all())
     items_destino = forms.ModelChoiceField(queryset=Item.objects.all())
+
+class delete_relacion_form(forms.Form):
+    """
+    Form para editar las relaciones de un item
+    """
+    relacion = forms.ModelChoiceField(queryset=relaciones.objects.all())

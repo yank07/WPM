@@ -2,7 +2,10 @@
 Creado el 1 abril  2014
 @author: Grupo 04
 """
+import os
 from django import forms
+from django.contrib.admin.views.decorators import staff_member_required
+from django.db.models.query import QuerySet
 
 from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
@@ -11,6 +14,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate, logout
 from django.template import RequestContext
+from WPM.settings import RUTA_PROYECTO
+from item.models import Item, relaciones
 from proyecto.forms import ProyectoForm , ProyectoFilter, FaseForm
 from principal.forms import UserForm, UserProfileForm
 from django.core.context_processors import csrf
@@ -19,16 +24,20 @@ from django.contrib.auth.models import User, Group
 #from principal.models import Rol
 from proyecto.models import Proyecto, Fase
 from django.contrib.auth.decorators import login_required
-from django_tables2 import RequestConfig
-from proyecto.tables import ProyectoTable , FasesTable
+from django_tables2 import RequestConfig, Table
+from proyecto.tables import ProyectoTable , FasesTable, ListaItemTable
 from django.views.generic.edit import UpdateView
 from django.forms.util import ErrorList
 from proyecto.forms import *
 from TipoItemApp.models import TipoItem
+
+import networkx as nx
+import matplotlib.pyplot as plt
 # Create your views here.
 
 
 @login_required
+@staff_member_required
 def admin_proyecto(request):
     """
     Renderiza la pagina de proyectos
@@ -45,6 +54,7 @@ def admin_proyecto(request):
 
 
 @login_required
+@staff_member_required
 def add_proyecto(request):
     """
     Vista para agregar un proyecto.
@@ -121,6 +131,7 @@ class ProyectoUpdate(UpdateView):
 
 
 @login_required
+@staff_member_required
 def delete_proyecto(request,id):
     """
     funcion para eliminar un proyecto
@@ -138,7 +149,11 @@ def proyecto_view(request,id_proyecto):
     Lista las fases de un proyecto
 
     """
-
+    # pry = Proyecto.objects.get(id=id_proyecto)
+    # if request.user not in pry.miembros:
+    #     #pagina de error
+    #     msg = 'No es miembro de este proyecto'
+    #     return render_to_response('template', {'mensaje': msg}, context_instance=RequestContext(request))
     fases = Fase.objects.filter(proyecto= id_proyecto)
     lista = FasesTable(fases)
     nombre = Proyecto.objects.get(id=id_proyecto).nombre
@@ -237,14 +252,72 @@ def finalizar_fase(request,fase_id):
         fase.save()
     return HttpResponseRedirect('/item/listar_item/'+ str(fase_id)+"/")
 
+@login_required
+def ver_grafo_relaciones(request, id_proyecto):
+    """
+    Vista para crear el grafo de relaciones entre items de un proyecto dado
+    """
+    context = RequestContext(request)
+    fases = Fase.objects.filter(proyecto=id_proyecto)
+    MG = nx.MultiDiGraph()
 
+    #crear nodos
+    i = 0
 
+    x = 0
+    labels = {}
+    for fase in fases:
+        items = Item.objects.filter(fase_id=fase.id).exclude(estado='ELIM')
+        print items
+        i = i + 1
+        for item in items:
+            x = x + 1
+            labels[item.id] = item.id
+            MG.add_node(item.id, pos=(item.id, x))
 
+    color_list = []
+    for node in nx.nodes(MG):
+        item = Item.objects.get(id=node)
+        color_list.append(item.fase_id)
+    pos = nx.get_node_attributes(MG, 'pos')
+    pos = nx.circular_layout(MG)
+    nx.draw_networkx_nodes(MG, pos=pos, node_color=color_list, node_size=1500)
+    nx.draw_networkx_labels(MG, pos=pos, labels=labels)
 
+    #crear arcos
+    edge_labels = []
+    for fase in fases:
+        items = Item.objects.filter(fase_id=fase.id).exclude(estado='ELIM')
+        for item in items:
+            antecesores_padres = relaciones.objects.filter(item_destino_id=item.id, item_destino_version=item.version).exclude(activo=False)
+            for ap in antecesores_padres:
+                item_origen = ap.item_origen
+                item_destino = ap.item_destino
+                edge = MG.add_edge(item_origen.id, item_destino.id)
+                edge_labels.append(((item_origen.id, item_destino.id), ap.tipo_relacion))
+    #endfor
+    nx.draw_networkx_edges(MG, pos=pos)
 
+    #agregar etiquetas a los arcos
+    edge_labels = dict(edge_labels)
+    nx.draw_networkx_edge_labels(MG, pos=pos, edge_labels=edge_labels)
 
+    image_path = os.path.join(RUTA_PROYECTO,"static/grafos/image.png")
+    print image_path
+    #verificar que no existan conflictos de nombres
+    plt.savefig(image_path)
+    #plt.show()
 
+    itemlist = []
+    for fase in fases:
+        items = Item.objects.filter(fase_id=fase.id)
+        for item in items:
+            itemlist.append(item)
 
-
-
-
+    items = Item.objects.filter(fase__proyecto_id=id_proyecto)
+    itemlist = ListaItemTable(items)
+    proy_nombre = Proyecto.objects.get(id=id_proyecto).nombre
+    RequestConfig(request, paginate={"per_page": 5}).configure(itemlist)
+    return render_to_response('ver_grafo_relaciones.html', {'image_name': "image.png", 'lista': itemlist,
+                                                            'id_proyecto': id_proyecto, 'proy_nombre': proy_nombre},
+                              context)

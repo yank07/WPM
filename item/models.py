@@ -31,6 +31,10 @@ class Item(models.Model):
     #estuvo en linea base?
     class Meta:
         unique_together=('nombre','version')
+        permissions = (("asignar_valor_item", "asignar_valor_item"),
+                       ("listar_item", "listar_item"),("edit_item", "edit_item"),("listar_item_muerto", "listar_item_muerto"),
+                       ("revivir_item", "revivir_item"),("crear_sucesor", "crear_sucesor"),("crear_hijo", "crear_hijo"),
+                       ("listar_versiones", "listar_versiones"),("revertir_item", "revertir_item"),)
     def __unicode__(self):
         return unicode(self.nombre)
     def cambiar_estado(self,estado):
@@ -66,4 +70,6 @@ class relaciones(models.Model):
     item_origen_version=models.IntegerField(default=0,help_text='Version del Item Origen')
     item_destino_version=models.IntegerField(default=0,help_text='Version del Item Destino')
     class Meta:
-        unique_together=('item_origen','item_destino')
+        unique_together=('item_origen','item_destino','item_destino_version','item_origen_version')
+    def __unicode__(self):
+        return unicode(str(self.item_origen) + '->' + str(self.item_destino))
