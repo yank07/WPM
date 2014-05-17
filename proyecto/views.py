@@ -257,6 +257,7 @@ def finalizar_fase(request, fase_id):
             return render_to_response('pagina_error.html', {'mensaje': mensaje}, context)
     return HttpResponseRedirect('/item/listar_item/'+ str(fase_id)+"/")
 
+
 @login_required
 def ver_grafo_relaciones(request, id_proyecto):
     """

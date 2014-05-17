@@ -20,5 +20,8 @@ urlpatterns = patterns('',
 
     url(r'^delete_relacion/(\d+)/$', views.delete_relacion, name='delete_relacion'),
 
+    url(r'^activar_item/(\d+)/$', views.activar_item, name='activar_item'),
+    url(r'^aprobar_item/(\d+)/$', views.aprobar_item, name='aprobar_item'),
+
     #url(r'^ver_grafo_relaciones/(\d+)/$', views.ver_grafo_relaciones, name='ver_grafo_relaciones'),
 )

@@ -34,7 +34,8 @@ class Item(models.Model):
         permissions = (("asignar_valor_item", "asignar_valor_item"),
                        ("listar_item", "listar_item"),("edit_item", "edit_item"),("listar_item_muerto", "listar_item_muerto"),
                        ("revivir_item", "revivir_item"),("crear_sucesor", "crear_sucesor"),("crear_hijo", "crear_hijo"),
-                       ("listar_versiones", "listar_versiones"),("revertir_item", "revertir_item"),)
+                       ("listar_versiones", "listar_versiones"),("revertir_item", "revertir_item"),
+                       ("activar_item", "activar_item"), ("aprobar_item", "aprobar_item"))
     def __unicode__(self):
         return unicode(self.nombre)
     def cambiar_estado(self,estado):

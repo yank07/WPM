@@ -1,5 +1,6 @@
 
 from django import forms
+from django.contrib.auth.models import Permission, User
 from django.db.models import Max, Min
 from django.forms.util import ErrorList
 from django.http import HttpResponse, HttpResponseRedirect
@@ -274,7 +275,12 @@ def edit_item(request, id_item):
                 if int(complejidad_form) > 100 or int(complejidad_form) < 1:
                     errors = form._errors.setdefault("complejidad", ErrorList())
                     errors.append("Ingrese un valor comprendido entre [1-100]")
-                    return render_to_response('edit_item.html', {'form': form, 'id_item': id_item}, context)
+                    return render_to_response('edit_item.html', {'form': form, 'id_item': id_item,
+                                                                 'id_fase': fase.id, 'nombre_fase': fase.nombre,
+                                                                 'id_proyecto': fase.proyecto.id,
+                                                                 'proy_nombre': fase.proyecto.nombre,
+                                                                 'nombre_item': item_original.nombre},
+                                              context)
                 if int(complejidad_item) != int(complejidad_form):
                     change = True
 
@@ -303,12 +309,22 @@ def edit_item(request, id_item):
                     if estado_item == 'ACT' and estado_form == 'APROB':  #esta seccion es la que se debe agregar
                                 errors = form._errors.setdefault("estado", ErrorList())
                                 errors.append("No se puede pasar un item de estado activo a aprobado sin pasar por revision")
-                                return render_to_response('edit_item.html', {'form': form, 'id_item': id_item}, context)
+                                return render_to_response('edit_item.html', {'form': form, 'id_item': id_item,
+                                                                             'id_fase': fase.id, 'nombre_fase': fase.nombre,
+                                                                             'id_proyecto': fase.proyecto.id,
+                                                                             'proy_nombre': fase.proyecto.nombre,
+                                                                             'nombre_item': item_original.nombre},
+                                                          context)
                     if estado_form == 'ELIM':
                         if estado_item != 'ACT':
                             errors = form._errors.setdefault("estado", ErrorList())
                             errors.append("Para que un item pueda ser eliminado, debe estar en un estado activo")
-                            return render_to_response('edit_item.html', {'form': form, 'id_item': id_item}, context)
+                            return render_to_response('edit_item.html', {'form': form, 'id_item': id_item,
+                                                                         'id_fase': fase.id, 'nombre_fase': fase.nombre,
+                                                                         'id_proyecto': fase.proyecto.id,
+                                                                         'proy_nombre': fase.proyecto.nombre,
+                                                                         'nombre_item': item_original.nombre},
+                                                      context)
                         sucesores_hijos = relaciones.objects.filter(item_origen_id=id_item, item_origen_version=item_original.version)
                         for sh in sucesores_hijos:
                             sh.delete()
@@ -618,6 +634,46 @@ def delete_relacion(request, id_item):
     return render_to_response('delete_relacion.html', {'form': form, 'id_item': id_item, 'nombre_item': item.nombre,
                                                        'id_fase': fase.id, 'nombre_fase': fase.nombre,
                                                        'id_proyecto': proy.id, 'proy_nombre': proy.nombre}, context)
+
+
+@login_required()
+def activar_item(request, id_item):
+    """
+    Vista para activar item, se muestra si el item esta en estado revision o aprobado
+    """
+    context = RequestContext(request)
+    item = Item.objects.get(id=id_item)
+    proyecto = item.fase.proyecto
+    users = User.objects.filter(groups__permissions=Permission.objects.get(codename='activar_item'))
+    if es_miembro(request.user.id, proyecto.id) and request.user in users:
+        item.estado = 'ACT'
+        item.save()
+    else:
+        #error: no tiene permisos o no es miembro
+        mensaje = 'Usted no es miembro del proyecto, o no tiene permisos'
+        return render_to_response('pagina_error.html', {'mensaje': mensaje}, context)
+    return HttpResponseRedirect('/item/listar_item/' + str(item.fase.id)+"/")
+
+
+@login_required()
+def aprobar_item(request, id_item):
+    """
+    Vista para aprobar el item, se muestra si el item esta en estado revision
+    """
+    context = RequestContext(request)
+    item = Item.objects.get(id=id_item)
+    proyecto = item.fase.proyecto
+    users = User.objects.filter(groups__permissions=Permission.objects.get(codename='aprobar_item'))
+    print es_miembro(request.user.id, proyecto.id)
+    print request.user in users
+    if es_miembro(request.user.id, proyecto.id) and request.user in users:
+        item.estado = "APROB"
+        item.save()
+    else:
+        #error: no tiene permisos o no es miembro
+        mensaje = 'Usted no es miembro del proyecto, o no tiene permisos'
+        return render_to_response('pagina_error.html', {'mensaje': mensaje}, context)
+    return HttpResponseRedirect('/item/listar_item/' + str(item.fase.id)+"/")
 
 
 def es_miembro(id_user, id_proyecto):
