@@ -33,8 +33,8 @@ from TipoItemApp.models import TipoItem
 
 import networkx as nx
 import matplotlib
-import matplotlib.pyplot as plt
 matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 # Create your views here.
 
 
