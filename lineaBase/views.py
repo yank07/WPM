@@ -13,6 +13,9 @@ from django_tables2 import RequestConfig
 # Create your views here.
 
 def crear_lb(request,id_fase):
+    """
+    Vista para crear linea base
+    """
     context = RequestContext(request)
     fase = Fase.objects.get(id=id_fase)
     if request.method == 'POST':
@@ -52,6 +55,9 @@ def crear_lb(request,id_fase):
 
 
 def admin_lb(request,id_fase):
+    """
+    Vista para listar linea base
+    """
     context = RequestContext(request)
     queryset = LineaBase.objects.filter(fase__id=id_fase)
 
@@ -68,6 +74,9 @@ def admin_lb(request,id_fase):
                               context_instance=RequestContext(request))
 
 def list_lb(request,id_lb):
+    """
+    Vista para listar los items de una linea base. Solo se permite listarlos.
+    """
     context = RequestContext(request)
     queryset = Item.objects.filter(linea_base=id_lb)
     lb = LineaBase.objects.get(id=id_lb)
@@ -87,6 +96,9 @@ def list_lb(request,id_lb):
 
 
 def edit_lb(request,id_lb):
+    """
+    Lista para editar linea base. Solo se permite editar la descripcion
+    """
     context = RequestContext(request)
     lb = LineaBase.objects.get(id=id_lb)
 

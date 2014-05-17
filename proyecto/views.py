@@ -32,7 +32,9 @@ from proyecto.forms import *
 from TipoItemApp.models import TipoItem
 
 import networkx as nx
+import matplotlib
 import matplotlib.pyplot as plt
+matplotlib.use('Agg')
 # Create your views here.
 
 
