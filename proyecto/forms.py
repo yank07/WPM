@@ -17,7 +17,6 @@ class ProyectoForm(forms.ModelForm):
     # fecha_creacion = forms.DateField(required=False)
     # fecha_modificacion = forms.DateField(required=False)
 
-
     class Meta:
         model = Proyecto
         fields = ['usuario', 'nombre', 'presupuesto', 'observaciones','numero_fases','estado', 'miembros']

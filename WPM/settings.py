@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     'TipoItemApp',
     'item',
     'lineaBase',
+    'solicitudCambio',
     'simple_history',
     'crispy_forms',
     'django_tables2',
