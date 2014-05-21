@@ -4,7 +4,6 @@ from django import forms
 __author__ = 'ccaballero'
 
 
-
 class CrearSolicitudForm (forms.modelForm):
 
     class Meta:

@@ -15,9 +15,6 @@ class Solicitud(models.Model):
     impacto = models.IntegerField(default=0, help_text='Resultado del calculo de impacto')
     votos = models.IntegerField(default=0, help_text='Votos del comite')
 
-    class Meta:
-        permissions = (('crear_solicitud', 'crear_solicitud'))
-
     def __unicode__(self):
         return unicode('Solicitud '+str(self.id))
 
@@ -30,9 +27,9 @@ class Comite(models.Model):
         ('ACT','Activo'),
         ('INA','Inactivo'),
     )
-    primer_integrante = models.ForeignKey(User, blank=True, related_name='comite', help_text='Primer integrante')
-    segundo_integrante = models.ForeignKey(User, blank=True, related_name='comite', help_text='Segundo integrante')
-    tercer_integrante = models.ForeignKey(User, blank=True, related_name='comite', help_text='Tercero integrante')
+    primer_integrante = models.ForeignKey(User, blank=True, related_name='primero', help_text='Primer integrante')
+    segundo_integrante = models.ForeignKey(User, blank=True, related_name='segundo', help_text='Segundo integrante')
+    tercer_integrante = models.ForeignKey(User, blank=True, related_name='tercero', help_text='Tercero integrante')
     estado = models.CharField(max_length=3, choices=ESTADOS_CHOICES)
 
     def __unicode__(self):
