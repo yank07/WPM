@@ -24,7 +24,7 @@
 
 
 {% block contenido %}
-    <h3>Solicitudes de Cambio de {{ proy_nombre }}</h3>
+    <h3>Solicitudes de Cambio de {{ request.user }}</h3>
     <div class="col-md-3  ">
         <form action="" method="get">
             {{ filter.form | crispy }}

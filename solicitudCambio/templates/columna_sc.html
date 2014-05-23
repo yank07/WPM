@@ -14,6 +14,11 @@
 <a href="/solicitudcambio/aprobar/{{ record.id }}"><input class="btn btn-xs btn-default" type="submit" name="submit" value="Aprobar" /></a>
 {% endif %}
 
+{% if record.estado == "PEN" and record.conteo == 3 and record.resultado < 0 %}
+<a href="/solicitudcambio/rechazar/{{ record.id }}"><input class="btn btn-xs btn-default" type="submit" name="submit" value="Rechazar" /></a>
+{% endif %}
+
+
 {% if record.estado == "REV" %}
 
 {% endif %}
