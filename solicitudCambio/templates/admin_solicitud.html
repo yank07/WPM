@@ -1,0 +1,40 @@
+{% extends 'index.html' %}
+
+{% load crispy_forms_tags %}
+{% load render_table from django_tables2 %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block head %}
+    <style>
+        .admin_proyectos {
+            background-color: #343B54;
+        }
+    </style>
+
+    <link rel="stylesheet" href="{{ STATIC_URL }}django_tables2/themes/paleblue/css/screen.css"/>
+{% endblock %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    {% breadcrumb proy_nombre 'solicitudCambio.views.listar_solicitudes' id_proyecto %}
+{% endblock %}
+
+
+
+
+
+{% block contenido %}
+    <h3>Solicitudes de Cambio de {{ proy_nombre }}</h3>
+    <div class="col-md-3  ">
+        <form action="" method="get">
+            {{ filter.form | crispy }}
+            <input type="submit" class="btn btn-default"/>
+        </form>
+
+    </div>
+
+    <div class="col-md-8  ">
+        {% render_table lista %}
+
+    </div>
+{% endblock %}

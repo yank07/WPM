@@ -63,8 +63,8 @@ urlpatterns = patterns('',
     url(r'^ver_grafo_relaciones/(\d+)$', ver_grafo_relaciones, name='ver_grafo_relaciones'),
 
     url(r'^item/', include('item.urls')),
-     url(r'^lineabase/', include('lineaBase.urls')),
-
+    url(r'^lineabase/', include('lineaBase.urls')),
+    url(r'^solicitudcambio/', include('solicitudCambio.urls')),
 
 
 

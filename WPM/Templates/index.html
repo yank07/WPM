@@ -51,11 +51,11 @@
                 <li class="admin_tipoitem"> <a href="/admin_tipoitem">Administrar Tipos de Item</a></li>
 			{% endif %}
             {% if not user.is_staff %}
-                 <li class="dashboard"> <a href="/home">Dashboard</a></li>
+
             {% endif %}
 		   	{% if user.is_authenticated %}<!-- si el usuario esta autenticado -->
-{#                <li class="admin_proyectos"> <a href="/admin_proyectos">Administrar Proyectos</a></li>#}
-{#                <li class="admin_tipoitem"> <a href="/admin_tipoitem">Administrar Tipos de Item</a></li>#}
+                <li class="link"> <a href="/solicitudcambio/listar">Solicitudes de cambio</a></li>
+                <li class="link"> <a href="/solicitudcambio/admin_comite">Comite de Cambio</a></li>
 		   		<li></li>
 		   	{% endif %}
 

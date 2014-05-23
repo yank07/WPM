@@ -16,9 +16,17 @@
      <link rel="stylesheet" href="{{ STATIC_URL }}django_tables2/themes/paleblue/css/screen.css" />
 
 	{% endblock %}
- {%   block nav %}
-
-{% endblock %}
+{#{% block nav %}#}
+{##}
+{#    <nav class="menu1">#}
+{##}
+{#        <ul>#}
+{##}
+{#        <li><a id="link" href={% url 'solicitudCambio.views.listar_solicitudes' id_proyecto %}>Solicitudes de Cambio</a></li>#}
+{##}
+{#        </ul>#}
+{#    </nav>#}
+{#{% endblock %}#}
 
 {% if not user.is_staff %}
     {% block breadcrumbs %}

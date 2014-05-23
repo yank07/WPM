@@ -683,3 +683,15 @@ def es_miembro(id_user, id_proyecto):
         return False
     else:
         return True
+
+
+def calculo_impacto(id_item, complejidad_total=0):
+    """
+    Funcion para el calculo de impacto
+    """
+    item = Item.objects.get(id=id_item)
+    #complejidad_total = complejidad_total + item.complejidad
+    sucesores_hijos = relaciones.objects.filter(item_origen_id=id_item)
+    for sh in sucesores_hijos:
+        complejidad_total = complejidad_total + calculo_impacto(sh.item_destino_id,complejidad_total)
+    return complejidad_total + item.complejidad

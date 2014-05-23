@@ -1,0 +1,23 @@
+
+{% if record.estado == "PEN" %}
+    <a href="/solicitudcambio/eliminar/{{ record.id }}"><input class="btn btn-xs btn-default" type="submit" name="submit" value="Eliminar" /></a>
+    <a href="/solicitudcambio/voto_favor/{{ record.id }}"><input class="btn btn-xs btn-default" type="submit" name="submit" value="Voto a favor" /></a>
+    <a href="/solicitudcambio/voto_contra/{{ record.id }}"><input class="btn btn-xs btn-default" type="submit" name="submit" value="Voto en contra" /></a>
+{% endif %}
+
+
+
+
+
+
+{% if record.estado == "PEN" and record.conteo == 3 and record.resultado > 0 %}
+<a href="/solicitudcambio/aprobar/{{ record.id }}"><input class="btn btn-xs btn-default" type="submit" name="submit" value="Aprobar" /></a>
+{% endif %}
+
+{% if record.estado == "REV" %}
+
+{% endif %}
+
+{% if record.estado == 'BLOQ' %}
+
+{% endif %}
