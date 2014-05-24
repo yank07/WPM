@@ -5,14 +5,14 @@ from models import Solicitud, Comite
 
 
 class SolicitudTable(tables.Table):
-    impacto = tables.Column(verbose_name='Calculo de Impacto')
+
     acciones = tables.TemplateColumn(template_name='columna_sc.html')
 
     class Meta:
         model = Solicitud
         attrs = {"class": "paleblue"}
-        fields = ("motivo", "item", "estado")
-        sequence = ("motivo", "item", "estado")
+        fields = ("motivo", "item", "impacto", "estado")
+        sequence = ("motivo", "item", "impacto", "estado")
 
 
 class admin_comite_table(tables.Table):
