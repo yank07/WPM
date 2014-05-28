@@ -1,0 +1,4 @@
+{% if record.estado == "PEN"%}
+    <a href="/solicitudcambio/ver_grafo/{{ record.id }}"><input class="btn btn-xs btn-default" type="submit" name="submit" value="Ver grafo" /></a>
+    <a href="/solicitudcambio/eliminar/{{ record.id }}"><input class="btn btn-xs btn-default" type="submit" name="submit" value="Eliminar" /></a>
+{% endif %}

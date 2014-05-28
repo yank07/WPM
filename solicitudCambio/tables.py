@@ -15,6 +15,17 @@ class SolicitudTable(tables.Table):
         sequence = ("motivo", "item", "impacto", "estado")
 
 
+class MisSolicitudesTable(tables.Table):
+    acciones = tables.TemplateColumn(template_name='column_sc.html')
+
+    class Meta:
+        model = Solicitud
+        attrs = {"class": "paleblue"}
+        fields = ("motivo", "item", "impacto", "estado")
+        sequence = ("motivo", "item", "impacto", "estado")
+
+
+
 class admin_comite_table(tables.Table):
     #nombre = tables.Column(verbose_name="Nombre del comite")
     my_column = tables.TemplateColumn(verbose_name=('Editar'),

@@ -4,6 +4,7 @@ from django.conf.urls import patterns, url
 from solicitudCambio import views
 
 urlpatterns = patterns('',
+                       url(r'^listar_mis_solicitudes/$', views.listar_mis_solicitudes, name='listar_mis_solicitudes'),
                        url(r'^listar/$', views.listar_solicitudes, name='listar_solicitudes'),
                        url(r'^crear/(\d+)/$', views.crear_solicitud, name='crear_solicitud'),
                        url(r'^rechazar/(\d+)/$', views.rechazar_solicitud, name='rechazar_solicitud'),
@@ -14,6 +15,7 @@ urlpatterns = patterns('',
                        url(r'^editar_comite/(\d+)/$', views.editar_comite, name='editar_comite'),
                        url(r'^voto_favor/(\d+)/$', views.voto_positivo, name='voto_favor'),
                        url(r'^voto_contra/(\d+)/$', views.voto_negativo, name='editar_comite'),
+                       url(r'^ver_grafo/(\d+)/$', views.ver_grafo_solicitud, name='editar_comite'),
 
 
 

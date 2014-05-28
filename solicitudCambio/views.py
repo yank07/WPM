@@ -12,9 +12,22 @@ from solicitudCambio.forms import CrearSolicitudForm, SolicitudFilter, crear_com
 from item.models import Item, relaciones
 from item.views import calculo_impacto
 from proyecto.models import Proyecto, Fase
-from solicitudCambio.tables import SolicitudTable, admin_comite_table
+from solicitudCambio.tables import SolicitudTable, admin_comite_table, MisSolicitudesTable
 from item.views import es_miembro
 from django.db.models import Q
+
+
+@login_required()
+def listar_mis_solicitudes(request):
+    """
+    Vista para listar las solicitudes de cambio que pertenecen a un usuario particular
+    """
+    f = SolicitudFilter(request.GET, queryset=Solicitud.objects.filter(usuario=request.user))
+    tabla = MisSolicitudesTable(f)
+    RequestConfig(request, paginate={"per_page": 5}).configure(tabla)
+
+    return render_to_response('mis_solicitudes.html', {'lista': tabla, 'filter': f},
+                              context_instance=RequestContext(request))
 
 
 @login_required()
@@ -59,7 +72,7 @@ def crear_solicitud(request, item_id):
                 sc.impacto = calculo_impacto(item.id)
                 sc.usuario = request.user
                 sc.save()
-                url = reverse('item.views.listar_item', args=[item.id])
+                url = reverse('item.views.listar_item', args=[item.fase.id])
                 return HttpResponseRedirect(url)
             else:
                 print form.errors
@@ -114,7 +127,6 @@ def voto_positivo(request, id_solicitud):
     context = RequestContext(request)
     sc = Solicitud.objects.get(id=id_solicitud)
     comite = Comite.objects.get(proyecto=sc.item.fase.proyecto)
-    #TODO: controlar que cada miembro del comite vote solo una vez
 
     if comite.primer_integrante == request.user:
         if sc.voto_primero == 0:
@@ -122,7 +134,7 @@ def voto_positivo(request, id_solicitud):
         else:
             #error
             mensaje = 'ya votaste'
-            #TODO enviar a pagina de error
+            return render_to_response('pagina_error.html', {'mensaje': mensaje}, context)
 
     if comite.segundo_integrante == request.user:
         if sc.voto_segundo == 0:
@@ -194,7 +206,7 @@ def eliminar_solicitud(request, id_solicitud):
     Vista para eliminar la solicitud, DEBE estar en estado pendiente
     """
     context = RequestContext(request)
-    sc = Solicitud.objects.get(id_solicitud)
+    sc = Solicitud.objects.get(id=id_solicitud)
     if sc.estado == 'PEN':
         sc.delete()
     else:
@@ -202,7 +214,6 @@ def eliminar_solicitud(request, id_solicitud):
         return render_to_response('pagina_error.html', {'mensaje': mensaje}, context)
     url = reverse('solicitudCambio.views.listar_solicitudes')
     return HttpResponseRedirect(url)
-
 
 
 @login_required
@@ -243,6 +254,7 @@ def crear_comite(request, id_proyecto):
     return render_to_response('crear_comite.html', {'form': form ,'id_proyecto':proyecto.id},
                                   context_instance=context)
 
+
 @login_required
 def admin_comite(request):
     """
@@ -253,8 +265,9 @@ def admin_comite(request):
     lista = admin_comite_table(f)
 
     RequestConfig(request, paginate={"per_page": 5}).configure(lista)
-    return render_to_response('admin_comite.html', {'lista': lista , 'filter': f},
+    return render_to_response('admin_comite.html', {'lista': lista, 'filter': f},
                               context_instance=RequestContext(request))
+
 
 @login_required
 def editar_comite(request, id_comite):
@@ -305,13 +318,13 @@ def editar_comite(request, id_comite):
         else:
             print form.errors
     else:
-        diccionario={'proyecto':proyecto, 'primer_integrante':comite.primer_integrante,
-                     'segundo_integrante':comite.segundo_integrante,
-                     'tercer_integrante':comite.tercer_integrante, 'estado':comite.estado}
+        diccionario= {'proyecto': proyecto, 'primer_integrante': comite.primer_integrante,
+                     'segundo_integrante': comite.segundo_integrante,
+                     'tercer_integrante': comite.tercer_integrante, 'estado': comite.estado}
         form = crear_comite_form(initial=diccionario)
         form.fields['proyecto'].widget = forms.HiddenInput()
         #form.fields['estado'].widget = forms.HiddenInput()
-    return render_to_response('editar_comite.html', {'form': form ,'id_comite':comite.id},
+    return render_to_response('editar_comite.html', {'form': form, 'id_comite': comite.id},
                                   context_instance=context)
 
 
@@ -330,3 +343,14 @@ def activar_items(id_item):
     sucesores_hijos = relaciones.objects.filter(item_origen_id=id_item)
     for sh in sucesores_hijos:
         activar_items(sh.item_destino.id)
+
+
+@login_required()
+def ver_grafo_solicitud(request, id_solicitud):
+    """
+    Vista que implementa el grafo de dependencias de un item, para la evaluacion de una solicitud de cambio
+    """
+    #TODO implementar!!!
+    context = RequestContext(request)
+    mensaje = 'NOT YET IMPLEMENTED'
+    return render_to_response('pagina_error.html', {'mensaje': mensaje}, context)
