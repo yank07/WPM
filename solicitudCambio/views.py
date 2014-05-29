@@ -38,7 +38,7 @@ def listar_solicitudes(request):
     """
 
     comites = Comite.objects.filter(Q(primer_integrante=request.user) | Q(segundo_integrante=request.user) |
-                                      Q(tercer_integrante=request.user))
+                                    Q(tercer_integrante=request.user))
 
     proyectos = []
     for c in comites:
@@ -96,7 +96,7 @@ def rechazar_solicitud(request, id_solicitud):
     if es_miembro(request.user.id, sc.item.fase.proyecto.id):
         sc.estado = 'DEN'
         sc.save()
-        url = reverse('item.views.listar_item', args=[sc.item.id])
+        url = reverse('solicitudCambio.views.listar_solicitudes')
         return HttpResponseRedirect(url)
     else:
         #error: no tiene permisos o no es miembro
@@ -112,11 +112,16 @@ def aprobar_solicitud(request, id_solicitud):
     """
     context = RequestContext(request)
     sc = Solicitud.objects.get(id=id_solicitud)
-    sc.estado = 'APR'
-    sc.save()
-    activar_items(sc.item.id)
-    url = reverse('solicitudCambio.views.listar_solicitudes')
-    return HttpResponseRedirect(url)
+    if es_miembro(request.user.id, sc.item.fase.proyecto.id):
+        sc.estado = 'APR'
+        sc.save()
+        activar_items(sc.item.id)
+        url = reverse('solicitudCambio.views.listar_solicitudes')
+        return HttpResponseRedirect(url)
+    else:
+        #error: no tiene permisos o no es miembro
+        mensaje = 'Usted no es miembro del proyecto, o no tiene permisos'
+        return render_to_response('pagina_error.html', {'mensaje': mensaje}, context)
 
 
 @login_required()
@@ -133,7 +138,7 @@ def voto_positivo(request, id_solicitud):
             sc.voto_primero = 1
         else:
             #error
-            mensaje = 'ya votaste'
+            mensaje = 'Usted ya ha votado'
             return render_to_response('pagina_error.html', {'mensaje': mensaje}, context)
 
     if comite.segundo_integrante == request.user:
@@ -164,6 +169,7 @@ def voto_negativo(request, id_solicitud):
     """
     Vista para votar en contra de una solicitud
     """
+    context = RequestContext(request)
     sc = Solicitud.objects.get(id=id_solicitud)
 
     comite = Comite.objects.get(proyecto=sc.item.fase.proyecto)
@@ -330,7 +336,7 @@ def editar_comite(request, id_comite):
 
 def activar_items(id_item):
     """
-    Funcion para el calculo de impacto
+    Funcion para activar los items relacionados al item de la solicitud de cambio
     """
     item = Item.objects.get(id=id_item)
     item.estado = 'REV'
