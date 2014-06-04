@@ -46,6 +46,7 @@ class Proyecto(models.Model):
     fecha_creacion = models.DateField(auto_now_add=True, help_text="Fecha de Creacion")
     fecha_modificacion = models.DateField(auto_now=True, help_text="Fecha de Ultima Modificacion")
     usuario_modificacion = models.ForeignKey(User, help_text="Usuario que realizo la ultima modificacion", blank=True, default=1)
+    imagen_grafo = models.ImageField(upload_to='files', blank=True)
 
 
     def __unicode__(self):

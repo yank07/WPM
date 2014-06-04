@@ -45,11 +45,13 @@ INSTALLED_APPS = (
     'item',
     'lineaBase',
     'solicitudCambio',
+    'reportes',
     'simple_history',
     'crispy_forms',
     'django_tables2',
     'django_filters',
     'django_bootstrap_breadcrumbs',
+    'easy_pdf',
     'south',
 
 )
@@ -104,6 +106,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(RUTA_PROYECTO, '/static')
 
 STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
@@ -116,7 +119,6 @@ STATICFILES_DIRS = (
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
 )
 
 TEMPLATE_DIRS = (
@@ -127,7 +129,7 @@ TEMPLATE_DIRS = (
 )
 
 
-TEMPLATE_CONTEXT_PROCESSORS =(
+TEMPLATE_CONTEXT_PROCESSORS = (
 
     'django.contrib.auth.context_processors.auth',
     'django.core.context_processors.debug',
@@ -136,24 +138,12 @@ TEMPLATE_CONTEXT_PROCESSORS =(
     'django.core.context_processors.static',
     'django.core.context_processors.tz',
     'django.contrib.messages.context_processors.messages',
-    'django.core.context_processors.request'
+    'django.core.context_processors.request',
 )
-
-
 
 
 INTERNAL_IPS = ('127.0.0.1','localhost')
 
-TEMPLATE_CONTEXT_PROCESSORS=(
-    'django.contrib.auth.context_processors.auth',
-    'django.core.context_processors.debug',
-    'django.core.context_processors.i18n',
-    'django.core.context_processors.media',
-    'django.core.context_processors.static',
-    'django.core.context_processors.tz',
-    'django.contrib.messages.context_processors.messages',
-    'django.core.context_processors.request'
-    )
 
 MEDIA_ROOT = os.path.join(RUTA_PROYECTO,'uploaded_files/')
 print MEDIA_ROOT

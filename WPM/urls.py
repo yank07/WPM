@@ -65,6 +65,7 @@ urlpatterns = patterns('',
     url(r'^item/', include('item.urls')),
     url(r'^lineabase/', include('lineaBase.urls')),
     url(r'^solicitudcambio/', include('solicitudCambio.urls')),
+    url(r'^reportes/', include('reportes.urls')),
 
 
 

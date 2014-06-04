@@ -4,4 +4,5 @@
 {% endif %}
 {% if not user.is_staff %}
  <a href="/item/listar_item/{{ record.id }}"><input class="btn btn-xs btn-default" type="submit" name="submit" value="Ver Items" /></a>
+ <a href="{% url 'reportes.views.reporte_fases' record.id %}"><input class="btn btn-xs btn-default" type="submit" name="submit" value="Reporte Resumen de Fase" /></a>
 {% endif %}

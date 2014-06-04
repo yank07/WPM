@@ -1,0 +1,44 @@
+{% extends "base_reporte.html" %}
+{% load render_table from django_tables2 %}
+{% block title %}Resumen de Fases{% endblock %}
+{% block body %}
+    <h1>Resumen de la fase {{ fase.nombre }}</h1>
+    <h2>Items</h2>
+            {% render_table lista_items %}
+      <table>
+          <h2>Lineas base</h2>
+        {% render_table lista_lb %}
+        </table>
+        <pdf:nextpage>
+    {% for lb in lista_lb%}
+        <h2>Items de la Linea base: {{ lb.descripcion }}</h2>
+            <table>
+
+          <TR>
+              <TH>Identificador</TH>
+              <TH>Nombre</TH>
+              <TH>Descripcion</TH>
+              <TH>Estado</TH>
+              <TH>Version</TH>
+              <TH>Complejidad</TH>
+              <TH>Costo</TH>
+              <TH>Tipo</TH>
+          </TR>
+          {% for item in lb.items.all %}
+
+              <TR>
+                <TD class="c1">{{item.id}}</TD>
+                <TD class="c2">{{item.nombre}}</TD>
+                <TD class="c3">{{item.descripcion}}</TD>
+                <TD class="c4">{{item.estado}}</TD>
+                <TD class="c5">{{item.version}}</TD>
+                <TD class="c6">{{item.complejidad}}</TD>
+                <TD class="c7">{{item.costo}}</TD>
+                <TD class="c8">{{item.tipoitem}}</TD>
+              </TR>
+
+          {% endfor %}
+      </table>
+      <pdf:nextpage>
+    {% endfor %}
+{% endblock %}
