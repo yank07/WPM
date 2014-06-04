@@ -329,3 +329,70 @@ def ver_grafo_relaciones(request, id_proyecto):
     return render_to_response('ver_grafo_relaciones.html', {'image_name': "image.png", 'lista': itemlist,
                                                             'id_proyecto': id_proyecto, 'proy_nombre': proy_nombre},
                               context)
+
+def get_items(id_item, version, lista=[]):
+    item = Item.objects.get(id=id_item)
+    sucesores_hijos = relaciones.objects.filter(item_origen_id=id_item, item_origen_version=version).exclude(activo=False)
+    for sh in sucesores_hijos:
+        lista.append(sh.item_destino)
+        get_items(sh.item_destino_id, sh.item_destino_version,lista)
+
+
+
+
+@login_required
+def ver_grafo_desde_item(request, id_item):
+    """
+    Vista para crear el grafo de relaciones entre items de un proyecto dado
+    """
+    context = RequestContext(request)
+    MG = nx.MultiDiGraph()
+    item = Item.objects.get(id=id_item)
+    lista_items=[item]
+    get_items(id_item,item.version,lista_items)
+    print lista_items
+    #crear nodos
+    i = 0
+
+    x = 0
+    labels = {}
+    for item in lista_items:
+        x = x + 1
+        labels[item.id] = item.id
+        MG.add_node(item.id, pos=(item.id, x))
+
+    color_list = []
+    for node in nx.nodes(MG):
+        item = Item.objects.get(id=node)
+        color_list.append(item.fase_id)
+    pos = nx.get_node_attributes(MG, 'pos')
+    #pos = nx.circular_layout(MG)
+    nx.draw_networkx_nodes(MG, pos=pos, node_color=color_list, node_size=1500)
+    nx.draw_networkx_labels(MG, pos=pos, labels=labels)
+
+    #crear arcos
+    edge_labels = []
+    for item in lista_items:
+        antecesores_padres = relaciones.objects.filter(item_destino_id=item.id, item_destino_version=item.version).exclude(activo=False)
+        for ap in antecesores_padres:
+            item_origen = ap.item_origen
+            item_destino = ap.item_destino
+            edge = MG.add_edge(item_origen.id, item_destino.id)
+            edge_labels.append(((item_origen.id, item_destino.id), ap.tipo_relacion))
+    #endfor
+    print pos
+    print edge_labels
+    nx.draw_networkx_edges(MG, pos=pos)
+
+    #agregar etiquetas a los arcos
+    edge_labels = dict(edge_labels)
+    nx.draw_networkx_edge_labels(MG, pos=pos, edge_labels=edge_labels)
+
+    image_path = os.path.join(RUTA_PROYECTO,"static/grafos/image.png")
+    #verificar que no existan conflictos de nombres
+    plt.savefig(image_path)
+    #plt.show()
+
+    itemlist = ListaItemTable(lista_items)
+    RequestConfig(request, paginate={"per_page": 5}).configure(itemlist)
+    return render_to_response('ver_grafo_desde_item.html', {'image_name': "image.png", 'lista': itemlist,}, context)
