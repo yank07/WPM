@@ -62,10 +62,10 @@ def reporte_resumen_proyecto(request, id_proyecto):
                    'lista_lb': lista_lb, 'fecha': fecha_actual_str(), 'img': url_img,
                    'pagesize': 'A4'}
 
-    context = RequestContext(request, diccionario)
-    return render_to_pdf_response(request, 'reporte_resumen_proyecto.html', context, filename=None)
+    html = render_to_string('reporte_resumen_proyecto.html', diccionario, context_instance=RequestContext(request))
+    return generar_pdf(html)
 
-
+@login_required
 def reporte_fases(request, fase_id):
     """
     Vista que genera el reporte de resumen de fase
