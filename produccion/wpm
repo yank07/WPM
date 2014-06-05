@@ -1,0 +1,10 @@
+<VirtualHost *:80>
+    ServerName wpm.com
+    DocumentRoot /var/www/WPM
+    Alias /static/ /var/www/WPM/WPM/static/
+    Alias /media/ /var/www/WPM/WPM/media/
+    # NEED THIS FOR PERMISSIONS
+    RewriteEngine On
+    # THIS IS THE LINE FOR WSGI. I'm serving @ root: '/'
+    WSGIScriptAlias / /var/www/WPM/WPM/wsgi.py
+</VirtualHost>

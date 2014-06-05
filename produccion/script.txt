@@ -1,0 +1,80 @@
+requerimientos iniciales:
+ubuntu 12.04
+servidor web apache2 instalado, mod_wsgi instalado y activado
+python 2.7.3
+postgresql server y client, version 9.1 o superior
+django version 1.6.2 o superior
+git
+
+***apps de django***
+sudo pip install south
+sudo pip install -e git+git://github.com/mvpdev/django-eav.git#egg=django-eav
+sudo pip install django-tables2
+sudo pip install django-bootstrap-breadcrumbs
+sudo pip install --upgrade django-crispy-forms
+sudo pip install django-filter
+sudo pip install django-simple-history
+sudo pip install django-easy-pdf xhtml2pdf reportlab pisa
+sudo apt-get install libpq-dev python-dev libjpeg-dev libfreetype6-dev zlib1g-dev
+
+sudo ln -s /usr/lib/`uname -i`-linux-gnu/libfreetype.so /usr/lib/
+sudo ln -s /usr/lib/`uname -i`-linux-gnu/libjpeg.so /usr/lib/
+sudo ln -s /usr/lib/`uname -i`-linux-gnu/libz.so /usr/lib/
+
+desinstalar PIL
+
+instalar PIL manualmente
+
+
+***libreria grafo***
+sudo apt-get install python-networkx
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+dump de la bd desarrollo
+pg_dump  -o -h localhost -p 5432 -U postgres WPMDB > wpmdb.sql
+
+crear bd nueva
+echo Creando base de datos de produccion... Inserte la contraseña del usuario postgres cuando lo pida
+su postgres -c "createdb -O postgres WPMDB_prod"
+
+restaurar la bd en una nueva
+echo poblando la base de datos...
+su postgres -c "psql -q WPMDB_prod < wpmdb.sql"
+
+crear directorio para descargar del git
+echo descargando proyecto de github (branch master)
+mkdir src
+cd src
+git clone https://github.com/yank07/WPM.git
+
+copiar settings.py modificado con la bd produccion
+cd ..
+cp settings.py ./src/WPM/WPM
+
+
+copiar al root del apache
+echo copiando al root del apache...
+cd src
+sudo cp -R WPM /var/www/
+sudo cd /var/www
+sudo chown -R www-data WPM
+sudo chmod -R 777 WPM
+
+reiniciar el apache
+echo reiniciando el servidor apache...
+sudo service apache2 restart
+echo Listo! Abra su navegador e ingrese la direccion especificada
