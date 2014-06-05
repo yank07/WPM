@@ -6,5 +6,9 @@
  <a href="/proyecto_view/{{ record.id }}"><input class="btn btn-xs btn-default" type="submit" name="submit" value="Ver Fases" /></a>
 {% endif %}
 
-<a href="{% url 'proyecto.views.ver_grafo_relaciones' record.id %}"><input class="btn btn-xs btn-default" type="submit" name="submit" value="Grafo" /></a>
+{% if record.usuario == request.user %}
 <a href="{% url 'solicitudCambio.views.crear_comite' record.id %}"><input class="btn btn-xs btn-default" type="submit" name="submit" value="Crear Comite" /></a>
+{% endif %}
+
+<a href="{% url 'proyecto.views.ver_grafo_relaciones' record.id %}"><input class="btn btn-xs btn-default" type="submit" name="submit" value="Grafo" /></a>
+<a href="{% url 'reportes.views.reporte_resumen_proyecto' record.id %}"><input class="btn btn-xs btn-default" type="submit" name="submit" value="Reporte de Resumen" /></a>

@@ -1,0 +1,36 @@
+<!doctype html>
+
+<style>
+@page {
+  margin: 1cm;
+  margin-bottom: 2.5cm;
+  @frame footer {
+    -pdf-frame-content: footerContent;
+    bottom: 2cm;
+    margin-left: 1cm;
+    margin-right: 1cm;
+    height: 1cm;
+  }
+}
+</style>
+
+<div class=page>
+  <h1>Web Project Manager</h1>
+  <div class=navigation>
+    <b>Reporte generado por: {{ request.user.first_name }} {{ request.user.last_name }}</b>
+  {% if nombre_proyecto %}
+    <b>&mdash; Proyecto: {{ nombre_proyecto }}</b>
+  {% endif %}
+  {% if nombre_fase %}
+    <b>&mdash; Fase: {{ nombre_fase }}</b>
+  {% endif %}
+  </div>
+  <div class=body>
+  {% block body %}{% endblock %}
+  </div>
+
+  <div id="footerContent">
+    Pagina #<pdf:pagenumber> &nbsp &nbsp &nbsp &nbsp Reporte generado el: {{ fecha }}
+  </div>
+
+</div>
