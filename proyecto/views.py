@@ -348,8 +348,10 @@ def ver_grafo_desde_item(request, id_item):
     context = RequestContext(request)
     MG = nx.MultiDiGraph()
     item = Item.objects.get(id=id_item)
+    print item
     lista_items=[item]
     get_items(id_item,item.version,lista_items)
+    lista_items = list(set(lista_items))
     print lista_items
     #crear nodos
     i = 0
@@ -373,7 +375,7 @@ def ver_grafo_desde_item(request, id_item):
     #crear arcos
     edge_labels = []
     for item in lista_items:
-        antecesores_padres = relaciones.objects.filter(item_destino_id=item.id, item_destino_version=item.version).exclude(activo=False)
+        antecesores_padres = relaciones.objects.filter(item_origen_id=item.id, item_origen_version=item.version).exclude(activo=False)
         for ap in antecesores_padres:
             item_origen = ap.item_origen
             item_destino = ap.item_destino
@@ -393,6 +395,8 @@ def ver_grafo_desde_item(request, id_item):
     plt.savefig(image_path)
     #plt.show()
 
+    item_orig = Item.objects.get(id=id_item)
     itemlist = ListaItemTable(lista_items)
     RequestConfig(request, paginate={"per_page": 5}).configure(itemlist)
-    return render_to_response('ver_grafo_desde_item.html', {'image_name': "image.png", 'lista': itemlist,}, context)
+    return render_to_response('ver_grafo_desde_item.html', {'image_name': "image.png", 'lista': itemlist,
+                                                            'item': item_orig} , context)

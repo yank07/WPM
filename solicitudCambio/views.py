@@ -7,6 +7,7 @@ from django.core.urlresolvers import reverse
 from django.template import RequestContext
 from django_tables2 import RequestConfig
 from lineaBase.models import LineaBase
+from proyecto.views import ver_grafo_desde_item
 from solicitudCambio.models import Solicitud, Comite
 from solicitudCambio.forms import CrearSolicitudForm, SolicitudFilter, crear_comite_form, comite_filter
 from item.models import Item, relaciones
@@ -356,7 +357,6 @@ def ver_grafo_solicitud(request, id_solicitud):
     """
     Vista que implementa el grafo de dependencias de un item, para la evaluacion de una solicitud de cambio
     """
-    #TODO implementar!!!
-    context = RequestContext(request)
-    mensaje = 'NOT YET IMPLEMENTED'
-    return render_to_response('pagina_error.html', {'mensaje': mensaje}, context)
+
+    item = Solicitud.objects.get(id=id_solicitud).item
+    return ver_grafo_desde_item(request, item.id)
