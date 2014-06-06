@@ -360,10 +360,10 @@ def ver_grafo_relaciones(request, id_proyecto):
 
     items = Item.objects.filter(fase__proyecto_id=id_proyecto)
     itemlist = ListaItemTable(items)
-    proy_nombre = Proyecto.objects.get(id=id_proyecto).nombre
+    proy = Proyecto.objects.get(id=id_proyecto)
     RequestConfig(request, paginate={"per_page": 5}).configure(itemlist)
     return render_to_response('ver_grafo_relaciones.html', {'image_name': "image.png", 'lista': itemlist,
-                                                            'id_proyecto': id_proyecto, 'proy_nombre': proy_nombre},
+                                                            'id_proyecto': id_proyecto, 'proyecto': proy},
                               context)
 
 def get_items(id_item, version, lista=[]):
