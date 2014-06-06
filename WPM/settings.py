@@ -51,7 +51,7 @@ INSTALLED_APPS = (
     'django_tables2',
     'django_filters',
     'django_bootstrap_breadcrumbs',
-    'easy_pdf',
+
     'south',
 
 )

@@ -17,6 +17,7 @@ tar zxvf Imaging-1.1.6.tar.gz
 sudo python ./Imaging-1.1.6/setup.py install
 
 sudo pip install django-easy-pdf xhtml2pdf reportlab pisa
+sudo pip install html5lib
 sudo apt-get install python-dev libjpeg-dev libfreetype6-dev zlib1g-dev
 sudo ln -s /usr/lib/`uname -i`-linux-gnu/libfreetype.so /usr/lib/
 sudo ln -s /usr/lib/`uname -i`-linux-gnu/libjpeg.so /usr/lib/

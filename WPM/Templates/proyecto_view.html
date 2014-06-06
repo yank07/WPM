@@ -28,6 +28,33 @@
 {#    </nav>#}
 {#{% endblock %}#}
 
+
+{% block nav %}
+<nav class="menu1">
+    {% if proyecto.estado != "Finalizado" %}
+        {% if finalizado %}
+
+             <ul>
+                 <li>                   <form action="{% url 'proyecto.views.finalizar_proyecto' id_proyecto %}" method="post">
+                                            {% csrf_token %}
+                                            <a href="javascript:;" onclick="parentNode.submit();">Finalizar Proyecto</a>
+                                        </form>
+                 </li>
+             </ul>
+         {% endif %}
+    {% else %}
+
+          <ul style="text-align: center;">
+            <li ><h5 style="color: #ffffff;  ">Proyecto Finalizado</h5></li>
+            </ul>
+    {% endif %}
+
+        </nav>
+
+
+
+{% endblock %}
+
 {% if not user.is_staff %}
     {% block breadcrumbs %}
         {{ block.super }}

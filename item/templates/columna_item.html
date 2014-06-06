@@ -17,6 +17,9 @@
     <a href="/solicitudcambio/crear/{{ record.id }}"><input class="btn btn-xs btn-default" type="submit" name="submit" value="Crear Solicitud de Cambio" /></a>
 {% endif %}
 
+{% if record.estado != 'BLOQ' %}
 <a href="/item/listar_versiones/{{ record.id }}"><input class="btn btn-xs btn-default" type="submit" name="submit" value="Versiones Anteriores" /></a>
 <a href="/item/delete_relacion/{{ record.id }}"><input class="btn btn-xs btn-default" type="submit" name="submit" value="Eliminar Relaciones" /></a>
+{% endif %}
+
 <a href="{% url 'reportes.views.reporte_versiones_item' record.id %}"><input class="btn btn-xs btn-default" type="submit" name="submit" value="Reporte de Versiones" /></a>

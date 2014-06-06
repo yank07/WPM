@@ -16,7 +16,7 @@ import ho.pisa as pisa
 import cStringIO as StringIO
 import cgi
 from django.template.loader import render_to_string
-from easy_pdf.rendering import render_to_pdf_response
+
 import networkx as nx
 import matplotlib
 matplotlib.use('Agg')

@@ -41,6 +41,10 @@ def add_item(request, id_fase):
         #error: no es miembro
         mensaje = 'Usted no es miembro del proyecto, no puede crear un item'
         return render_to_response('pagina_error.html', {'mensaje': mensaje}, context)
+    if fase.estado == "Finalizado":
+        mensaje = 'ESTA FASE ESTA FINALIZADA, NO PUEDE AGREGAR UN NUEVO ITEM'
+        return render_to_response('pagina_error.html', {'mensaje': mensaje}, context)
+
     if request.method == 'POST':
         form = add_item_form(request.POST, request.FILES)
 
@@ -240,7 +244,7 @@ def listar_item(request, id_fase):
     return render_to_response('listar_item.html', {'lista': lista , 'filter': f,'id_fase':id_fase,
                                                    'nombre_fase': fase.nombre, 'id_proyecto': id_proyecto,
                                                    'proy_nombre': proy_nombre,
-                                                   'finalizado': finalizado},
+                                                   'finalizado': finalizado ,'fase':fase },
                               context_instance=RequestContext(request))
 
 

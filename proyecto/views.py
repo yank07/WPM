@@ -157,11 +157,21 @@ def proyecto_view(request,id_proyecto):
     #     msg = 'No es miembro de este proyecto'
     #     return render_to_response('template', {'mensaje': msg}, context_instance=RequestContext(request))
     fases = Fase.objects.filter(proyecto= id_proyecto)
+
+
     lista = FasesTable(fases)
     nombre = Proyecto.objects.get(id=id_proyecto).nombre
+    proyecto = Proyecto.objects.get(id=id_proyecto)
+
+    finalizado = True
+    for fase in fases:
+        if fase.estado != "Finalizado":
+            finalizado = False
+
+
 
     RequestConfig(request, paginate={"per_page": 5}).configure(lista)
-    return render_to_response('proyecto_view.html', {'lista': lista, 'proy_nombre': nombre, 'id_proyecto': id_proyecto},
+    return render_to_response('proyecto_view.html', {'lista': lista, 'proy_nombre': nombre, 'id_proyecto': id_proyecto ,'finalizado': finalizado , "proyecto":proyecto},
                               context_instance=RequestContext(request))
 
 
@@ -251,6 +261,12 @@ def finalizar_fase(request, fase_id):
     if request.method == 'POST':
         fase = Fase.objects.get(id=fase_id)
         if request.user == fase.proyecto.usuario:
+
+            if Item.objects.filter(fase_id=fase_id, estado="REV" ).exists() or Item.objects.filter(fase_id=fase_id, estado="ACT" ).exists() or Item.objects.filter(fase_id=fase_id, estado="APROB" ).exists():
+                context = RequestContext(request)
+                mensaje = 'Existe algun item no bloqueado'
+                return render_to_response('pagina_error.html', {'mensaje': mensaje}, context)
+
             fase.estado = "Finalizado"
             fase.save()
         else:
@@ -258,6 +274,26 @@ def finalizar_fase(request, fase_id):
             mensaje = 'Usted no es el lider del proyecto, no puede finalizar una fase'
             return render_to_response('pagina_error.html', {'mensaje': mensaje}, context)
     return HttpResponseRedirect('/item/listar_item/'+ str(fase_id)+"/")
+
+
+@login_required
+def finalizar_proyecto(request, proyecto_id):
+    """
+    Vista para finalizar un Proyecto
+    @param request: Peticion HTTP
+    @return renderiza el form correspondiente
+    """
+    if request.method == 'POST':
+        proyecto = Proyecto.objects.get(id=proyecto_id)
+        if request.user == proyecto.usuario:
+            proyecto.estado = "Finalizado"
+            proyecto.save()
+        else:
+            context = RequestContext(request)
+            mensaje = 'Usted no es el lider del proyecto, no puede finalizar una fase'
+            return render_to_response('pagina_error.html', {'mensaje': mensaje}, context)
+    return HttpResponseRedirect('/proyecto_view/21/'+ str(proyecto_id)+"/")
+
 
 
 @login_required

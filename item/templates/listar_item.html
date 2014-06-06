@@ -17,8 +17,10 @@
 {% endblock %}
 {% block nav %}
 
-    <nav class="menu1">
 
+
+    <nav class="menu1">
+    {% if fase.estado != "Finalizado" %}
         <ul>
             <li><a id="link" href={% url 'item.views.add_item' id_fase %}>Crear Item</a></li>
             <li><a id="link" href={% url 'item.views.listar_item_muerto' id_fase %}>Revivir Items</a></li>
@@ -26,19 +28,33 @@
             <li><a id="link" href={% url 'item.views.crear_hijo' id_fase %}>Crear Hijo</a></li>
             <li><a id="link" href={% url 'lineaBase.views.crear_lb' id_fase %}>Crear Linea Base</a></li>
         <li><a id="link" href={% url 'lineaBase.views.admin_lb' id_fase %}>Admin Linea Base</a></li>
-        {% if finalizado %}
-        <li>
-            <form action="{% url 'proyecto.views.finalizar_fase' id_fase %}" method="post">
-                {% csrf_token %}
-                <a href="javascript:;" onclick="parentNode.submit();">Finalizar Fase</a>
-            </form>
-        </li>
-{% endif %}
+        {% if finalizado%}
+                    {% if fase.estado != "Finalizado" %}
+                                <li>
+                                    <form action="{% url 'proyecto.views.finalizar_fase' id_fase %}" method="post">
+                                        {% csrf_token %}
+                                        <a href="javascript:;" onclick="parentNode.submit();">Finalizar Fase</a>
+                                    </form>
+                                </li>
+                    {% endif %}
+        {% endif %}
             {% block listaproyecto %}
             {% endblock %}
 
         </ul>
+    {% else %}
+            <ul style="text-align: center;">
+            <li ><h5 style="color: #ffffff;  ">Fase Finalizada</h5></li>
+            </ul>
+
+
+    {% endif %}
+
     </nav>
+
+
+
+
 {% endblock %}
 
 {% block breadcrumbs %}
@@ -50,6 +66,9 @@
 
 
 {% block contenido %}
+
+
+
     <div class="col-md-3  ">
         <form action="" method="get">
             {{ filter.form | crispy }}
