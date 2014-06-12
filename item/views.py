@@ -45,10 +45,20 @@ def add_item(request, id_fase):
         mensaje = 'ESTA FASE ESTA FINALIZADA, NO PUEDE AGREGAR UN NUEVO ITEM'
         return render_to_response('pagina_error.html', {'mensaje': mensaje}, context)
 
+    fases = Fase.objects.filter(proyecto_id=fase.proyecto_id)
+
     if request.method == 'POST':
         form = add_item_form(request.POST, request.FILES)
+        id_fase_primero = fases.aggregate(Min('id'))
+        if int(id_fase_primero['id__min']) != int(fase.id):
+            form.fields["antecesor"].queryset = Item.objects.filter(fase__id=int(id_fase) - 1, estado="BLOQ")
+        else:
+            form.fields["antecesor"].queryset = Item.objects.none()
+        form.fields["tipoitem"].queryset = TipoItem.objects.filter(fases__id=id_fase)
+        form.fields["padre"].queryset = Item.objects.filter(fase=fase).exclude(estado='ELIM')
 
         if form.is_valid():
+
             nombre = request.POST.__getitem__('nombre')
             tipoitemID = request.POST.__getitem__('tipoitem')
             tipoitem = TipoItem.objects.get(id=tipoitemID)
@@ -58,12 +68,6 @@ def add_item(request, id_fase):
             costo = request.POST.__getitem__('costo')
             descripcion = request.POST.__getitem__('descripcion')
             observacion = request.POST.__getitem__('observacion')
-            #archivo = request.FILES['file']
-            # t=TipoItem.objects.filter(fases__id__exact=faseID,id=tipoitemID)
-            # if t.__len__()==0:
-            #     errors=form._errors.setdefault("fase",ErrorList())
-            #     errors.append("Elegir fases que posean el tipo de item seleccionado")
-            #     return render_to_response('add_item.html', {'form': form,'id_fase':id_fase}, context)
             if faseID != id_fase:
                 errors = form._errors.setdefault("fase", ErrorList())
                 errors.append("Este valor es de solo lectura")
@@ -74,8 +78,6 @@ def add_item(request, id_fase):
                 errors.append("Ingrese un valor comprendido entre [1-100]")
                 return render_to_response('add_item.html', {'form': form, 'id_fase': id_fase}, context)
 
-            #item = Item.objects.create(nombre=nombre,fase=faseID,costo=costo,complejidad=complejidad,descripcion=descripcion,archivo=archivo,observacion=observacion)
-            #item.tipoitem.add(tipoitem)
             try:
                 item = form.save()
             except IntegrityError:
@@ -84,10 +86,27 @@ def add_item(request, id_fase):
                 return render_to_response('add_item.html', {'form': form, 'id_fase': id_fase}, context)
 
             item_origen_id_list = request.POST.getlist('antecesor')
-            for item_origen_id in item_origen_id_list:
-                item_origen = Item.objects.get(id=item_origen_id)
-                relaciones.objects.create(tipo_relacion='SUC', item_origen_id=item_origen_id, item_destino_id=item.id,
-                                          item_origen_version=item_origen.version, item_destino_version=item.version)
+
+            fases = Fase.objects.filter(proyecto_id=fase.proyecto_id)
+            id_fase_primero = fases.aggregate(Min('id'))
+            print id_fase_primero['id__min']
+            print fase.id
+            print item_origen_id_list.__len__()
+            if int(id_fase_primero['id__min']) != int(fase.id):
+
+                if item_origen_id_list.__len__() > 0:
+                    for item_origen_id in item_origen_id_list:
+                        item_origen = Item.objects.get(id=item_origen_id)
+                        relaciones.objects.create(tipo_relacion='SUC', item_origen_id=item_origen_id,
+                                                  item_destino_id=item.id,item_origen_version=item_origen.version,
+                                                  item_destino_version=item.version)
+                else:
+                    errors = form._errors.setdefault("antecesor", ErrorList())
+                    errors.append("Debe seleccionarse un item antecesor")
+                    item.delete()
+                    return render_to_response('add_item.html', {'form': form, 'id_fase': id_fase}, context)
+
+
             item_origen_id_list = request.POST.getlist('padre')
             for item_origen_id in item_origen_id_list:
                 if es_consistente(id_fase) == True:
@@ -99,34 +118,21 @@ def add_item(request, id_fase):
                 else:
                     errors = form._errors.setdefault("padre", ErrorList())
                     errors.append("INCONSISTENCIA: Se crean ciclos en el grafo de relaciones!")
+                    item.delete()
                     return render_to_response('add_item.html', {'form': form, 'id_fase': id_fase}, context)
 
             return HttpResponseRedirect('/item/listar_item/'+id_fase)
         else:
             print form.errors
-            form.fields["tipoitem"].queryset = TipoItem.objects.filter(fases__id=id_fase)
-            form.fields["antecesor"].queryset = Item.objects.filter(fase__id=int(id_fase) - 1, estado="BLOQ")
-            form.fields["padre"].queryset = Item.objects.filter(fase__id=int(id_fase)).exclude(estado='ELIM')
-
     else:
         form = add_item_form(initial={'fase': id_fase})
-        print id_fase
-
-        fases=Fase.objects.filter(proyecto_id=fase.proyecto_id)
-        fase = Fase.objects.get(id=id_fase)
-        fases = Fase.objects.filter(proyecto_id=fase.proyecto_id)
         id_fase_primero = fases.aggregate(Min('id'))
-        print id_fase_primero
-        form.fields["padre"].queryset = Item.objects.filter(fase__id=int(id_fase)).exclude(estado='ELIM')
-        if id_fase_primero != id_fase:
-            print "no primero"
-            fase_anterior = int(id_fase) - 1
-            form.fields["antecesor"].queryset = Item.objects.filter(fase__id=fase_anterior, estado="BLOQ")
+        if int(id_fase_primero['id__min']) != int(fase.id):
+            form.fields["antecesor"].queryset = Item.objects.filter(fase__id=int(id_fase) - 1, estado="BLOQ")
         else:
             form.fields["antecesor"].queryset = Item.objects.none()
         form.fields["tipoitem"].queryset = TipoItem.objects.filter(fases__id=id_fase)
-
-        # print form.as_table()
+        form.fields["padre"].queryset = Item.objects.filter(fase=fase).exclude(estado='ELIM')
 
     return render_to_response('add_item.html', {'form': form,'id_fase':id_fase,
                                                 'proy_nombre': fase.proyecto.nombre, 'id_proyecto': fase.proyecto.id,
