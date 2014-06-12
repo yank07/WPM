@@ -5,6 +5,7 @@ import os
 from django.core.files.temp import NamedTemporaryFile
 from django.http import HttpResponse
 from django.template import RequestContext
+from eav.models import Value
 from WPM import settings
 from item.models import Item, relaciones
 from lineaBase.models import LineaBase
@@ -76,13 +77,24 @@ def reporte_fases(request, fase_id):
 
     fase = Fase.objects.get(id=fase_id)
     items = Item.objects.filter(fase=fase).exclude(estado='ELIM')
+    tipos_item = fase.tipoitem.all()
     lista_items = ItemReporteTable(items)
     lista_lb = LineaBase.objects.filter(fase=fase)
+    lista_valores = []
 
-    diccionario = {'lista_items': lista_items, 'lista_lb': lista_lb, 'proyecto': fase.proyecto,
-                   'fecha': fecha_actual_str(), 'fase': fase, 'items': items}
+    for item in items:
+        i = Item.objects.get(id=item.id, version=item.version)
+        valores = Value.objects.filter(id__in=range(i.rango_valor_inicio, i.rango_valor_final)).all()
+        for v in valores:
+            lista_valores.append(v)
+
+    print lista_valores
+    diccionario = {'pagesize': 'A4', 'lista_items': lista_items, 'lista_lb': lista_lb, 'proyecto': fase.proyecto,
+                   'fecha': fecha_actual_str(), 'fase': fase, 'items': items, 'tipoitem': tipos_item,
+                   'valores': lista_valores}
 
     html = render_to_string('reporte_fases.html', diccionario, context_instance=RequestContext(request))
+
     return generar_pdf(html)
 
 
@@ -171,7 +183,8 @@ def generar_imagen_grafo_proyecto(id_proyecto):
     for fase in fases:
         items = Item.objects.filter(fase_id=fase.id).exclude(estado='ELIM')
         for item in items:
-            antecesores_padres = relaciones.objects.filter(item_destino_id=item.id, item_destino_version=item.version).exclude(activo=False)
+            antecesores_padres = relaciones.objects.filter(item_destino_id=item.id, item_destino_version=item.version)\
+                .exclude(activo=False)
             for ap in antecesores_padres:
                 item_origen = ap.item_origen
                 item_destino = ap.item_destino

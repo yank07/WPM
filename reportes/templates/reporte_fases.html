@@ -3,6 +3,8 @@
 {% block title %}Resumen de Fases{% endblock %}
 {% block body %}
     <h1>Resumen de la fase {{ fase.nombre }}</h1>
+    <h2>Tipos de Item</h2>
+        {% render_table tipoitem %}
     <h2>Items</h2>
             {% render_table lista_items %}
       <table>
@@ -10,10 +12,30 @@
         {% render_table lista_lb %}
         </table>
         <pdf:nextpage>
+
+    {% for item in items %}
+        <h3>Atributos del item {{ item.nombre }}</h3>
+        <table>
+            <tr>
+                <th>Nombre</th>
+                <th>Tipo de dato</th>
+                <th>Valor</th>
+            </tr>
+                {% for valor in valores %}
+                    {% if valor.entity.id == item.id %}
+                        <tr>
+                            <TD class="c1">{{valor.attribute.name}}</TD>
+                            <TD class="c2">{{valor.attribute.datatype}}</TD>
+                            <TD class="c3">{{valor.value}}</TD>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+        </table>
+    {% endfor %}
+    <pdf:nextpage>
     {% for lb in lista_lb%}
         <h2>Items de la Linea base: {{ lb.descripcion }}</h2>
             <table>
-
           <TR>
               <TH>Identificador</TH>
               <TH>Nombre</TH>
