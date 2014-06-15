@@ -34,7 +34,6 @@ def add_item(request, id_fase):
     @param request: Peticion HTTP
     @return renderiza el form correspondiente
     """
-    #revisar por que id ya existe (algunas veces)
     context = RequestContext(request)
     fase = Fase.objects.get(id=id_fase)
     if not es_miembro(request.user.id, fase.proyecto.id):
@@ -63,7 +62,7 @@ def add_item(request, id_fase):
             tipoitemID = request.POST.__getitem__('tipoitem')
             tipoitem = TipoItem.objects.get(id=tipoitemID)
             faseID = request.POST.__getitem__('fase')
-            #fase = TipoItem.objects.get(fases__id=faseID)
+
             complejidad = request.POST.__getitem__('complejidad')
             costo = request.POST.__getitem__('costo')
             descripcion = request.POST.__getitem__('descripcion')
@@ -71,19 +70,28 @@ def add_item(request, id_fase):
             if faseID != id_fase:
                 errors = form._errors.setdefault("fase", ErrorList())
                 errors.append("Este valor es de solo lectura")
-                return render_to_response('add_item.html', {'form': form, 'id_fase': id_fase}, context)
+                return render_to_response('add_item.html', {'form': form, 'id_fase': id_fase,
+                                                            'proy_nombre': fase.proyecto.nombre,
+                                                            'id_proyecto': fase.proyecto.id,
+                                                            'nombre_fase': fase.nombre}, context)
 
             if int(complejidad) > 100 or int(complejidad) < 1:
                 errors = form._errors.setdefault("complejidad", ErrorList())
                 errors.append("Ingrese un valor comprendido entre [1-100]")
-                return render_to_response('add_item.html', {'form': form, 'id_fase': id_fase}, context)
+                return render_to_response('add_item.html', {'form': form, 'id_fase': id_fase,
+                                                            'proy_nombre': fase.proyecto.nombre,
+                                                            'id_proyecto': fase.proyecto.id,
+                                                            'nombre_fase': fase.nombre}, context)
 
             try:
                 item = form.save()
             except IntegrityError:
                 errors = form._errors.setdefault("nombre", ErrorList())
                 errors.append("El nombre del Item debe ser unico")
-                return render_to_response('add_item.html', {'form': form, 'id_fase': id_fase}, context)
+                return render_to_response('add_item.html', {'form': form, 'id_fase': id_fase,
+                                                            'proy_nombre': fase.proyecto.nombre,
+                                                            'id_proyecto': fase.proyecto.id,
+                                                            'nombre_fase': fase.nombre}, context)
 
             item_origen_id_list = request.POST.getlist('antecesor')
 
@@ -104,7 +112,10 @@ def add_item(request, id_fase):
                     errors = form._errors.setdefault("antecesor", ErrorList())
                     errors.append("Debe seleccionarse un item antecesor")
                     item.delete()
-                    return render_to_response('add_item.html', {'form': form, 'id_fase': id_fase}, context)
+                    return render_to_response('add_item.html', {'form': form, 'id_fase': id_fase,
+                                                                'proy_nombre': fase.proyecto.nombre,
+                                                                'id_proyecto': fase.proyecto.id,
+                                                                'nombre_fase': fase.nombre}, context)
 
 
             item_origen_id_list = request.POST.getlist('padre')
@@ -119,7 +130,10 @@ def add_item(request, id_fase):
                     errors = form._errors.setdefault("padre", ErrorList())
                     errors.append("INCONSISTENCIA: Se crean ciclos en el grafo de relaciones!")
                     item.delete()
-                    return render_to_response('add_item.html', {'form': form, 'id_fase': id_fase}, context)
+                    return render_to_response('add_item.html', {'form': form, 'id_fase': id_fase,
+                                                                'proy_nombre': fase.proyecto.nombre,
+                                                                'id_proyecto': fase.proyecto.id,
+                                                                'nombre_fase': fase.nombre}, context)
 
             return HttpResponseRedirect('/item/listar_item/'+id_fase)
         else:
@@ -230,8 +244,6 @@ def listar_item(request, id_fase):
     @return renderiza el form correspondiente
     """
     itemXfase = Item.objects.filter(fase_id=id_fase)
-
-
 
     queryset=itemXfase.exclude(estado='ELIM')
     finalizado = True
@@ -423,8 +435,9 @@ def revivir_item(request, id_item):
             relacion.save()
         item.history.last().delete()
     else:
-        #mostrar la pagina de error cuando no es consistente
-        pass
+        context = RequestContext(request)
+        mensaje = 'El proceso de revivir este item crea una inconsistencia'
+        return render_to_response('pagina_error.html', {'mensaje': mensaje}, context)
 
     return HttpResponseRedirect('/item/listar_item/' + str(item.fase_id))
 
