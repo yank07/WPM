@@ -89,7 +89,8 @@ def reporte_fases(request, fase_id):
 
     for item in items:
         i = Item.objects.get(id=item.id, version=item.version)
-        valores = Value.objects.filter(id__in=range(i.rango_valor_inicio, i.rango_valor_final)).all()
+        print range(i.rango_valor_inicio, i.rango_valor_final)
+        valores = Value.objects.filter(id__in=range(i.rango_valor_inicio, i.rango_valor_final+1)).all()
         for v in valores:
             lista_valores.append(v)
 
