@@ -37,7 +37,7 @@ class Item(models.Model):
                        ("listar_versiones", "listar_versiones"),("revertir_item", "revertir_item"),
                        ("activar_item", "activar_item"), ("aprobar_item", "aprobar_item"))
     def __unicode__(self):
-        return unicode(self.nombre)
+        return unicode(self.nombre+'v'+str(self.version))
     def cambiar_estado(self,estado):
         self.estado=estado
         self.save()
