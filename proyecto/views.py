@@ -34,6 +34,8 @@ from TipoItemApp.models import TipoItem
 
 import networkx as nx
 import matplotlib
+from solicitudCambio.models import Solicitud
+
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 # Create your views here.
@@ -263,10 +265,19 @@ def finalizar_fase(request, fase_id):
         fase = Fase.objects.get(id=fase_id)
         if request.user == fase.proyecto.usuario:
 
-            if Item.objects.filter(fase_id=fase_id, estado="REV" ).exists() or Item.objects.filter(fase_id=fase_id, estado="ACT" ).exists() or Item.objects.filter(fase_id=fase_id, estado="APROB" ).exists():
+            if Item.objects.filter(fase_id=fase_id, estado="REV").exists() or \
+                    Item.objects.filter(fase_id=fase_id, estado="ACT").exists() or\
+                    Item.objects.filter(fase_id=fase_id, estado="APROB").exists():
                 context = RequestContext(request)
                 mensaje = 'Existe algun item no bloqueado'
                 return render_to_response('pagina_error.html', {'mensaje': mensaje}, context)
+
+            lista_items = Item.objects.filter(fase_id=fase_id)
+            for item in lista_items:
+                if Solicitud.objects.filter(item=item, estado='PEN').exists():
+                    context = RequestContext(request)
+                    mensaje = 'Existen solicitudes pendientes para algun item de la fase'
+                    return render_to_response('pagina_error.html', {'mensaje': mensaje}, context)
 
             fase.estado = "Finalizado"
             fase.save()
@@ -294,7 +305,6 @@ def finalizar_proyecto(request, proyecto_id):
             mensaje = 'Usted no es el lider del proyecto, no puede finalizar una fase'
             return render_to_response('pagina_error.html', {'mensaje': mensaje}, context)
     return HttpResponseRedirect('/proyecto_view/21/'+ str(proyecto_id)+"/")
-
 
 
 @login_required

@@ -26,7 +26,6 @@ from django.db import IntegrityError
 import networkx as nx
 
 
-
 @login_required
 def add_item(request, id_fase):
     """
