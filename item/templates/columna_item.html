@@ -14,7 +14,9 @@
 {% endif %}
 
 {% if record.estado == 'BLOQ' %}
+    {% if proyecto_estado != "Finalizado" %}
     <a href="/solicitudcambio/crear/{{ record.id }}"><input class="btn btn-xs btn-default" type="submit" name="submit" value="Crear Solicitud de Cambio" /></a>
+    {% endif %}
 {% endif %}
 
 {% if record.estado != 'BLOQ' %}

@@ -257,12 +257,14 @@ def listar_item(request, id_fase):
     fase = Fase.objects.get(id=id_fase)
     id_proyecto = fase.proyecto.id
     proy_nombre = fase.proyecto.nombre
+    proyecto_estado = fase.proyecto.estado
+
 
     RequestConfig(request, paginate={"per_page": 5}).configure(lista)
     return render_to_response('listar_item.html', {'lista': lista , 'filter': f,'id_fase':id_fase,
                                                    'nombre_fase': fase.nombre, 'id_proyecto': id_proyecto,
                                                    'proy_nombre': proy_nombre,
-                                                   'finalizado': finalizado ,'fase':fase },
+                                                   'finalizado': finalizado ,'fase':fase, "proyecto_estado":proyecto_estado },
                               context_instance=RequestContext(request))
 
 
