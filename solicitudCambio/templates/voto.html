@@ -1,0 +1,12 @@
+{% extends 'admin_solicitud.html' %}
+{% block contenido %}
+
+{% if voto == True %}
+    <h2>Usted ha votado a favor de la solicitud</h2>
+{% endif %}
+
+{% if voto == False %}
+    <h2>Usted ha votado en contra de la solicitud</h2>
+{% endif %}
+    <a href="{% url 'solicitudCambio.views.listar_solicitudes' %}">Volver</a>
+{% endblock %}

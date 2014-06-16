@@ -4,6 +4,7 @@
     <a href="/solicitudcambio/voto_contra/{{ record.id }}"><input class="btn btn-xs btn-default" type="submit" name="submit" value="Voto en contra" /></a>
 {% endif %}
 
+
 {% if record.estado == "PEN" and record.conteo == 3 and record.resultado > 0 %}
     <a href="/solicitudcambio/aprobar/{{ record.id }}"><input class="btn btn-xs btn-default" type="submit" name="submit" value="Aprobar" /></a>
 {% endif %}

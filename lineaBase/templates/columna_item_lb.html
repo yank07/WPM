@@ -1,3 +1,6 @@
 <a href="/lineabase/list_item/{{ record.id }}"><input class="btn btn-xs btn-default" type="submit" name="submit" value="Ver Items" /></a>
 <a href="/lineabase/editar/{{ record.id }}"><input class="btn btn-xs btn-default" type="submit" name="submit" value="Editar" /></a>
+{% if record.estado == 'ABIERTA'%}
+    <a href="/lineabase/cerrar/{{ record.id }}"><input class="btn btn-xs btn-default" type="submit" name="submit" value="Cerrar Linea Base" /></a>
+{% endif %}
 

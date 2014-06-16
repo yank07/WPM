@@ -162,7 +162,8 @@ def voto_positivo(request, id_solicitud):
         sc.resultado = sc.voto_primero + sc.voto_segundo + sc.voto_tercero
     sc.save()
     url = reverse('solicitudCambio.views.listar_solicitudes')
-    return HttpResponseRedirect(url)
+    #return HttpResponseRedirect(url)
+    return render_to_response('voto.html', {'voto': True}, context)
 
 
 @login_required()
@@ -204,7 +205,8 @@ def voto_negativo(request, id_solicitud):
     sc.save()
 
     url = reverse('solicitudCambio.views.listar_solicitudes')
-    return HttpResponseRedirect(url)
+    #return HttpResponseRedirect(url)
+    return render_to_response('voto.html', {'voto': False}, context)
 
 
 @login_required()

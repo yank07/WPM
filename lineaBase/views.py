@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.forms.util import ErrorList
 from django.shortcuts import render, render_to_response
 from django.template import RequestContext
@@ -12,6 +13,7 @@ from django_tables2 import RequestConfig
 
 # Create your views here.
 
+@login_required()
 def crear_lb(request,id_fase):
     """
     Vista para crear linea base
@@ -54,6 +56,7 @@ def crear_lb(request,id_fase):
                                                    'proy_nombre': fase.proyecto.nombre }, context)
 
 
+@login_required()
 def admin_lb(request,id_fase):
     """
     Vista para listar linea base
@@ -73,6 +76,8 @@ def admin_lb(request,id_fase):
                                                    'proy_nombre': proy_nombre},
                               context_instance=RequestContext(request))
 
+
+@login_required()
 def list_lb(request,id_lb):
     """
     Vista para listar los items de una linea base. Solo se permite listarlos.
@@ -94,7 +99,7 @@ def list_lb(request,id_lb):
                               context_instance=RequestContext(request))
 
 
-
+@login_required()
 def edit_lb(request,id_lb):
     """
     Lista para editar linea base. Solo se permite editar la descripcion
@@ -114,8 +119,19 @@ def edit_lb(request,id_lb):
     return render_to_response('edit_lb.html', {'form': form,}, context)
 
 
-
-
-
-
-
+@login_required()
+def cerrar_linea_base(request, id_lineabase):
+    lb = LineaBase.objects.get(id=id_lineabase)
+    items = lb.items.all()
+    cerrada = True
+    for item in items:
+        if item.estado == 'APROB':
+            item.estado = 'BLOQ'
+            item.save()
+    for item in items:
+        if item.estado != 'BLOQ':
+            cerrada = False
+    if cerrada:
+        lb.estado = 'CERRADA'
+        lb.save()
+    return HttpResponseRedirect('/lineabase/admin_lb/'+ str(lb.fase.id))
