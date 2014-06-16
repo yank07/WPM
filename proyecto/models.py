@@ -27,7 +27,7 @@ def crear_fases(sender, instance, created, **kwargs):
             p = Fase(nombre='fase'+ str(x+1), proyecto=instance)
             p.save()
     elif proyecto_fases_nuevo < proyecto_fases_creado:
-        for x in range( proyecto_fases_nuevo ,proyecto_fases_creado-1):
+        for x in range( proyecto_fases_nuevo ,proyecto_fases_creado):
             f= Fase.objects.filter(proyecto__id=instance.id).last()
             f.delete()
 

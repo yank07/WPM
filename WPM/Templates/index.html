@@ -28,9 +28,11 @@
 		<h1>
 			Web Project Manager
 		</h1>
-<div id="avatar">
+{% if user.is_authenticated%}
+    <div id="avatar">
     <h5>Bienvenido, {{ user.username }} (<a id="link" href='/cerrar/'>Cerrar Sesión</a>) </h5>
 </div>
+{% endif %}
 	</header>
 
 	<nav>

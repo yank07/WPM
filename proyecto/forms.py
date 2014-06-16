@@ -36,7 +36,7 @@ class FaseForm(forms.ModelForm):
 
     class Meta:
         model = Fase
-        fields = [ 'nombre','proyecto']
+        fields = ['nombre']
 
 
 class importar_fase_form(forms.Form):
