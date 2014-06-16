@@ -202,6 +202,8 @@ def generar_imagen_grafo_proyecto(id_proyecto):
     image_path = os.path.join(settings.RUTA_PROYECTO, ruta)
     #verificar que no existan conflictos de nombres
     plt.savefig(image_path)
+    MG.clear()
+    plt.clf()
     return image_path
 
 
@@ -213,6 +215,7 @@ def save_image_in_field(modelfield, relativefile='', filename=None):
     :param filename: el nombre del archivo
     :return: el modelo actualizado
     """
+
 
     ruta = "uploaded_files/tmp/" + filename
 

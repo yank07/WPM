@@ -5,6 +5,7 @@ from principal.views import admin_rol, add_rol, asignar_rol, admin_usuario, edit
 from TipoItemApp.views import admin_tipoitem, add_tipoitem, add_atributo, listar_atributos, edit_tipoitem, \
     delete_tipoitem, delete_atributo, edit_atributo, importar_tipoitem
 from proyecto.views import ver_grafo_relaciones, ver_grafo_desde_item
+import settings
 
 
 admin.autodiscover()
@@ -13,6 +14,8 @@ urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'WPM.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
+
+
     url(r'^$', 'principal.views.ingresar', name='home'),
 
     url(r'^ingresar/$','principal.views.ingresar'),
@@ -47,7 +50,7 @@ urlpatterns = patterns('',
     url('proyectos/fases/(\d+)/', 'proyecto.views.fase_detail', name='fase_detail'),
     url('proyectos/fases/delete/(\d+)/', 'proyecto.views.delete_fase', name='delete_fase'),
     url('proyectos/fases/finalizar/(\d+)/', 'proyecto.views.finalizar_fase', name='finalizar_fase'),
-     url('proyectos/finalizar/(\d+)/', 'proyecto.views.finalizar_proyecto', name='finalizar_proyecto'),
+    url('proyectos/finalizar/(\d+)/', 'proyecto.views.finalizar_proyecto', name='finalizar_proyecto'),
     url('proyectos/fases/importar_fase/(\d+)/', 'proyecto.views.importar_fase', name='importar_fase'),
 
     url(r'^admin_tipoitem/$', admin_tipoitem, name='admin_tipoitem'),
@@ -68,6 +71,8 @@ urlpatterns = patterns('',
     url(r'^lineabase/', include('lineaBase.urls')),
     url(r'^solicitudcambio/', include('solicitudCambio.urls')),
     url(r'^reportes/', include('reportes.urls')),
+
+    url(r'^uploaded_files/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
 
 
 

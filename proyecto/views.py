@@ -5,7 +5,8 @@ Creado el 1 abril  2014
 import os
 from django import forms
 from django.contrib.admin.views.decorators import staff_member_required
-from django.db.models.query import QuerySet
+from WPM import settings
+from reportes.views import save_image_in_field, generar_imagen_grafo_proyecto
 
 from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
@@ -303,54 +304,63 @@ def ver_grafo_relaciones(request, id_proyecto):
     """
     context = RequestContext(request)
     fases = Fase.objects.filter(proyecto=id_proyecto)
-    MG = nx.MultiDiGraph()
+    # MG = nx.MultiDiGraph()
+    #
+    # #crear nodos
+    # i = 0
+    #
+    # x = 0
+    # labels = {}
+    # for fase in fases:
+    #     items = Item.objects.filter(fase_id=fase.id).exclude(estado='ELIM')
+    #     i = i + 1
+    #     for item in items:
+    #         x = x + 1
+    #         labels[item.id] = item.id
+    #         MG.add_node(item.id, pos=(item.id, x))
+    #
+    # color_list = []
+    # for node in nx.nodes(MG):
+    #     item = Item.objects.get(id=node)
+    #     color_list.append(item.fase_id)
+    # pos = nx.get_node_attributes(MG, 'pos')
+    # pos = nx.circular_layout(MG)
+    # nx.draw_networkx_nodes(MG, pos=pos, node_color=color_list, node_size=1500)
+    # nx.draw_networkx_labels(MG, pos=pos, labels=labels)
+    #
+    # #crear arcos
+    # edge_labels = []
+    # for fase in fases:
+    #     items = Item.objects.filter(fase_id=fase.id).exclude(estado='ELIM')
+    #     print items
+    #     for item in items:
+    #         antecesores_padres = relaciones.objects.filter(item_destino_id=item.id, item_destino_version=item.version).\
+    #             exclude(activo=False)
+    #         for ap in antecesores_padres:
+    #             item_origen = ap.item_origen
+    #             item_destino = ap.item_destino
+    #             edge = MG.add_edge(item_origen.id, item_destino.id)
+    #             edge_labels.append(((item_origen.id, item_destino.id), ap.tipo_relacion))
+    # #endfor
+    # print pos
+    # nx.draw_networkx_edges(MG, pos=pos)
+    #
+    # #agregar etiquetas a los arcos
+    # edge_labels = dict(edge_labels)
+    # nx.draw_networkx_edge_labels(MG, pos=pos, edge_labels=edge_labels)
+    #
+    # proyecto = Proyecto.objects.get(id=id_proyecto)
+    # ruta = "uploaded_files/tmp/" + proyecto.nombre + ".png"
+    # image_path = os.path.join(settings.RUTA_PROYECTO, ruta)
+    # print image_path
+    # #verificar que no existan conflictos de nombres
+    # plt.savefig(image_path)
+    # #plt.show()
 
-    #crear nodos
-    i = 0
-
-    x = 0
-    labels = {}
-    for fase in fases:
-        items = Item.objects.filter(fase_id=fase.id).exclude(estado='ELIM')
-        print items
-        i = i + 1
-        for item in items:
-            x = x + 1
-            labels[item.id] = item.id
-            MG.add_node(item.id, pos=(item.id, x))
-
-    color_list = []
-    for node in nx.nodes(MG):
-        item = Item.objects.get(id=node)
-        color_list.append(item.fase_id)
-    pos = nx.get_node_attributes(MG, 'pos')
-    pos = nx.circular_layout(MG)
-    nx.draw_networkx_nodes(MG, pos=pos, node_color=color_list, node_size=1500)
-    nx.draw_networkx_labels(MG, pos=pos, labels=labels)
-
-    #crear arcos
-    edge_labels = []
-    for fase in fases:
-        items = Item.objects.filter(fase_id=fase.id).exclude(estado='ELIM')
-        for item in items:
-            antecesores_padres = relaciones.objects.filter(item_destino_id=item.id, item_destino_version=item.version).exclude(activo=False)
-            for ap in antecesores_padres:
-                item_origen = ap.item_origen
-                item_destino = ap.item_destino
-                edge = MG.add_edge(item_origen.id, item_destino.id)
-                edge_labels.append(((item_origen.id, item_destino.id), ap.tipo_relacion))
-    #endfor
-    nx.draw_networkx_edges(MG, pos=pos)
-
-    #agregar etiquetas a los arcos
-    edge_labels = dict(edge_labels)
-    nx.draw_networkx_edge_labels(MG, pos=pos, edge_labels=edge_labels)
-
-    image_path = os.path.join(RUTA_PROYECTO,"static/grafos/image.png")
-    print image_path
-    #verificar que no existan conflictos de nombres
-    plt.savefig(image_path)
-    #plt.show()
+    proyecto = Proyecto.objects.get(id=id_proyecto)
+    image_path = generar_imagen_grafo_proyecto(id_proyecto)
+    nombre_imagen = proyecto.nombre + ".png"
+    save_image_in_field(proyecto.imagen_grafo, image_path, filename=nombre_imagen)
 
     itemlist = []
     for fase in fases:
@@ -360,11 +370,13 @@ def ver_grafo_relaciones(request, id_proyecto):
 
     items = Item.objects.filter(fase__proyecto_id=id_proyecto)
     itemlist = ListaItemTable(items)
-    proy = Proyecto.objects.get(id=id_proyecto)
     RequestConfig(request, paginate={"per_page": 5}).configure(itemlist)
+    # MG.clear()
+    # plt.clf()
     return render_to_response('ver_grafo_relaciones.html', {'image_name': "image.png", 'lista': itemlist,
-                                                            'id_proyecto': id_proyecto, 'proyecto': proy},
+                                                            'id_proyecto': id_proyecto, 'proyecto': proyecto},
                               context)
+
 
 def get_items(id_item, version, lista=[]):
     item = Item.objects.get(id=id_item)
@@ -434,5 +446,7 @@ def ver_grafo_desde_item(request, id_item):
     item_orig = Item.objects.get(id=id_item)
     itemlist = ListaItemTable(lista_items)
     RequestConfig(request, paginate={"per_page": 5}).configure(itemlist)
+    MG.clear()
+    plt.clf()
     return render_to_response('ver_grafo_desde_item.html', {'image_name': "image.png", 'lista': itemlist,
                                                             'item': item_orig} , context)

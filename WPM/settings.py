@@ -145,5 +145,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 INTERNAL_IPS = ('127.0.0.1','localhost')
 
 
-MEDIA_ROOT = os.path.join(RUTA_PROYECTO,'uploaded_files/')
+MEDIA_ROOT = os.path.join(RUTA_PROYECTO, 'uploaded_files/')
+MEDIA_URL = '/uploaded_files/'
 print MEDIA_ROOT
