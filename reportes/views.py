@@ -46,9 +46,14 @@ def reporte_resumen_proyecto(request, id_proyecto):
     miembros_lista = proyecto.miembros.all()
     miembros = UsuariosReporteTable(miembros_lista)
 
-    comite = Comite.objects.get(proyecto=proyecto)
-    miembros_comite_lista = [comite.primer_integrante, comite.segundo_integrante, comite.tercer_integrante]
-    miembros_comite = UsuariosReporteTable(miembros_comite_lista)
+    comite_l = Comite.objects.filter(proyecto=proyecto)
+    if comite_l.__len__() > 0:
+        comite = Comite.objects.get(proyecto=proyecto)
+        miembros_comite_lista = [comite.primer_integrante, comite.segundo_integrante, comite.tercer_integrante]
+        miembros_comite = UsuariosReporteTable(miembros_comite_lista)
+    else:
+        miembros_comite_lista = []
+        miembros_comite = UsuariosReporteTable(miembros_comite_lista)
 
     fases_lista = proyecto.fases.all()
     fases = FaseReporteTable(fases_lista)
