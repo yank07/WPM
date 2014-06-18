@@ -453,31 +453,65 @@ def crear_sucesor(request, id_fase):
     """
     context = RequestContext(request)
     error = False
+    fase = Fase.objects.get(id=id_fase)
+    item_list_origen=[]
+    item_list_destino=[]
+    for item in Item.objects.filter(fase__id=id_fase):
+        item_list_origen.append(item.id)
+    for item in Item.objects.filter(fase__id=int(id_fase)+1):
+        item_list_destino.append(item.id)
+
+    print item_list_origen
+    print item_list_destino
     if request.method == 'POST':
         form = crear_sucesor_form(request.POST)
+        form.fields["items_origen"].queryset = Item.history.filter(id__in=item_list_origen, estado="BLOQ")
+        form.fields["items_destino"].queryset = Item.history.filter(id__in=item_list_destino)
         if form.is_valid():
             item_origen_id = request.POST.__getitem__('items_origen')
             item_destino_id = request.POST.__getitem__('items_destino')
-            item_origen = Item.objects.get(id=item_origen_id)
-            item_destino = Item.objects.get(id=item_destino_id)
 
-            relaciones.objects.create(tipo_relacion='SUC', item_origen_id=item_origen_id,
-                                      item_destino_id=item_destino_id,
-                                      item_origen_version=item_origen.version,
-                                      item_destino_version=item_destino.version)
+            item_origen_hist = Item.history.get(history_id=item_origen_id)
+            item_destino_hist = Item.history.get(history_id=item_destino_id)
+
+            item_origen = Item.objects.get(id=item_origen_hist.id)
+            item_destino = Item.objects.get(id=item_destino_hist.id)
+
+            #controlar que no se cree la misma relacion
+            if relaciones.objects.filter(tipo_relacion='SUC',item_origen_id=item_origen_hist.id, item_destino_id=item_destino_hist.id,
+                                         item_origen_version=item_origen_hist.version,
+                                         item_destino_version=item_destino_hist.version,).__len__() > 0:
+                errors = form._errors.setdefault("items_destino", ErrorList())
+                errors.append("Esta relacion ya existe")
+                return render_to_response('crear_sucesor.html', {'form': form, 'id_fase': id_fase}, context)
+
+            if relaciones.objects.filter(tipo_relacion='SUC',item_origen_id=item_origen_hist.id, item_destino_id=item_destino_hist.id,
+                                         item_origen_version=item_origen_hist.version,
+                                         item_destino_version=item_destino_hist.version,).__len__() == 0:
+                if relaciones.objects.filter(tipo_relacion='SUC',item_origen_id=item_origen_hist.id, item_destino_id=item_destino_hist.id,
+                                         item_origen_version=item_destino_hist.version,
+                                         item_destino_version=item_origen_hist.version,).__len__() > 0:
+                    errors = form._errors.setdefault("items_destino", ErrorList())
+                    errors.append("Un item no puede ser sucesor de su propio antecesor o viceversa")
+                    return render_to_response('crear_sucesor.html', {'form': form, 'id_fase': id_fase}, context)
+
+            relaciones.objects.create(tipo_relacion='SUC', item_origen_id=item_origen_hist.id,
+                                      item_destino_id=item_destino_hist.id,
+                                      item_origen_version=item_origen_hist.version,
+                                      item_destino_version=item_destino_hist.version)
             return HttpResponseRedirect('/item/listar_item/' + id_fase)
         else:
+
             print form.errors
     else:
         form = crear_sucesor_form()
-        fase = Fase.objects.get(id=id_fase)
         fases = Fase.objects.filter(proyecto_id=fase.proyecto_id)
         id_fase_ultimo = fases.aggregate(Max('id'))
         if str(id_fase) == str(id_fase_ultimo['id__max']):
             error = True
         else:
-            form.fields["items_origen"].queryset = Item.objects.filter(fase__id=id_fase, estado="BLOQ")
-            form.fields["items_destino"].queryset = Item.objects.filter(fase__id=str(int(id_fase) + 1))
+            form.fields["items_origen"].queryset = Item.history.filter(id__in=item_list_origen, estado="BLOQ")
+            form.fields["items_destino"].queryset = Item.history.filter(id__in=item_list_destino)
     return render_to_response('crear_sucesor.html', {'form': form,'id_fase':id_fase,'error':error,
                                                      'proy_nombre': fase.proyecto.nombre,
                                                      'id_proyecto': fase.proyecto.id,
@@ -513,17 +547,17 @@ def crear_hijo(request, id_fase):
                 return render_to_response('crear_hijo.html', {'form': form, 'id_fase': id_fase}, context)
 
             #controlar que no se cree la misma relacion
-            if relaciones.objects.filter(item_origen_id=item_origen_id, item_destino_id=item_destino_id,
+            if relaciones.objects.filter(tipo_relacion='HIJ',item_origen_id=item_origen_hist.id, item_destino_id=item_destino_hist.id,
                                          item_origen_version=item_origen_hist.version,
                                          item_destino_version=item_destino_hist.version,).__len__() > 0:
                 errors = form._errors.setdefault("items_destino", ErrorList())
                 errors.append("Esta relacion ya existe")
                 return render_to_response('crear_hijo.html', {'form': form, 'id_fase': id_fase}, context)
 
-            if relaciones.objects.filter(item_origen_id=item_origen_id, item_destino_id=item_destino_id,
+            if relaciones.objects.filter(tipo_relacion='HIJ',item_origen_id=item_origen_hist.id, item_destino_id=item_destino_hist.id,
                                          item_origen_version=item_origen_hist.version,
                                          item_destino_version=item_destino_hist.version,).__len__() == 0:
-                if relaciones.objects.filter(item_origen_id=item_destino_id, item_destino_id=item_origen_id,
+                if relaciones.objects.filter(tipo_relacion='HIJ',item_origen_id=item_origen_hist.id, item_destino_id=item_destino_hist.id,
                                          item_origen_version=item_destino_hist.version,
                                          item_destino_version=item_origen_hist.version,).__len__() > 0:
                     errors = form._errors.setdefault("items_destino", ErrorList())
