@@ -40,8 +40,9 @@ def reporte_resumen_proyecto(request, id_proyecto):
 
     proyectos = [proyecto]
 
-    lista_sol = Solicitud.objects.filter(item=Item.objects.filter(fase=Fase.objects.filter(proyecto__in=proyectos)))
-    lista_sc = SolicitudReporteTable(lista_sol)
+    lista_sc = Solicitud.objects.filter(item=Item.objects.filter(fase=Fase.objects.filter(proyecto__in=proyectos)))
+    #lista_sol = Solicitud.objects.filter(item=Item.objects.filter(fase=Fase.objects.filter(proyecto__in=proyectos)))
+    #lista_sc = SolicitudReporteTable(lista_sol)
 
     miembros_lista = proyecto.miembros.all()
     miembros = UsuariosReporteTable(miembros_lista)
@@ -235,3 +236,18 @@ def save_image_in_field(modelfield, relativefile='', filename=None):
     img_temp.flush()
 
     modelfield.save(filename, File(img_temp), save=True)
+
+
+@login_required()
+def reporte_lista_items(request, id_proyecto):
+
+    proyecto = Proyecto.objects.get(id=id_proyecto)
+    fases = proyecto.fases.all()
+    lista_items = Item.objects.filter(fase__in=fases)
+    lista_relaciones = relaciones.objects.filter(item_destino__in=lista_items).exclude(tipo_relacion='SUC')
+
+    diccionario = {'fases': fases, 'lista_items': lista_items, 'lista_relaciones': lista_relaciones,
+                   'proyecto': proyecto, 'fecha': fecha_actual_str()}
+
+    html = render_to_string('reporte_lista_items.html', diccionario, context_instance=RequestContext(request))
+    return generar_pdf(html)

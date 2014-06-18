@@ -16,8 +16,29 @@
         </table>
 
     <h3>Solicitudes de cambio:</h3>
+{#        <table>#}
+{#            {% render_table sc %}#}
+{#        </table>#}
+
         <table>
-            {% render_table sc %}
+            <tr>
+                <th>Usuario creador</th>
+                <th>Motivo</th>
+                <th>Item</th>
+                <th>Linea Base</th>
+                <th>Impacto</th>
+                <th>Estado</th>
+            </tr>
+                {% for sc_i in sc %}
+                        <tr>
+                            <TD class="c1">{{sc_i.usuario}}</TD>
+                            <TD class="c1">{{sc_i.motivo}}</TD>
+                            <TD class="c2">{{sc_i.item}}</TD>
+                            <TD class="c3">{{sc_i.item.linea_base.first.descripcion}}</TD>
+                            <TD class="c4">{{sc_i.impacto}}</TD>
+                            <TD class="c5">{{sc_i.estado}}</TD>
+                        </tr>
+                {% endfor %}
         </table>
 
     <h3>Grafo de relaciones: </h3>

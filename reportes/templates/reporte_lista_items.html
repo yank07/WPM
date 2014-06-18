@@ -1,0 +1,40 @@
+{% extends 'base_reporte.html' %}
+{% block body %}
+    <h1>Lista de items de {{ proyecto.nombre }}</h1>
+    {% for fase in fases %}
+        <h2>Fase: {{ fase.nombre }}</h2>
+        <table>
+          <TR>
+              <TH>Identificador</TH>
+              <TH>Nombre</TH>
+              <TH>Descripcion</TH>
+              <TH>Estado</TH>
+              <TH>Version</TH>
+              <TH>Complejidad</TH>
+              <TH>Costo</TH>
+              <TH>Tipo</TH>
+              <TH>Item Padre</TH>
+          </TR>
+          {% for item in lista_items %}
+              {% if item.fase.id == fase.id %}
+              <TR>
+                <TD class="c1">{{item.id}}</TD>
+                <TD class="c2">{{item.nombre}}</TD>
+                <TD class="c3">{{item.descripcion}}</TD>
+                <TD class="c4">{{item.estado}}</TD>
+                <TD class="c5">{{item.version}}</TD>
+                <TD class="c6">{{item.complejidad}}</TD>
+                <TD class="c7">{{item.costo}}</TD>
+                <TD class="c8">{{item.tipoitem}}</TD>
+                {% for relacion in lista_relaciones%}
+                    {% if relacion.item_destino.id == item.id %}
+                    <TD class="c9">{{relacion.item_origen.nombre}}</TD>
+                    {% endif %}
+                {% endfor %}
+              </TR>
+              {% endif %}
+          {% endfor %}
+      </table>
+        <pdf:nextpage>
+    {% endfor %}
+{% endblock %}
