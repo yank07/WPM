@@ -261,10 +261,11 @@ def listar_item(request, id_fase):
 
 
     RequestConfig(request, paginate={"per_page": 5}).configure(lista)
-    return render_to_response('listar_item.html', {'lista': lista , 'filter': f,'id_fase':id_fase,
+    return render_to_response('listar_item.html', {'lista': lista, 'filter': f, 'id_fase': id_fase,
                                                    'nombre_fase': fase.nombre, 'id_proyecto': id_proyecto,
                                                    'proy_nombre': proy_nombre,
-                                                   'finalizado': finalizado ,'fase':fase, "proyecto_estado":proyecto_estado },
+                                                   'finalizado': finalizado, 'fase': fase,
+                                                   "proyecto_estado": proyecto_estado},
                               context_instance=RequestContext(request))
 
 
@@ -483,7 +484,10 @@ def crear_sucesor(request, id_fase):
                                          item_destino_version=item_destino_hist.version,).__len__() > 0:
                 errors = form._errors.setdefault("items_destino", ErrorList())
                 errors.append("Esta relacion ya existe")
-                return render_to_response('crear_sucesor.html', {'form': form, 'id_fase': id_fase}, context)
+                return render_to_response('crear_sucesor.html', {'form': form, 'id_fase': id_fase,
+                                                                 'proy_nombre': fase.proyecto.nombre,
+                                                                 'id_proyecto': fase.proyecto.id,
+                                                                 'nombre_fase': fase.nombre}, context)
 
             if relaciones.objects.filter(tipo_relacion='SUC',item_origen_id=item_origen_hist.id, item_destino_id=item_destino_hist.id,
                                          item_origen_version=item_origen_hist.version,
@@ -493,7 +497,10 @@ def crear_sucesor(request, id_fase):
                                          item_destino_version=item_origen_hist.version,).__len__() > 0:
                     errors = form._errors.setdefault("items_destino", ErrorList())
                     errors.append("Un item no puede ser sucesor de su propio antecesor o viceversa")
-                    return render_to_response('crear_sucesor.html', {'form': form, 'id_fase': id_fase}, context)
+                    return render_to_response('crear_sucesor.html', {'form': form, 'id_fase': id_fase,
+                                                                     'proy_nombre': fase.proyecto.nombre,
+                                                                     'id_proyecto': fase.proyecto.id,
+                                                                     'nombre_fase': fase.nombre}, context)
 
             relaciones.objects.create(tipo_relacion='SUC', item_origen_id=item_origen_hist.id,
                                       item_destino_id=item_destino_hist.id,
@@ -544,7 +551,10 @@ def crear_hijo(request, id_fase):
             if item_destino_hist.id == item_origen_hist.id:
                 errors = form._errors.setdefault("items_destino", ErrorList())
                 errors.append("Un item no puede tener como hijo a si mismo")
-                return render_to_response('crear_hijo.html', {'form': form, 'id_fase': id_fase}, context)
+                return render_to_response('crear_hijo.html', {'form': form, 'id_fase': id_fase,
+                                                              'proy_nombre': fase.proyecto.nombre,
+                                                              'id_proyecto': fase.proyecto.id,
+                                                              'nombre_fase': fase.nombre}, context)
 
             #controlar que no se cree la misma relacion
             if relaciones.objects.filter(tipo_relacion='HIJ',item_origen_id=item_origen_hist.id, item_destino_id=item_destino_hist.id,
@@ -552,7 +562,10 @@ def crear_hijo(request, id_fase):
                                          item_destino_version=item_destino_hist.version,).__len__() > 0:
                 errors = form._errors.setdefault("items_destino", ErrorList())
                 errors.append("Esta relacion ya existe")
-                return render_to_response('crear_hijo.html', {'form': form, 'id_fase': id_fase}, context)
+                return render_to_response('crear_hijo.html', {'form': form, 'id_fase': id_fase,
+                                                              'proy_nombre': fase.proyecto.nombre,
+                                                              'id_proyecto': fase.proyecto.id,
+                                                              'nombre_fase': fase.nombre}, context)
 
             if relaciones.objects.filter(tipo_relacion='HIJ',item_origen_id=item_origen_hist.id, item_destino_id=item_destino_hist.id,
                                          item_origen_version=item_origen_hist.version,
@@ -562,7 +575,10 @@ def crear_hijo(request, id_fase):
                                          item_destino_version=item_origen_hist.version,).__len__() > 0:
                     errors = form._errors.setdefault("items_destino", ErrorList())
                     errors.append("Un item no puede ser hijo de su propio padre o viceversa")
-                    return render_to_response('crear_hijo.html', {'form': form, 'id_fase': id_fase}, context)
+                    return render_to_response('crear_hijo.html', {'form': form, 'id_fase': id_fase,
+                                                                  'proy_nombre': fase.proyecto.nombre,
+                                                                  'id_proyecto': fase.proyecto.id,
+                                                                  'nombre_fase': fase.nombre}, context)
                 else:
                     rel = relaciones.objects.create(tipo_relacion='HIJ',
                                                     item_origen_id=item_origen_hist.id,
@@ -573,7 +589,10 @@ def crear_hijo(request, id_fase):
                         errors = form._errors.setdefault("items_destino", ErrorList())
                         errors.append("INCONSISTENCIA: Se crean ciclos en el grafo de relaciones!")
                         rel.delete()
-                        return render_to_response('crear_hijo.html', {'form': form, 'id_fase': id_fase}, context)
+                        return render_to_response('crear_hijo.html', {'form': form, 'id_fase': id_fase,
+                                                                      'proy_nombre': fase.proyecto.nombre,
+                                                                      'id_proyecto': fase.proyecto.id,
+                                                                      'nombre_fase': fase.nombre}, context)
             return HttpResponseRedirect('/item/listar_item/' + id_fase)
         else:
             print form.errors
