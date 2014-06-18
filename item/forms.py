@@ -60,8 +60,8 @@ class crear_sucesor_form(forms.Form):
     """
     Form para crear relacion Sucesor entre fases adyacentes
     """
-    items_origen = forms.ModelChoiceField(queryset=Item.objects.all())
-    items_destino = forms.ModelChoiceField(queryset=Item.objects.all())
+    items_origen = forms.ModelChoiceField(queryset=Item.history.all())
+    items_destino = forms.ModelChoiceField(queryset=Item.history.all())
 
 class delete_relacion_form(forms.Form):
     """

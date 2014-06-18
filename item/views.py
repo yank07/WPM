@@ -2,6 +2,7 @@
 from django import forms
 from django.contrib.auth.models import Permission, User
 from django.db.models import Max, Min
+from django.db.models.query import QuerySet
 from django.forms.util import ErrorList
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, render_to_response
@@ -491,56 +492,62 @@ def crear_hijo(request, id_fase):
     @return renderiza el form correspondiente
     """
     context = RequestContext(request)
+    fase = Fase.objects.get(id=id_fase)
     error = False
+    item_list=[]
+    for item in Item.objects.filter(fase__id=id_fase):
+        item_list.append(item.id)
+
     if request.method == 'POST':
         form = crear_sucesor_form(request.POST)
         if form.is_valid():
+            form.fields["items_origen"].queryset = Item.history.filter(id__in=item_list)
+            form.fields["items_destino"].queryset = Item.history.filter(id__in=item_list)
             item_origen_id = request.POST.__getitem__('items_origen')
             item_destino_id = request.POST.__getitem__('items_destino')
-            if item_destino_id == item_origen_id:
+            item_origen_hist = Item.history.get(history_id=item_origen_id)
+            item_destino_hist = Item.history.get(history_id=item_destino_id)
+            if item_destino_hist.id == item_origen_hist.id:
                 errors = form._errors.setdefault("items_destino", ErrorList())
                 errors.append("Un item no puede tener como hijo a si mismo")
-                form.fields["items_origen"].queryset = Item.objects.filter(fase__id=id_fase)
-                form.fields["items_destino"].queryset = Item.objects.filter(fase__id=id_fase)
                 return render_to_response('crear_hijo.html', {'form': form, 'id_fase': id_fase}, context)
 
             #controlar que no se cree la misma relacion
-            if relaciones.objects.filter(item_origen_id=item_origen_id, item_destino_id=item_destino_id).__len__() > 0:
+            if relaciones.objects.filter(item_origen_id=item_origen_id, item_destino_id=item_destino_id,
+                                         item_origen_version=item_origen_hist.version,
+                                         item_destino_version=item_destino_hist.version,).__len__() > 0:
                 errors = form._errors.setdefault("items_destino", ErrorList())
                 errors.append("Esta relacion ya existe")
-                form.fields["items_origen"].queryset = Item.objects.filter(fase__id=id_fase)
-                form.fields["items_destino"].queryset = Item.objects.filter(fase__id=id_fase)
                 return render_to_response('crear_hijo.html', {'form': form, 'id_fase': id_fase}, context)
 
-            if relaciones.objects.filter(item_origen_id=item_origen_id, item_destino_id=item_destino_id).__len__() == 0:
-                if relaciones.objects.filter(item_origen_id=item_destino_id,
-                                             item_destino_id=item_origen_id).__len__() > 0:
+            if relaciones.objects.filter(item_origen_id=item_origen_id, item_destino_id=item_destino_id,
+                                         item_origen_version=item_origen_hist.version,
+                                         item_destino_version=item_destino_hist.version,).__len__() == 0:
+                if relaciones.objects.filter(item_origen_id=item_destino_id, item_destino_id=item_origen_id,
+                                         item_origen_version=item_destino_hist.version,
+                                         item_destino_version=item_origen_hist.version,).__len__() > 0:
                     errors = form._errors.setdefault("items_destino", ErrorList())
                     errors.append("Un item no puede ser hijo de su propio padre o viceversa")
-                    form.fields["items_origen"].queryset = Item.objects.filter(fase__id=id_fase)
-                    form.fields["items_destino"].queryset = Item.objects.filter(fase__id=id_fase)
                     return render_to_response('crear_hijo.html', {'form': form, 'id_fase': id_fase}, context)
                 else:
-                    item_origen = Item.objects.get(id=item_origen_id)
-                    item_destino = Item.objects.get(id=item_destino_id)
                     rel = relaciones.objects.create(tipo_relacion='HIJ',
-                                                    item_origen_id=item_origen_id,
-                                                    item_destino_id=item_destino_id,
-                                                    item_origen_version=item_origen.version,
-                                                    item_destino_version=item_destino.version)
+                                                    item_origen_id=item_origen_hist.id,
+                                                    item_destino_id=item_destino_hist.id,
+                                                    item_origen_version=item_origen_hist.version,
+                                                    item_destino_version=item_destino_hist.version)
                     if es_consistente(id_fase) == False:
                         errors = form._errors.setdefault("items_destino", ErrorList())
                         errors.append("INCONSISTENCIA: Se crean ciclos en el grafo de relaciones!")
                         rel.delete()
-                        return render_to_response('add_item.html', {'form': form, 'id_fase': id_fase}, context)
+                        return render_to_response('crear_hijo.html', {'form': form, 'id_fase': id_fase}, context)
             return HttpResponseRedirect('/item/listar_item/' + id_fase)
         else:
             print form.errors
     else:
         form = crear_sucesor_form()
-        fase = Fase.objects.get(id=id_fase)
-        form.fields["items_origen"].queryset = Item.objects.filter(fase__id=id_fase)
-        form.fields["items_destino"].queryset = Item.objects.filter(fase__id=id_fase)
+
+        form.fields["items_origen"].queryset = Item.history.filter(id__in=item_list)
+        form.fields["items_destino"].queryset = Item.history.filter(id__in=item_list)
     return render_to_response('crear_hijo.html', {'form': form,'id_fase':id_fase,
                                                   'proy_nombre': fase.proyecto.nombre,
                                                   'id_proyecto': fase.proyecto.id,
