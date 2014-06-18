@@ -199,12 +199,21 @@ def asignar_valor_item(request, id_item):
                         first = False
                     rango_valor_final = id
             #endfor
+
             item_nuevo = item
+            relist = relaciones.objects.filter(item_destino_id=id_item, item_destino_version=item_nuevo.version)
+            for r in relist:
+                relaciones.objects.create(tipo_relacion=r.tipo_relacion, item_origen_id=r.item_origen.id,
+                                  item_destino_id=r.item_destino.id,
+                                  item_origen_version=r.item_origen_version,
+                                  item_destino_version=r.item_destino_version+1)
+
             item_nuevo.version = item_nuevo.version + 1
             item_nuevo.rango_valor_inicio = rango_valor_inicio
             item_nuevo.rango_valor_final = rango_valor_final
             item_nuevo.save()
             id_fase = item.fase_id
+
             return HttpResponseRedirect('/item/listar_item/' + str(id_fase))
         else:
             print form.errors
@@ -374,7 +383,8 @@ def edit_item(request, id_item):
 
                 item_nuevo.save()
                 if change == False:
-                    item_nuevo.history.last().delete()
+                    item_nuevo.history.get(history_id=item_nuevo.history.first().history_id-1).delete()
+                    #item_nuevo.history.last().delete()
 
                 return HttpResponseRedirect('/item/listar_item/' + str(item_original.fase_id))
             else:
@@ -732,6 +742,7 @@ def activar_item(request, id_item):
     if es_miembro(request.user.id, proyecto.id) and request.user in users:
         item.estado = 'ACT'
         item.save()
+        item.history.get(history_id=item.history.first().history_id-1).delete()
     else:
         #error: no tiene permisos o no es miembro
         mensaje = 'Usted no es miembro del proyecto, o no tiene permisos'
@@ -753,6 +764,7 @@ def aprobar_item(request, id_item):
     if es_miembro(request.user.id, proyecto.id) and request.user in users:
         item.estado = "APROB"
         item.save()
+        item.history.get(history_id=item.history.first().history_id-1).delete()
     else:
         #error: no tiene permisos o no es miembro
         mensaje = 'Usted no es miembro del proyecto, o no tiene permisos'
