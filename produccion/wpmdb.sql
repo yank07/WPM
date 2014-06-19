@@ -1524,12 +1524,8 @@ SELECT pg_catalog.setval('"TipoItemApp_item_id_seq"', 1, false);
 --
 
 COPY "TipoItemApp_tipoitem" (id, nombre, descripcion, observacion, fecha_creacion, fecha_modificacion) FROM stdin;
-6	Diagrama	Diagrama de diseño	subir una imagen del diagrama	2014-05-07	2014-05-07
-4	Libreria	libreria utilizada en la implementacion	cargar zip	2014-05-07	2014-05-07
-3	CU	Caso de Uso	cargar documento	2014-05-07	2014-05-07
-7	CFR	Codigo fuente de revision	subir un zip	2014-05-07	2014-05-07
-2	RF	Requerimiento Funcional	ninguna	2014-05-07	2014-05-07
-5	Entrevista	entrevista llevada a cabo en fase de analisis	cargar notas de entrevista	2014-05-07	2014-05-07
+8	tipo 1	tipo 1		2014-06-19	2014-06-19
+9	tipo 2	tipo 2		2014-06-19	2014-06-19
 \.
 
 
@@ -1538,23 +1534,14 @@ COPY "TipoItemApp_tipoitem" (id, nombre, descripcion, observacion, fecha_creacio
 --
 
 COPY "TipoItemApp_tipoitem_atributos" (id, tipoitem_id, attribute_id) FROM stdin;
-15	6	8
-16	6	4
-17	6	5
-21	4	8
-22	4	4
-23	4	5
-24	3	4
-25	3	5
-26	3	6
-29	7	4
-30	7	5
-31	2	4
-32	2	5
-33	2	6
-34	5	4
-35	5	5
-36	5	7
+37	8	9
+38	8	10
+39	8	11
+40	8	12
+41	9	9
+42	9	10
+43	9	11
+44	9	12
 \.
 
 
@@ -1562,7 +1549,7 @@ COPY "TipoItemApp_tipoitem_atributos" (id, tipoitem_id, attribute_id) FROM stdin
 -- Name: TipoItemApp_tipoitem_atributos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"TipoItemApp_tipoitem_atributos_id_seq"', 36, true);
+SELECT pg_catalog.setval('"TipoItemApp_tipoitem_atributos_id_seq"', 44, true);
 
 
 --
@@ -1570,18 +1557,24 @@ SELECT pg_catalog.setval('"TipoItemApp_tipoitem_atributos_id_seq"', 36, true);
 --
 
 COPY "TipoItemApp_tipoitem_fases" (id, tipoitem_id, fase_id) FROM stdin;
-6	6	40
-8	4	41
-9	3	40
-11	7	41
-12	2	39
-13	5	39
-14	2	42
-15	5	42
-16	6	43
-17	3	43
-18	4	44
-19	7	44
+20	8	51
+21	8	52
+22	8	53
+23	9	51
+24	9	52
+25	9	53
+26	8	56
+27	9	56
+28	8	55
+29	9	55
+30	8	54
+31	9	54
+32	8	57
+33	9	57
+34	8	58
+35	9	58
+36	8	59
+37	9	59
 \.
 
 
@@ -1589,14 +1582,14 @@ COPY "TipoItemApp_tipoitem_fases" (id, tipoitem_id, fase_id) FROM stdin;
 -- Name: TipoItemApp_tipoitem_fases_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"TipoItemApp_tipoitem_fases_id_seq"', 19, true);
+SELECT pg_catalog.setval('"TipoItemApp_tipoitem_fases_id_seq"', 37, true);
 
 
 --
 -- Name: TipoItemApp_tipoitem_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"TipoItemApp_tipoitem_id_seq"', 7, true);
+SELECT pg_catalog.setval('"TipoItemApp_tipoitem_id_seq"', 9, true);
 
 
 --
@@ -1783,8 +1776,8 @@ COPY auth_user (id, password, last_login, is_superuser, username, first_name, la
 4	pbkdf2_sha256$12000$rhqaXwNWzfWM$iOp850RRok2zYn417xuTm/FSo0VHBmU1gr8rJJsOu24=	2014-04-11 17:49:24.55173-04	f	user1				f	t	2014-04-11 17:49:24.551824-04
 7	pbkdf2_sha256$12000$VcPmjqL2ogHm$2HDFS4r0riH8lIxXzDITd0F5k3BVocPmtwW5U9wUZUM=	2014-06-16 12:19:59.735711-04	f	lauri	Lauri	lauri	lauri@localhost	f	t	2014-04-12 09:03:49.71836-04
 6	pbkdf2_sha256$12000$XXqDn77Q4CJX$0Qjur1GckZbMmxztQu4ff2eHAT8ynj+Oo612hlPBAR0=	2014-06-16 13:21:47.673272-04	f	cscg646				f	t	2014-04-12 08:19:49.47841-04
-1	pbkdf2_sha256$12000$LjIK66kpkWj2$N9HzkETcBLdpBAfGp5bxlNG3h5cfDMVVFznBN7MVP4g=	2014-06-16 15:20:18.245145-04	t	super			super@localhost	t	t	2014-04-09 17:23:20.625801-04
-2	pbkdf2_sha256$12000$wwrF2f6D48CV$f3vYfaAq1FhzbVeGDZ5QLygfAmQ/tdojTk1XZk7pjdY=	2014-06-18 17:43:24.820898-04	f	ccaballero	Cristhian	Caballero	ccaballero@localhost	f	t	2014-04-11 11:11:00.190428-04
+1	pbkdf2_sha256$12000$LjIK66kpkWj2$N9HzkETcBLdpBAfGp5bxlNG3h5cfDMVVFznBN7MVP4g=	2014-06-19 19:00:35.36161-04	t	super			super@localhost	t	t	2014-04-09 17:23:20.625801-04
+2	pbkdf2_sha256$12000$wwrF2f6D48CV$f3vYfaAq1FhzbVeGDZ5QLygfAmQ/tdojTk1XZk7pjdY=	2014-06-19 19:35:01.175773-04	f	ccaballero	Cristhian	Caballero	ccaballero@localhost	f	t	2014-04-11 11:11:00.190428-04
 \.
 
 
@@ -1902,15 +1895,19 @@ ecs3knwy27pd7u99tmsse4prhy5zhit3	NjA3YTA0ZjQzN2NkM2ZkNzE0YzAyYzNiZGVkY2NlMjVhMWV
 les353y173nnu2jlggjefc9jmrnsnyyy	NGZkNWVhZGRhMWY1NDVmZmIwNmI2ZjJiMDZhM2RkMzgzNTUzMjQ1MDp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6N30=	2014-05-31 09:25:49.377139-04
 bwvdi6ys3au8wbi9nlmz5tecbvni6db3	YTc2OThjYmNmNjA0MzBjZDhkYTE3MzFkODlhOWEwZDMwMDFjNjM5OTp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6Mn0=	2014-06-20 17:57:31.326504-04
 77hb186dt684tzzfo5gt3375tow1msnd	YzcyZDc1YTg2OWM0ZmQxOTg0OTdjNWE1YTc1OWFlZmE5NTBlOWNmNTp7fQ==	2014-06-21 08:09:39.594848-04
+eteeh6rhkjnvoj1eqkamwdy4nq1cb9zw	NjA3YTA0ZjQzN2NkM2ZkNzE0YzAyYzNiZGVkY2NlMjVhMWViMmQwZDp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6MX0=	2014-06-30 15:20:18.376517-04
 h8colfuwwpwu8tu175omtxx0z08eq4ul	YTc2OThjYmNmNjA0MzBjZDhkYTE3MzFkODlhOWEwZDMwMDFjNjM5OTp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6Mn0=	2014-06-21 08:09:55.694305-04
-85xy7slx7vr6secawyc1t9v78qi33xl5	YTc2OThjYmNmNjA0MzBjZDhkYTE3MzFkODlhOWEwZDMwMDFjNjM5OTp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6Mn0=	2014-06-30 15:47:33.505636-04
 l95pxqu6clf9zka9f0eqo1hkoo63zz7b	YTc2OThjYmNmNjA0MzBjZDhkYTE3MzFkODlhOWEwZDMwMDFjNjM5OTp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6Mn0=	2014-06-21 08:11:19.284854-04
 97kh3m1wh5lwj7oif1q40csmo2c6xgzp	YzcyZDc1YTg2OWM0ZmQxOTg0OTdjNWE1YTc1OWFlZmE5NTBlOWNmNTp7fQ==	2014-06-25 19:03:25.630983-04
-s8rduova0t5eh0f974147v8rwtglf57x	YTc2OThjYmNmNjA0MzBjZDhkYTE3MzFkODlhOWEwZDMwMDFjNjM5OTp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6Mn0=	2014-07-02 16:01:34.316125-04
 hvj5rttqtwqbv8tzzjzz4iyu1bz98kzc	YTc2OThjYmNmNjA0MzBjZDhkYTE3MzFkODlhOWEwZDMwMDFjNjM5OTp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6Mn0=	2014-06-25 19:03:41.802914-04
-wv9omjgg7tq1c9y032fodq6g7emshvyu	YTc2OThjYmNmNjA0MzBjZDhkYTE3MzFkODlhOWEwZDMwMDFjNjM5OTp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6Mn0=	2014-07-02 17:43:24.876826-04
 i1j213exeobx4iv3inukgepg0eorvypm	YTc2OThjYmNmNjA0MzBjZDhkYTE3MzFkODlhOWEwZDMwMDFjNjM5OTp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6Mn0=	2014-06-25 19:21:20.290029-04
-u0yedq8lgc3sa4oynygk97x44ncxdj8h	YzcyZDc1YTg2OWM0ZmQxOTg0OTdjNWE1YTc1OWFlZmE5NTBlOWNmNTp7fQ==	2014-07-02 17:47:16.366417-04
+5napekaln4zui8jdeq46ic31xu5t03mu	YzcyZDc1YTg2OWM0ZmQxOTg0OTdjNWE1YTc1OWFlZmE5NTBlOWNmNTp7fQ==	2014-07-03 18:54:12.010248-04
+3kkv4ww8z08jkkyeo2f56oh0jo1h8gzt	YzcyZDc1YTg2OWM0ZmQxOTg0OTdjNWE1YTc1OWFlZmE5NTBlOWNmNTp7fQ==	2014-07-03 18:54:12.799319-04
+bl56d0vorxk34tk28vkxmvwwysbredzp	YTc2OThjYmNmNjA0MzBjZDhkYTE3MzFkODlhOWEwZDMwMDFjNjM5OTp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6Mn0=	2014-07-03 18:58:59.579546-04
+8ezv1raghi2b1ltxbpq09jh9mbz0gqmm	NjA3YTA0ZjQzN2NkM2ZkNzE0YzAyYzNiZGVkY2NlMjVhMWViMmQwZDp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6MX0=	2014-07-03 19:00:35.406333-04
+u1ttvmxf2wj4ugxakhjx54eil4ge1rtq	YzcyZDc1YTg2OWM0ZmQxOTg0OTdjNWE1YTc1OWFlZmE5NTBlOWNmNTp7fQ==	2014-07-03 19:34:31.771123-04
+9aexsp5fqyqrtkhnplvqt1uemaf8f53i	YzcyZDc1YTg2OWM0ZmQxOTg0OTdjNWE1YTc1OWFlZmE5NTBlOWNmNTp7fQ==	2014-07-03 19:34:35.287702-04
+r5kgxfe9nn2gcgywyrznoo14brs5pegp	YTc2OThjYmNmNjA0MzBjZDhkYTE3MzFkODlhOWEwZDMwMDFjNjM5OTp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6Mn0=	2014-07-03 19:35:01.309337-04
 \.
 
 
@@ -1935,11 +1932,10 @@ SELECT pg_catalog.setval('django_site_id_seq', 1, true);
 --
 
 COPY eav_attribute (id, name, site_id, slug, description, enum_group_id, type, datatype, created, modified, required) FROM stdin;
-4	descripcion	1	descripcion	\N	\N	\N	text	2014-05-07 07:50:20.657381-04	2014-05-07 07:50:21.077158-04	f
-6	orden	1	orden	\N	\N	\N	int	2014-05-07 07:51:00.84227-04	2014-05-07 07:51:00.958589-04	f
-5	fecha creacion	1	fecha_creacion	\N	\N	\N	date	2014-05-07 07:50:42.65385-04	2014-05-07 07:51:33.529728-04	t
-8	version	1	version_libreria	\N	\N	\N	text	2014-05-07 07:58:41.522378-04	2014-05-07 08:00:50.154785-04	t
-7	activo	1	activo	\N	\N	\N	bool	2014-05-07 07:51:19.643168-04	2014-05-07 12:47:48.561131-04	t
+9	tipo entero	1	tipo_entero	\N	\N	\N	int	2014-06-19 18:54:56.759258-04	2014-06-19 18:54:57.359583-04	f
+10	tipo texto	1	tipo_texto	\N	\N	\N	text	2014-06-19 18:55:09.96779-04	2014-06-19 18:55:10.163916-04	t
+11	tipo fecha	1	tipo_fecha	\N	\N	\N	date	2014-06-19 18:55:22.712467-04	2014-06-19 18:55:22.894166-04	t
+12	tipo booleano	1	tipo_booleano	\N	\N	\N	bool	2014-06-19 18:55:34.33085-04	2014-06-19 18:55:34.434231-04	f
 \.
 
 
@@ -1947,7 +1943,7 @@ COPY eav_attribute (id, name, site_id, slug, description, enum_group_id, type, d
 -- Name: eav_attribute_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('eav_attribute_id_seq', 8, true);
+SELECT pg_catalog.setval('eav_attribute_id_seq', 12, true);
 
 
 --
@@ -2000,21 +1996,35 @@ SELECT pg_catalog.setval('eav_enumvalue_id_seq', 1, false);
 --
 
 COPY eav_value (id, entity_ct_id, entity_id, value_text, value_float, value_int, value_date, value_bool, value_enum_id, generic_value_id, generic_value_ct_id, created, modified, attribute_id) FROM stdin;
-1	22	1	RF01	\N	\N	\N	\N	\N	\N	\N	2014-05-07 12:43:59.392348-04	2014-05-07 12:43:59.396092-04	4
-2	22	1	\N	\N	\N	2014-05-07 00:00:00-04	\N	\N	\N	\N	2014-05-07 12:43:59.975033-04	2014-05-07 12:43:59.9794-04	5
-3	22	1	\N	\N	1	\N	\N	\N	\N	\N	2014-05-07 12:44:00.030668-04	2014-05-07 12:44:00.035019-04	6
-4	22	2	\N	\N	\N	\N	f	\N	\N	\N	2014-05-14 11:53:59.495452-04	2014-05-14 11:53:59.513033-04	7
-5	22	2	\N	\N	\N	2014-05-07 00:00:00-04	\N	\N	\N	\N	2014-05-14 11:53:59.675595-04	2014-05-14 11:53:59.67863-04	5
-6	22	3	login	\N	\N	\N	\N	\N	\N	\N	2014-05-14 12:03:02.176589-04	2014-05-14 12:03:02.180409-04	4
-7	22	3	\N	\N	\N	2014-05-07 00:00:00-04	\N	\N	\N	\N	2014-05-14 12:03:02.325668-04	2014-05-14 12:03:02.330406-04	5
-8	22	3	\N	\N	1	\N	\N	\N	\N	\N	2014-05-14 12:03:02.446996-04	2014-05-14 12:03:02.450277-04	6
-9	22	10	\N	\N	\N	2014-05-07 00:00:00-04	\N	\N	\N	\N	2014-05-14 12:31:06.819078-04	2014-05-14 12:31:06.925312-04	5
-10	22	11	ninguna	\N	\N	\N	\N	\N	\N	\N	2014-05-14 12:34:36.919676-04	2014-05-14 12:34:36.922985-04	4
-11	22	11	\N	\N	\N	2014-05-07 00:00:00-04	\N	\N	\N	\N	2014-05-14 12:34:37.10169-04	2014-05-14 12:34:37.105602-04	5
-12	22	10	\N	\N	\N	2014-05-07 00:00:00-04	\N	\N	\N	\N	2014-05-14 12:51:12.368149-04	2014-05-14 12:51:12.371545-04	5
-13	22	28	nigna	\N	\N	\N	\N	\N	\N	\N	2014-06-16 15:48:24.470134-04	2014-06-16 15:48:24.595861-04	4
-14	22	28	\N	\N	\N	2014-05-07 00:00:00-04	\N	\N	\N	\N	2014-06-16 15:48:24.953007-04	2014-06-16 15:48:24.957087-04	5
-15	22	28	5	\N	\N	\N	\N	\N	\N	\N	2014-06-16 15:48:24.997329-04	2014-06-16 15:48:25.003316-04	8
+13	22	29	\N	\N	\N	\N	f	\N	\N	\N	2014-06-19 19:13:53.579888-04	2014-06-19 19:13:53.585051-04	12
+14	22	29	\N	\N	\N	2004-06-18 00:00:00-04	\N	\N	\N	\N	2014-06-19 19:13:53.756391-04	2014-06-19 19:13:53.75976-04	11
+15	22	29	hola	\N	\N	\N	\N	\N	\N	\N	2014-06-19 19:13:53.800571-04	2014-06-19 19:13:53.803886-04	10
+16	22	28	\N	\N	\N	\N	t	\N	\N	\N	2014-06-19 19:14:10.761374-04	2014-06-19 19:14:10.764964-04	12
+17	22	28	\N	\N	\N	2014-06-18 00:00:00-04	\N	\N	\N	\N	2014-06-19 19:14:10.890668-04	2014-06-19 19:14:10.894317-04	11
+18	22	28	hola2	\N	\N	\N	\N	\N	\N	\N	2014-06-19 19:14:10.999129-04	2014-06-19 19:14:11.002528-04	10
+19	22	32	\N	\N	\N	\N	f	\N	\N	\N	2014-06-19 19:21:45.591088-04	2014-06-19 19:21:45.593932-04	12
+20	22	32	\N	\N	55	\N	\N	\N	\N	\N	2014-06-19 19:21:45.749223-04	2014-06-19 19:21:45.753158-04	9
+21	22	32	\N	\N	\N	2014-06-18 00:00:00-04	\N	\N	\N	\N	2014-06-19 19:21:45.848925-04	2014-06-19 19:21:45.855074-04	11
+22	22	32	holaaa	\N	\N	\N	\N	\N	\N	\N	2014-06-19 19:21:45.93597-04	2014-06-19 19:21:45.941477-04	10
+23	22	30	\N	\N	\N	\N	t	\N	\N	\N	2014-06-19 19:22:05.609125-04	2014-06-19 19:22:05.612208-04	12
+24	22	30	\N	\N	255	\N	\N	\N	\N	\N	2014-06-19 19:22:05.7835-04	2014-06-19 19:22:05.787683-04	9
+25	22	30	\N	\N	\N	2014-06-18 00:00:00-04	\N	\N	\N	\N	2014-06-19 19:22:05.869848-04	2014-06-19 19:22:05.874532-04	11
+26	22	30	holaaaaa	\N	\N	\N	\N	\N	\N	\N	2014-06-19 19:22:06.025198-04	2014-06-19 19:22:06.028083-04	10
+27	22	34	\N	\N	\N	\N	t	\N	\N	\N	2014-06-19 19:30:08.869645-04	2014-06-19 19:30:08.873321-04	12
+28	22	34	\N	\N	500	\N	\N	\N	\N	\N	2014-06-19 19:30:09.015854-04	2014-06-19 19:30:09.018951-04	9
+29	22	34	\N	\N	\N	2014-06-18 00:00:00-04	\N	\N	\N	\N	2014-06-19 19:30:09.104575-04	2014-06-19 19:30:09.108129-04	11
+30	22	34	hola2	\N	\N	\N	\N	\N	\N	\N	2014-06-19 19:30:09.248896-04	2014-06-19 19:30:09.251922-04	10
+31	22	33	\N	\N	\N	\N	t	\N	\N	\N	2014-06-19 19:30:24.191659-04	2014-06-19 19:30:24.195089-04	12
+32	22	33	\N	\N	\N	2014-06-18 00:00:00-04	\N	\N	\N	\N	2014-06-19 19:30:24.365157-04	2014-06-19 19:30:24.369205-04	11
+33	22	33	chau	\N	\N	\N	\N	\N	\N	\N	2014-06-19 19:30:24.477655-04	2014-06-19 19:30:24.481831-04	10
+34	22	34	\N	\N	\N	\N	f	\N	\N	\N	2014-06-19 19:31:09.646218-04	2014-06-19 19:31:09.651362-04	12
+35	22	34	\N	\N	500	\N	\N	\N	\N	\N	2014-06-19 19:31:09.712707-04	2014-06-19 19:31:09.717029-04	9
+36	22	34	\N	\N	\N	2014-06-18 00:00:00-04	\N	\N	\N	\N	2014-06-19 19:31:09.763679-04	2014-06-19 19:31:09.768927-04	11
+37	22	34	hola2	\N	\N	\N	\N	\N	\N	\N	2014-06-19 19:31:09.819132-04	2014-06-19 19:31:09.824388-04	10
+38	22	37	\N	\N	\N	\N	t	\N	\N	\N	2014-06-19 19:41:06.626356-04	2014-06-19 19:41:06.630116-04	12
+39	22	37	\N	\N	52	\N	\N	\N	\N	\N	2014-06-19 19:41:06.763573-04	2014-06-19 19:41:06.766883-04	9
+40	22	37	\N	\N	\N	2014-06-18 00:00:00-04	\N	\N	\N	\N	2014-06-19 19:41:06.850866-04	2014-06-19 19:41:06.855396-04	11
+41	22	37	asd	\N	\N	\N	\N	\N	\N	\N	2014-06-19 19:41:07.017145-04	2014-06-19 19:41:07.021237-04	10
 \.
 
 
@@ -2022,7 +2032,7 @@ COPY eav_value (id, entity_ct_id, entity_id, value_text, value_float, value_int,
 -- Name: eav_value_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('eav_value_id_seq', 15, true);
+SELECT pg_catalog.setval('eav_value_id_seq', 41, true);
 
 
 --
@@ -2030,107 +2040,48 @@ SELECT pg_catalog.setval('eav_value_id_seq', 15, true);
 --
 
 COPY item_historicalitem (id, nombre, tipoitem_id, fase_id, complejidad, costo, estado, descripcion, observacion, version, fecha_creacion, fecha_modificacion, archivo, rango_valor_inicio, rango_valor_final, history_id, history_date, history_user_id, history_type) FROM stdin;
-3	CU01	3	40	20	500	ACT	Login		1	2014-05-14	2014-05-14		6	8	11	2014-05-14 12:03:02.759002-04	\N	~
-4	RF02	2	39	10	100	ACT	ninguna		0	2014-05-14	2014-05-14		0	0	12	2014-05-14 12:06:01.349816-04	\N	+
-6	RF02	2	39	10	100	ACT	ninguna		0	2014-05-14	2014-05-14		0	0	13	2014-05-14 12:12:16.928562-04	\N	+
-7	RF02	2	39	10	100	ACT	ninguna		0	2014-05-14	2014-05-14		0	0	14	2014-05-14 12:15:50.510203-04	\N	+
-9	RF02	2	39	10	100	ACT	ninguna		0	2014-05-14	2014-05-14		0	0	15	2014-05-14 12:17:14.493771-04	\N	+
-10	RF02	2	39	10	100	ACT	ninguna		1	2014-05-14	2014-05-14		9	9	17	2014-05-14 12:31:07.033086-04	\N	~
-11	RF03	2	39	1	1	ACT	ninguna		1	2014-05-14	2014-05-14		10	11	19	2014-05-14 12:34:37.345519-04	\N	~
-11	RF03	2	39	1	1	ACT	ninguna		0	2014-05-14	2014-05-14		0	0	20	2014-05-14 12:46:13.313505-04	\N	~
-10	RF02	2	39	10	1001	ACT	ninguna		2	2014-05-14	2014-05-14		9	9	21	2014-05-14 12:49:56.749717-04	\N	~
-10	RF02	2	39	10	100	ACT	ninguna		0	2014-05-14	2014-05-14		0	0	22	2014-05-14 12:50:41.087372-04	\N	~
-10	RF02	2	39	10	100	ACT	ninguna		1	2014-05-14	2014-05-14		12	12	23	2014-05-14 12:51:12.624721-04	\N	~
-13	RF03	2	39	55	22	APROB	ninguna		6	2014-05-14	2014-05-16		0	0	40	2014-05-16 18:47:39.447597-04	\N	~
-13	RF03	2	39	55	22	BLOQ	ninguna		6	2014-05-14	2014-05-16		0	0	42	2014-05-16 18:48:29.736622-04	\N	~
-12	RF02	2	39	1	1	BLOQ	ninguna		2	2014-05-14	2014-05-16		0	0	43	2014-05-16 18:48:29.848084-04	\N	~
-1	RF01	2	39	10	500	REV	Iniciar sesion		1	2014-05-07	2014-05-16		1	3	46	2014-05-16 19:53:39.076881-04	\N	~
-1	RF01	2	39	10	500	APROB	Iniciar sesion		1	2014-05-07	2014-05-16		1	3	47	2014-05-16 19:59:53.528619-04	\N	~
-1	RF01	2	39	10	500	ACT	Iniciar sesion		1	2014-05-07	2014-05-17		1	3	48	2014-05-17 08:06:06.836588-04	\N	~
-2	Entrevista01	5	39	20	5	REV	entrevista 01		1	2014-05-07	2014-05-17		4	5	49	2014-05-17 08:06:32.914737-04	\N	~
-2	Entrevista01	5	39	20	5	ACT	entrevista 01		1	2014-05-07	2014-05-17		4	5	50	2014-05-17 08:06:59.704991-04	\N	~
-12	RF02	2	39	1	1	REV	ninguna		2	2014-05-14	2014-05-17		0	0	51	2014-05-17 08:09:13.503407-04	\N	~
-12	RF02	2	39	1	1	APROB	ninguna		2	2014-05-14	2014-05-17		0	0	52	2014-05-17 08:09:28.457784-04	\N	~
-13	RF03	2	39	55	22	REV	ninguna		6	2014-05-14	2014-05-17		0	0	53	2014-05-17 08:10:23.903448-04	\N	~
-1	RF01	2	39	10	500	REV	Iniciar sesion		1	2014-05-07	2014-05-17		1	3	54	2014-05-17 08:10:29.859871-04	\N	~
-2	Entrevista01	5	39	20	5	REV	entrevista 01		1	2014-05-07	2014-05-17		4	5	55	2014-05-17 08:10:35.905199-04	\N	~
-13	RF03	2	39	55	22	APROB	ninguna		6	2014-05-14	2014-05-17		0	0	56	2014-05-17 08:10:41.604617-04	\N	~
-1	RF01	2	39	10	500	APROB	Iniciar sesion		1	2014-05-07	2014-05-17		1	3	57	2014-05-17 08:10:43.693469-04	\N	~
-2	Entrevista01	5	39	20	5	APROB	entrevista 01		1	2014-05-07	2014-05-17		4	5	58	2014-05-17 08:10:44.982889-04	\N	~
-1	RF01	2	39	10	500	BLOQ	Iniciar sesion		1	2014-05-07	2014-05-17		1	3	59	2014-05-17 08:10:53.216475-04	\N	~
-2	Entrevista01	5	39	20	5	BLOQ	entrevista 01		1	2014-05-07	2014-05-17		4	5	60	2014-05-17 08:10:53.304963-04	\N	~
-13	RF03	2	39	55	22	BLOQ	ninguna		6	2014-05-14	2014-05-17		0	0	61	2014-05-17 08:12:12.364338-04	\N	~
-12	RF02	2	39	1	1	BLOQ	ninguna		2	2014-05-14	2014-05-17		0	0	62	2014-05-17 08:12:18.164672-04	\N	~
-1	RF01	2	39	10	500	REV	Iniciar sesion		1	2014-05-07	2014-05-17		1	3	63	2014-05-17 09:13:04.862248-04	\N	~
-1	RF01	2	39	10	500	ACT	Iniciar sesion		1	2014-05-07	2014-05-17		1	3	64	2014-05-17 09:13:41.884417-04	\N	~
-1	RF01	2	39	10	500	REV	Iniciar sesion		1	2014-05-07	2014-05-17		1	3	65	2014-05-17 09:13:51.563814-04	\N	~
-1	RF01	2	39	10	500	APROB	Iniciar sesion		1	2014-05-07	2014-05-17		1	3	66	2014-05-17 09:13:53.719865-04	\N	~
-1	RF01	2	39	10	500	BLOQ	Iniciar sesion		1	2014-05-07	2014-05-17		1	3	67	2014-05-17 09:15:38.680363-04	\N	~
-2	Entrevista01	5	39	20	5	REV	entrevista 01		1	2014-05-07	2014-05-17		4	5	68	2014-05-17 09:23:24.970288-04	\N	~
-12	RF02	2	39	1	1	REV	ninguna		2	2014-05-14	2014-05-17		0	0	69	2014-05-17 09:23:31.181425-04	\N	~
-13	RF03	2	39	55	22	REV	ninguna		6	2014-05-14	2014-05-17		0	0	70	2014-05-17 09:23:37.18165-04	\N	~
-2	Entrevista01	5	39	20	5	APROB	entrevista 01		1	2014-05-07	2014-05-17		4	5	71	2014-05-17 09:23:45.650379-04	\N	~
-12	RF02	2	39	1	1	APROB	ninguna		2	2014-05-14	2014-05-17		0	0	72	2014-05-17 09:23:48.216477-04	\N	~
-13	RF03	2	39	55	22	APROB	ninguna		6	2014-05-14	2014-05-17		0	0	73	2014-05-17 09:23:49.838333-04	\N	~
-13	RF03	2	39	55	22	BLOQ	ninguna		6	2014-05-14	2014-05-17		0	0	74	2014-05-17 09:24:17.839969-04	\N	~
-12	RF02	2	39	1	1	BLOQ	ninguna		2	2014-05-14	2014-05-17		0	0	75	2014-05-17 09:24:38.007379-04	\N	~
-2	Entrevista01	5	39	20	5	BLOQ	entrevista 01		1	2014-05-07	2014-05-17		4	5	76	2014-05-17 09:25:06.976559-04	\N	~
-3	CU01	3	40	20	500	ACT	Login		2	2014-05-14	2014-05-18	files/TODO.txt	6	8	77	2014-05-18 17:38:39.85411-04	\N	~
-3	CU01	3	40	20	500	REV	Login		2	2014-05-14	2014-05-18	files/TODO.txt	6	8	78	2014-05-18 17:38:58.976315-04	\N	~
-1	RF01	2	39	10	500	REV	Iniciar sesion		1	2014-05-07	2014-05-23		1	3	79	2014-05-23 17:46:10.468438-04	\N	~
-1	RF01	2	39	10	500	REV	Iniciar sesion		1	2014-05-07	2014-05-23		1	3	80	2014-05-23 17:47:17.860686-04	\N	~
-1	RF01	2	39	10	500	REV	Iniciar sesion		1	2014-05-07	2014-05-23		1	3	81	2014-05-23 17:50:29.881111-04	\N	~
-1	RF01	2	39	10	500	REV	Iniciar sesion		1	2014-05-07	2014-05-23		1	3	82	2014-05-23 17:52:02.897041-04	\N	~
-1	RF01	2	39	10	500	REV	Iniciar sesion		1	2014-05-07	2014-05-23		1	3	83	2014-05-23 17:52:41.399303-04	\N	~
-3	CU01	3	40	20	500	REV	Login		2	2014-05-14	2014-05-23	files/TODO.txt	6	8	84	2014-05-23 17:52:41.564445-04	\N	~
-3	CU01	3	40	20	500	REV	Login		2	2014-05-14	2014-05-23	files/TODO.txt	6	8	85	2014-05-23 17:52:41.665143-04	\N	~
-13	RF03	2	39	55	22	REV	ninguna		6	2014-05-14	2014-05-24		0	0	86	2014-05-24 08:57:48.934398-04	\N	~
-12	RF02	2	39	1	1	REV	ninguna		2	2014-05-14	2014-05-24		0	0	87	2014-05-24 08:57:49.257103-04	\N	~
-2	Entrevista01	5	39	20	5	REV	entrevista 01		1	2014-05-07	2014-05-24		4	5	88	2014-05-24 08:57:49.401581-04	\N	~
-1	RF01	2	39	10	500	APROB	Iniciar sesion		1	2014-05-07	2014-05-28		1	3	89	2014-05-28 17:09:59.743592-04	\N	~
-13	RF03	2	39	55	22	APROB	ninguna		6	2014-05-14	2014-05-28		0	0	90	2014-05-28 17:10:01.665221-04	\N	~
-12	RF02	2	39	1	1	APROB	ninguna		2	2014-05-14	2014-05-28		0	0	91	2014-05-28 17:10:02.643065-04	\N	~
-2	Entrevista01	5	39	20	5	APROB	entrevista 01		1	2014-05-07	2014-05-28		4	5	92	2014-05-28 17:10:04.110039-04	\N	~
-1	RF01	2	39	10	500	BLOQ	Iniciar sesion		1	2014-05-07	2014-05-28		1	3	93	2014-05-28 17:12:19.518195-04	\N	~
-13	RF03	2	39	55	22	ACT	ninguna		6	2014-05-14	2014-06-03		0	0	94	2014-06-03 19:01:16.139253-04	\N	~
-13	RF03	2	39	70	22	ACT	ninguna		7	2014-05-14	2014-06-03		0	0	95	2014-06-03 19:01:29.591706-04	\N	~
-13	RF03	2	39	70	22	REV	ninguna		7	2014-05-14	2014-06-03		0	0	96	2014-06-03 19:01:56.205482-04	\N	~
-3	CU01	3	40	20	500	APROB	Login		2	2014-05-14	2014-06-05	files/TODO.txt	6	8	97	2014-06-05 18:03:22.651236-04	\N	~
-3	CU01	3	40	20	500	BLOQ	Login		2	2014-05-14	2014-06-05	files/TODO.txt	6	8	98	2014-06-05 18:03:31.485203-04	\N	~
-14	algo	4	41	15	4	REV	niguna	ninguna	0	2014-06-06	2014-06-06		0	0	100	2014-06-06 17:51:50.024087-04	\N	~
-14	algo	4	41	15	4	APROB	niguna	ninguna	0	2014-06-06	2014-06-06		0	0	101	2014-06-06 17:51:56.45384-04	\N	~
-14	algo	4	41	15	4	BLOQ	niguna	ninguna	0	2014-06-06	2014-06-06		0	0	102	2014-06-06 17:52:15.366666-04	\N	~
-15	item1	2	42	10	1000	ACT	nionguna		0	2014-06-12	2014-06-12		0	0	103	2014-06-12 16:22:11.016444-04	\N	+
-17	item1	2	42	10	1000	ACT	nionguna		0	2014-06-12	2014-06-12		0	0	106	2014-06-12 16:49:36.187111-04	\N	~
-17	item1	2	42	10	1000	REV	nionguna		0	2014-06-12	2014-06-12		0	0	107	2014-06-12 16:49:44.709601-04	\N	~
-17	item1	2	42	10	1000	APROB	nionguna		0	2014-06-12	2014-06-12		0	0	108	2014-06-12 16:49:46.959226-04	\N	~
-17	item1	2	42	10	1000	BLOQ	nionguna		0	2014-06-12	2014-06-12		0	0	109	2014-06-12 16:50:16.378107-04	\N	~
-18	item2	6	43	25	100	ACT	ninguna		0	2014-06-12	2014-06-12		0	0	110	2014-06-12 16:50:52.013152-04	\N	+
-19	item2	6	43	22	222	ACT	ninguna.		0	2014-06-12	2014-06-12		0	0	111	2014-06-12 16:59:21.883119-04	\N	+
-19	item2	6	43	22	222	ACT	ninguna.		0	2014-06-12	2014-06-12		0	0	112	2014-06-12 16:59:22.01364-04	\N	-
-20	item2	6	43	22	22	ACT	n		0	2014-06-12	2014-06-12		0	0	113	2014-06-12 17:05:11.61225-04	\N	+
-20	item2	6	43	22	22	ACT	n		0	2014-06-12	2014-06-12		0	0	114	2014-06-12 17:05:11.745211-04	\N	-
-21	item1,2	2	42	11	111	ACT	nn		0	2014-06-12	2014-06-12		0	0	115	2014-06-12 17:06:04.025415-04	\N	+
-21	item1,2	2	42	11	111	ACT	nn		0	2014-06-12	2014-06-12		0	0	116	2014-06-12 17:06:04.157589-04	\N	-
-22	item1,2	2	42	11	111	ACT	nn		0	2014-06-12	2014-06-12		0	0	117	2014-06-12 17:07:22.485298-04	\N	+
-22	item1,2	2	42	11	111	ACT	nn		0	2014-06-12	2014-06-12		0	0	118	2014-06-12 17:07:22.630089-04	\N	-
-23	item1,2	2	42	22	22	ACT	11		0	2014-06-12	2014-06-12		0	0	119	2014-06-12 17:08:25.033124-04	\N	+
-23	item1,2	2	42	22	22	ACT	11		0	2014-06-12	2014-06-12		0	0	120	2014-06-12 17:08:25.162543-04	\N	-
-24	item1,2	2	42	22	22	ACT	11		0	2014-06-12	2014-06-12		0	0	121	2014-06-12 17:09:39.903506-04	\N	+
-24	item1,2	2	42	22	22	ACT	11		0	2014-06-12	2014-06-12		0	0	122	2014-06-12 17:09:39.970231-04	\N	-
-25	item1,2	2	42	22	22	ACT	11		0	2014-06-12	2014-06-12		0	0	123	2014-06-12 17:09:57.782442-04	\N	+
-25	item1,2	2	42	22	22	ACT	11		0	2014-06-12	2014-06-12		0	0	124	2014-06-12 17:09:57.84559-04	\N	-
-26	item12	2	42	22	22	REV	11		0	2014-06-12	2014-06-16		0	0	127	2014-06-16 12:17:29.760762-04	\N	~
-26	item12	2	42	22	22	APROB	11		0	2014-06-12	2014-06-16		0	0	128	2014-06-16 12:17:34.694216-04	\N	~
-26	item12	2	42	22	22	BLOQ	11		0	2014-06-12	2014-06-16		0	0	129	2014-06-16 12:17:41.80572-04	\N	~
-26	item12	2	42	22	22	REV	11		0	2014-06-12	2014-06-16		0	0	130	2014-06-16 12:20:09.591607-04	\N	~
-26	item12	2	42	22	22	APROB	11		0	2014-06-12	2014-06-16		0	0	131	2014-06-16 12:20:35.959373-04	\N	~
-26	item12	2	42	22	22	BLOQ	11		0	2014-06-12	2014-06-16		0	0	132	2014-06-16 12:22:03.297981-04	\N	~
-27	test1	5	42	20	50	REV	ninguna		0	2014-06-16	2014-06-16		0	0	133	2014-06-16 14:39:53.686589-04	\N	~
-27	test1	5	42	20	50	APROB	ninguna		0	2014-06-16	2014-06-16		0	0	134	2014-06-16 14:39:58.98726-04	\N	~
-27	test1	5	42	20	50	BLOQ	ninguna		0	2014-06-16	2014-06-16		0	0	135	2014-06-16 14:40:05.55425-04	\N	~
-28	test	6	43	2	2222	ACT	ninguna		0	2014-06-16	2014-06-16		0	0	136	2014-06-16 15:48:11.012458-04	\N	+
-28	test	6	43	2	2222	ACT	ninguna		1	2014-06-16	2014-06-16		13	15	137	2014-06-16 15:48:25.086349-04	\N	~
+28	item01_fase01	8	57	50	2555	ACT	ninguna		0	2014-06-19	2014-06-19	files/20091515434.pdf	0	0	136	2014-06-19 19:07:57.76251-04	\N	+
+29	item02_fase01	9	57	10	500	ACT	ninguna		0	2014-06-19	2014-06-19		0	0	137	2014-06-19 19:09:14.176474-04	\N	+
+29	item02_fase01	9	57	10	500	ACT	ninguna		1	2014-06-19	2014-06-19		13	15	138	2014-06-19 19:13:53.935936-04	\N	~
+28	item01_fase01	8	57	50	2555	REV	ninguna		1	2014-06-19	2014-06-19	files/20091515434.pdf	16	18	140	2014-06-19 19:14:51.0266-04	\N	~
+29	item02_fase01	9	57	10	500	REV	ninguna		1	2014-06-19	2014-06-19		13	15	141	2014-06-19 19:15:00.593326-04	\N	~
+28	item01_fase01	8	57	50	2555	APROB	ninguna		1	2014-06-19	2014-06-19	files/20091515434.pdf	16	18	143	2014-06-19 19:15:58.741437-04	\N	~
+29	item02_fase01	9	57	10	500	APROB	ninguna		1	2014-06-19	2014-06-19		13	15	145	2014-06-19 19:16:06.030572-04	\N	~
+28	item01_fase01	8	57	50	2555	BLOQ	ninguna		1	2014-06-19	2014-06-19	files/20091515434.pdf	16	18	146	2014-06-19 19:17:59.713915-04	\N	~
+29	item02_fase01	9	57	10	500	BLOQ	ninguna		1	2014-06-19	2014-06-19		13	15	147	2014-06-19 19:17:59.802625-04	\N	~
+30	item01_fase02	8	58	10	255	ACT	ni		0	2014-06-19	2014-06-19		0	0	148	2014-06-19 19:19:11.286266-04	\N	+
+31	item02_fase02	9	58	50	255	ACT	nina		0	2014-06-19	2014-06-19		0	0	149	2014-06-19 19:19:53.15602-04	\N	+
+31	item02_fase02	9	58	50	255	ACT	nina		0	2014-06-19	2014-06-19		0	0	150	2014-06-19 19:19:53.250529-04	\N	-
+32	item02_fase02	9	58	50	255	ACT	nina		0	2014-06-19	2014-06-19		0	0	151	2014-06-19 19:20:48.544039-04	\N	+
+32	item02_fase02	9	58	50	255	ACT	nina		1	2014-06-19	2014-06-19		19	22	152	2014-06-19 19:21:46.191192-04	\N	~
+30	item01_fase02	8	58	10	255	REV	ni		1	2014-06-19	2014-06-19		23	26	154	2014-06-19 19:22:45.261327-04	\N	~
+32	item02_fase02	9	58	50	255	REV	nina		1	2014-06-19	2014-06-19		19	22	156	2014-06-19 19:22:59.097594-04	\N	~
+30	item01_fase02	8	58	10	255	APROB	ni		1	2014-06-19	2014-06-19		23	26	158	2014-06-19 19:24:50.934602-04	\N	~
+32	item02_fase02	9	58	50	255	APROB	nina		1	2014-06-19	2014-06-19		19	22	160	2014-06-19 19:27:08.791128-04	\N	~
+30	item01_fase02	8	58	10	255	BLOQ	ni		1	2014-06-19	2014-06-19		23	26	161	2014-06-19 19:27:24.830912-04	\N	~
+32	item02_fase02	9	58	50	255	BLOQ	nina		1	2014-06-19	2014-06-19		19	22	162	2014-06-19 19:27:24.9192-04	\N	~
+33	item01_fase03	9	59	100	500	ACT	ninguna		0	2014-06-19	2014-06-19		0	0	163	2014-06-19 19:28:22.012804-04	\N	+
+34	item02_fase03	8	59	20	500	ACT	ninguna		0	2014-06-19	2014-06-19		0	0	164	2014-06-19 19:29:17.631262-04	\N	+
+34	item02_fase03	8	59	20	500	ACT	ninguna		1	2014-06-19	2014-06-19		27	30	165	2014-06-19 19:30:09.394376-04	\N	~
+33	item01_fase03	9	59	100	500	ACT	ninguna		1	2014-06-19	2014-06-19		31	33	166	2014-06-19 19:30:24.706521-04	\N	~
+33	item01_fase03	9	59	100	5000	ACT	ninguna		2	2014-06-19	2014-06-19		31	33	167	2014-06-19 19:31:04.664153-04	\N	~
+34	item02_fase03	8	59	20	500	REV	ninguna		2	2014-06-19	2014-06-19		34	37	169	2014-06-19 19:31:16.109155-04	\N	~
+33	item01_fase03	9	59	100	5000	REV	ninguna		2	2014-06-19	2014-06-19		31	33	171	2014-06-19 19:31:57.355058-04	\N	~
+34	item02_fase03	8	59	20	500	APROB	ninguna		2	2014-06-19	2014-06-19		34	37	173	2014-06-19 19:32:03.947309-04	\N	~
+33	item01_fase03	9	59	100	5000	APROB	ninguna		2	2014-06-19	2014-06-19		31	33	175	2014-06-19 19:32:26.134186-04	\N	~
+34	item02_fase03	8	59	20	500	BLOQ	ninguna		2	2014-06-19	2014-06-19		34	37	176	2014-06-19 19:32:36.535051-04	\N	~
+33	item01_fase03	9	59	100	5000	BLOQ	ninguna		2	2014-06-19	2014-06-19		31	33	177	2014-06-19 19:32:47.380968-04	\N	~
+35	it01_f01	8	54	20	255	ACT	nin		0	2014-06-19	2014-06-19		0	0	178	2014-06-19 19:38:05.340674-04	\N	+
+36	it02_f01	9	54	10	2555	REV	ni		0	2014-06-19	2014-06-19		0	0	180	2014-06-19 19:39:39.501726-04	\N	~
+35	it01_f01	8	54	20	255	REV	nin		0	2014-06-19	2014-06-19		0	0	182	2014-06-19 19:39:50.14618-04	\N	~
+36	it02_f01	9	54	10	2555	APROB	ni		0	2014-06-19	2014-06-19		0	0	184	2014-06-19 19:39:56.402322-04	\N	~
+35	it01_f01	8	54	20	255	APROB	nin		0	2014-06-19	2014-06-19		0	0	186	2014-06-19 19:39:59.235969-04	\N	~
+35	it01_f01	8	54	20	255	BLOQ	nin		0	2014-06-19	2014-06-19		0	0	187	2014-06-19 19:40:12.292153-04	\N	~
+37	it01_f02	9	55	50	2555	ACT	asd		0	2014-06-19	2014-06-19		0	0	188	2014-06-19 19:40:32.382404-04	\N	+
+37	it01_f02	9	55	50	2555	ACT	asd		1	2014-06-19	2014-06-19		38	41	189	2014-06-19 19:41:07.173824-04	\N	~
+37	it01_f02	9	55	70	2555	APROB	asd		2	2014-06-19	2014-06-19		38	41	192	2014-06-19 19:41:30.608422-04	\N	~
+37	it01_f02	9	55	70	2555	BLOQ	asd		2	2014-06-19	2014-06-19		38	41	193	2014-06-19 19:43:34.581255-04	\N	~
+38	it01_f03	8	56	20	255	ACT	asd		0	2014-06-19	2014-06-19		0	0	194	2014-06-19 19:44:51.674693-04	\N	+
 \.
 
 
@@ -2138,7 +2089,7 @@ COPY item_historicalitem (id, nombre, tipoitem_id, fase_id, complejidad, costo, 
 -- Name: item_historicalitem_history_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('item_historicalitem_history_id_seq', 137, true);
+SELECT pg_catalog.setval('item_historicalitem_history_id_seq', 194, true);
 
 
 --
@@ -2146,15 +2097,16 @@ SELECT pg_catalog.setval('item_historicalitem_history_id_seq', 137, true);
 --
 
 COPY item_item (id, nombre, tipoitem_id, fase_id, complejidad, costo, estado, descripcion, observacion, version, fecha_creacion, fecha_modificacion, archivo, rango_valor_inicio, rango_valor_final) FROM stdin;
-14	algo	4	41	15	4	BLOQ	niguna	ninguna	0	2014-06-06	2014-06-06		0	0
-26	item12	2	42	22	22	BLOQ	11		0	2014-06-12	2014-06-16		0	0
-27	test1	5	42	20	50	BLOQ	ninguna		0	2014-06-16	2014-06-16		0	0
-28	test	6	43	2	2222	ACT	ninguna		1	2014-06-16	2014-06-16		13	15
-12	RF02	2	39	1	1	APROB	ninguna		2	2014-05-14	2014-05-28		0	0
-2	Entrevista01	5	39	20	5	APROB	entrevista 01		1	2014-05-07	2014-05-28		4	5
-1	RF01	2	39	10	500	BLOQ	Iniciar sesion		1	2014-05-07	2014-05-28		1	3
-13	RF03	2	39	70	22	REV	ninguna		7	2014-05-14	2014-06-03		0	0
-3	CU01	3	40	20	500	BLOQ	Login		2	2014-05-14	2014-06-05	files/TODO.txt	6	8
+28	item01_fase01	8	57	50	2555	BLOQ	ninguna		1	2014-06-19	2014-06-19	files/20091515434.pdf	16	18
+29	item02_fase01	9	57	10	500	BLOQ	ninguna		1	2014-06-19	2014-06-19		13	15
+30	item01_fase02	8	58	10	255	BLOQ	ni		1	2014-06-19	2014-06-19		23	26
+32	item02_fase02	9	58	50	255	BLOQ	nina		1	2014-06-19	2014-06-19		19	22
+34	item02_fase03	8	59	20	500	BLOQ	ninguna		2	2014-06-19	2014-06-19		34	37
+33	item01_fase03	9	59	100	5000	BLOQ	ninguna		2	2014-06-19	2014-06-19		31	33
+36	it02_f01	9	54	10	2555	APROB	ni		0	2014-06-19	2014-06-19		0	0
+35	it01_f01	8	54	20	255	BLOQ	nin		0	2014-06-19	2014-06-19		0	0
+37	it01_f02	9	55	70	2555	BLOQ	asd		2	2014-06-19	2014-06-19		38	41
+38	it01_f03	8	56	20	255	ACT	asd		0	2014-06-19	2014-06-19		0	0
 \.
 
 
@@ -2162,7 +2114,7 @@ COPY item_item (id, nombre, tipoitem_id, fase_id, complejidad, costo, estado, de
 -- Name: item_item_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('item_item_id_seq', 28, true);
+SELECT pg_catalog.setval('item_item_id_seq', 38, true);
 
 
 --
@@ -2170,12 +2122,23 @@ SELECT pg_catalog.setval('item_item_id_seq', 28, true);
 --
 
 COPY item_relaciones (id, tipo_relacion, item_origen_id, item_destino_id, activo, item_origen_version, item_destino_version) FROM stdin;
-1	SUC	1	3	t	1	1
-12	HIJ	13	12	t	6	2
-13	HIJ	12	2	t	2	1
-15	SUC	1	3	t	1	2
-16	SUC	3	14	t	2	0
-18	SUC	27	28	t	0	0
+18	HIJ	28	29	t	0	0
+19	HIJ	28	29	t	0	1
+20	SUC	28	30	t	1	0
+21	SUC	29	32	t	1	0
+23	SUC	29	32	t	1	1
+24	SUC	28	30	t	1	1
+25	SUC	30	33	t	1	0
+26	SUC	32	34	t	1	0
+27	SUC	32	34	t	1	1
+28	SUC	30	33	t	1	1
+29	SUC	30	33	t	1	2
+30	SUC	32	34	t	1	2
+31	HIJ	35	36	t	0	0
+32	SUC	35	37	t	0	0
+33	SUC	35	37	t	0	1
+34	SUC	35	37	t	0	2
+35	SUC	37	38	t	2	0
 \.
 
 
@@ -2183,7 +2146,7 @@ COPY item_relaciones (id, tipo_relacion, item_origen_id, item_destino_id, activo
 -- Name: item_relaciones_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('item_relaciones_id_seq', 18, true);
+SELECT pg_catalog.setval('item_relaciones_id_seq', 35, true);
 
 
 --
@@ -2191,11 +2154,12 @@ SELECT pg_catalog.setval('item_relaciones_id_seq', 18, true);
 --
 
 COPY "lineaBase_lineabase" (id, descripcion, estado, fase_id) FROM stdin;
-12	lb_rf01	CERRRADA	39
-13	lb	CERRRADA	40
-14	lb_imp	CERRRADA	41
-16	lalalal	CERRADA	42
-17	lb22	CERRADA	42
+18	lb01_fase01	CERRADA	57
+19	lb01_fase02	CERRADA	58
+20	lb01_fase03	CERRADA	59
+21	lb02_fase03	CERRADA	59
+22	lb01_f01	CERRADA	54
+24	lb01_f02	CERRADA	55
 \.
 
 
@@ -2203,7 +2167,7 @@ COPY "lineaBase_lineabase" (id, descripcion, estado, fase_id) FROM stdin;
 -- Name: lineaBase_lineabase_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"lineaBase_lineabase_id_seq"', 17, true);
+SELECT pg_catalog.setval('"lineaBase_lineabase_id_seq"', 24, true);
 
 
 --
@@ -2211,11 +2175,14 @@ SELECT pg_catalog.setval('"lineaBase_lineabase_id_seq"', 17, true);
 --
 
 COPY "lineaBase_lineabase_items" (id, lineabase_id, item_id) FROM stdin;
-19	12	1
-20	13	3
-21	14	14
-23	16	26
-24	17	27
+25	18	28
+26	18	29
+27	19	32
+28	19	30
+29	20	34
+30	21	33
+31	22	35
+32	24	37
 \.
 
 
@@ -2223,7 +2190,7 @@ COPY "lineaBase_lineabase_items" (id, lineabase_id, item_id) FROM stdin;
 -- Name: lineaBase_lineabase_items_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"lineaBase_lineabase_items_id_seq"', 24, true);
+SELECT pg_catalog.setval('"lineaBase_lineabase_items_id_seq"', 32, true);
 
 
 --
@@ -2231,7 +2198,6 @@ SELECT pg_catalog.setval('"lineaBase_lineabase_items_id_seq"', 24, true);
 --
 
 COPY principal_estadosproyecto (id, descripcion) FROM stdin;
-1	PENDIENTE
 \.
 
 
@@ -2302,17 +2268,15 @@ SELECT pg_catalog.setval('principal_userprofile_id_seq', 7, true);
 --
 
 COPY proyecto_fase (id, proyecto_id, nombre, fecha_creacion, fecha_modificacion, usuario_modificacion_id, estado) FROM stdin;
-39	21	Analisis	2014-05-07	2014-05-17	1	Finalizado
-41	21	Implementacion	2014-05-07	2014-06-06	1	Finalizado
-40	21	Diseño	2014-05-07	2014-06-06	1	Finalizado
-43	22	fase2	2014-06-06	2014-06-06	1	Activo
-44	22	fase3	2014-06-06	2014-06-06	1	Activo
-45	23	fase1	2014-06-16	2014-06-16	1	Activo
-46	23	fase2	2014-06-16	2014-06-16	1	Activo
-47	23	fase3	2014-06-16	2014-06-16	1	Activo
-42	22	fase1	2014-06-06	2014-06-16	1	Finalizado
-49	24	fase1	2014-06-16	2014-06-16	1	Activo
-50	24	fase2	2014-06-16	2014-06-16	1	Activo
+51	25	fase1	2014-06-19	2014-06-19	1	Activo
+52	25	fase2	2014-06-19	2014-06-19	1	Activo
+53	25	fase3	2014-06-19	2014-06-19	1	Activo
+54	26	fase1	2014-06-19	2014-06-19	1	Activo
+55	26	fase2	2014-06-19	2014-06-19	1	Activo
+56	26	fase3	2014-06-19	2014-06-19	1	Activo
+57	27	fase1	2014-06-19	2014-06-19	1	Activo
+58	27	fase2	2014-06-19	2014-06-19	1	Activo
+59	27	fase3	2014-06-19	2014-06-19	1	Activo
 \.
 
 
@@ -2320,7 +2284,7 @@ COPY proyecto_fase (id, proyecto_id, nombre, fecha_creacion, fecha_modificacion,
 -- Name: proyecto_fase_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('proyecto_fase_id_seq', 50, true);
+SELECT pg_catalog.setval('proyecto_fase_id_seq', 59, true);
 
 
 --
@@ -2328,10 +2292,9 @@ SELECT pg_catalog.setval('proyecto_fase_id_seq', 50, true);
 --
 
 COPY proyecto_proyecto (id, usuario_id, nombre, presupuesto, observaciones, estado, numero_fases, fecha_creacion, fecha_modificacion, usuario_modificacion_id, imagen_grafo) FROM stdin;
-23	2	test122	50000	ni	Activo	3	2014-06-16	2014-06-18	1	grafos/test122_3.png
-22	2	Muestra	500000	ninguna	Pendiente	3	2014-06-06	2014-06-18	1	grafos/Muestra_12.png
-21	7	IS2	100	PASAR!	Finalizado	3	2014-05-07	2014-06-18	1	grafos/IS2_10.png
-24	7	asdf	3	asd	Pendiente	2	2014-06-16	2014-06-16	1	
+25	7	proyecto por iniciar	50000	ningua	Pendiente	3	2014-06-19	2014-06-19	1	
+27	2	proyecto a finalizar	50000	ninguna	Activo	3	2014-06-19	2014-06-19	1	grafos/proyecto_a_finalizar_15.png
+26	7	proyecto a la mitad	50000	ninguna	Activo	3	2014-06-19	2014-06-19	1	grafos/proyecto_a_la_mitad_3.png
 \.
 
 
@@ -2339,7 +2302,7 @@ COPY proyecto_proyecto (id, usuario_id, nombre, presupuesto, observaciones, esta
 -- Name: proyecto_proyecto_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('proyecto_proyecto_id_seq', 24, true);
+SELECT pg_catalog.setval('proyecto_proyecto_id_seq', 27, true);
 
 
 --
@@ -2347,16 +2310,15 @@ SELECT pg_catalog.setval('proyecto_proyecto_id_seq', 24, true);
 --
 
 COPY proyecto_proyecto_miembros (id, proyecto_id, user_id) FROM stdin;
-7	21	1
-8	21	2
-9	21	7
-10	22	2
-11	22	4
-12	22	6
-13	22	7
-20	23	2
-21	23	7
-22	24	6
+23	25	2
+24	25	6
+25	25	7
+32	26	2
+33	26	6
+34	26	7
+35	27	2
+36	27	6
+37	27	7
 \.
 
 
@@ -2364,7 +2326,7 @@ COPY proyecto_proyecto_miembros (id, proyecto_id, user_id) FROM stdin;
 -- Name: proyecto_proyecto_miembros_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('proyecto_proyecto_miembros_id_seq', 22, true);
+SELECT pg_catalog.setval('proyecto_proyecto_miembros_id_seq', 37, true);
 
 
 --
@@ -2372,8 +2334,7 @@ SELECT pg_catalog.setval('proyecto_proyecto_miembros_id_seq', 22, true);
 --
 
 COPY "solicitudCambio_comite" (id, primer_integrante_id, segundo_integrante_id, tercer_integrante_id, estado, proyecto_id) FROM stdin;
-1	7	1	2	ACT	21
-2	6	7	2	ACT	22
+3	7	6	2	ACT	27
 \.
 
 
@@ -2381,7 +2342,7 @@ COPY "solicitudCambio_comite" (id, primer_integrante_id, segundo_integrante_id, 
 -- Name: solicitudCambio_comite_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"solicitudCambio_comite_id_seq"', 2, true);
+SELECT pg_catalog.setval('"solicitudCambio_comite_id_seq"', 3, true);
 
 
 --
@@ -2389,10 +2350,6 @@ SELECT pg_catalog.setval('"solicitudCambio_comite_id_seq"', 2, true);
 --
 
 COPY "solicitudCambio_solicitud" (id, usuario_id, item_id, fecha_caducar, motivo, impacto, estado, voto_primero, voto_segundo, voto_tercero, conteo, resultado) FROM stdin;
-2	2	1	2014-06-16	error	70	APR	-1	1	1	3	1
-9	2	26	2014-06-26	prueba	22	APR	1	-1	1	3	1
-8	2	3	2014-06-16	a ver	20	PEN	0	0	1	1	0
-3	2	13	2014-06-16	otro mas	76	APR	1	1	1	3	3
 \.
 
 
