@@ -159,12 +159,14 @@ def proyecto_view(request,id_proyecto):
     #     #pagina de error
     #     msg = 'No es miembro de este proyecto'
     #     return render_to_response('template', {'mensaje': msg}, context_instance=RequestContext(request))
+    proyecto = get_object_or_404(Proyecto, id=id_proyecto)
+    #proyecto = Proyecto.objects.get(id=id_proyecto)
     fases = Fase.objects.filter(proyecto= id_proyecto)
 
 
     lista = FasesTable(fases)
     nombre = Proyecto.objects.get(id=id_proyecto).nombre
-    proyecto = Proyecto.objects.get(id=id_proyecto)
+
 
     finalizado = True
     for fase in fases:
