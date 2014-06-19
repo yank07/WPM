@@ -168,6 +168,17 @@ def asignar_valor_item(request, id_item):
     tipoitem_id = item.tipoitem_id
     attr_list = Attribute.objects.filter(tipoitem__id__exact=tipoitem_id)
     context = RequestContext(request)
+
+    if not es_miembro(request.user.id, item.fase.proyecto.id):
+        #error: no es miembro
+        mensaje = 'Usted no es miembro del proyecto, no puede editar items'
+        return render_to_response('pagina_error.html', {'mensaje': mensaje}, context)
+
+    if not request.user.has_perm('item.edit_item'):
+        #error: no tiene permisos
+        mensaje = 'Usted no tiene permisos para editar el item'
+        return render_to_response('pagina_error.html', {'mensaje': mensaje}, context)
+
     if request.method == 'POST':
         form = asignar_valor_item_form(request.POST, atributos=attr_list)
 

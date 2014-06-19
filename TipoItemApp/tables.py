@@ -9,7 +9,7 @@ from eav.models import Attribute
 
 class TipoItemTable(tables.Table):
     nombre = tables.Column(verbose_name="Nombre del Tipo de Item")
-    my_column = tables.TemplateColumn(verbose_name=('Editar'),
+    my_column = tables.TemplateColumn(verbose_name=('Acciones'),
                                     template_code='<a href="/edit_tipoitem/{{ record.id }}"><input class="btn btn-xs btn-default" type="submit" name="submit" value="Editar" /></a>',
                                     sortable=False)
     class Meta:
@@ -19,14 +19,15 @@ class TipoItemTable(tables.Table):
         fields = ("nombre", "observacion" , "descripcion")
         sequence = ("nombre", "observacion" , "descripcion")
 
+
 class AtributoTable(tables.Table):
-    nombre = tables.Column(verbose_name="Nombre del Atributo")
-    my_column = tables.TemplateColumn(verbose_name=('Editar'),
+    #nombre = tables.Column(verbose_name="Nombre del Atributo")
+    my_column = tables.TemplateColumn(verbose_name=('Acciones'),
                                     template_code='<a href="/edit_atributo/{{ record.id }}"><input class="btn btn-xs btn-default" type="submit" name="submit" value="Editar" /></a>',
                                     sortable=False)
     class Meta:
         model = Attribute
         # add class="paleblue" to <table> tag
         attrs = {"class": "paleblue"}
-        fields = ("name", "datatype" , "required", "type")
-        sequence = ("name", "datatype" , "required", "type")
+        fields = ("name", "datatype", "required")
+        sequence = ("name", "datatype" , "required")
