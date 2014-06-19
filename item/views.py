@@ -44,6 +44,11 @@ def add_item(request, id_fase):
         mensaje = 'ESTA FASE ESTA FINALIZADA, NO PUEDE AGREGAR UN NUEVO ITEM'
         return render_to_response('pagina_error.html', {'mensaje': mensaje}, context)
 
+    if fase.proyecto.estado != 'Activo':
+        #error: el proyecto aun no se ha iniciado
+        mensaje = 'El proyecto no esta en estado activo, no es posible crear items'
+        return render_to_response('pagina_error.html', {'mensaje': mensaje}, context)
+
     fases = Fase.objects.filter(proyecto_id=fase.proyecto_id)
 
     if request.method == 'POST':
