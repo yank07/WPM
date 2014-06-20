@@ -53,6 +53,9 @@ def crear_lb(request,id_fase):
                 item.history.get(history_id=[h.history_id for h in item.history.all()][1]).delete()
 
             return HttpResponseRedirect('/item/listar_item/'+ str(id_fase))
+        else:
+            form.fields["items"].queryset = Item.objects.filter(fase__id=id_fase, estado="APROB")
+            print form.errors
     else:
          form = add_lb_form()
          i = Item.objects.filter(fase__id=id_fase, estado="APROB")
