@@ -251,11 +251,13 @@ def crear_comite(request, id_proyecto):
                 error = "Los miebros del comite deben ser usuarios distintos"
                 errors = form._errors.setdefault("primer_integrante", ErrorList())
                 errors.append(error)
+                form.fields['proyecto'].widget = forms.HiddenInput()
                 return render_to_response('crear_comite.html', {'form': form, 'id_proyecto': id_proyecto}, context)
 
             form.save()
             return HttpResponseRedirect('/')
         else:
+            form.fields['proyecto'].widget = forms.HiddenInput()
             print form.errors
     else:
         form = crear_comite_form(initial={'proyecto':proyecto})
@@ -344,6 +346,7 @@ def activar_items(id_item):
     item = Item.objects.get(id=id_item)
     item.estado = 'REV'
     item.save()
+    item.history.get(history_id=[h.history_id for h in item.history.all()][1]).delete()
 
     lb_list = item.linea_base.all()
     for lb in lb_list:

@@ -30,7 +30,7 @@ class asignar_valor_item_form(forms.Form):
                 self.fields[attr.name] = forms.DecimalField(label=attr.name+'('+attr.datatype+')',required=attr.required)
             if attr.datatype == 'date':
                 self.fields[attr.name] = forms.DateField(label=attr.name+'('+attr.datatype+')',required=attr.required,
-                                                         show_hidden_initial='2014-01-01')
+                widget=forms.DateInput)
             if attr.datatype == 'text':
                 self.fields[attr.name] = forms.CharField(label=attr.name+'('+attr.datatype+')',required=attr.required)
             if attr.datatype == 'bool':
