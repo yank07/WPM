@@ -16,7 +16,7 @@ class LineaBase(models.Model):
     )
     descripcion = models.CharField(max_length=50, help_text='Descripcion de la Linea Base',unique=False)
     estado = models.CharField(max_length=20,choices=ESTADOS_CHOICES,default='CERRADA')
-    items = models.ManyToManyField(Item,related_name='linea_base',help_text='Item dentro de la linea base')
+    items = models.ManyToManyField(Item,related_name='linea_base',help_text='Item dentro de la linea base', blank=False)
     fase = models.ForeignKey(Fase,related_name='linea_base',help_text='Fase a la que pertenece la linea Base',blank=True,null=True)
 
 

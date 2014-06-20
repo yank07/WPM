@@ -5,7 +5,7 @@ import django_filters
 
 
 class add_lb_form(forms.ModelForm):
-    items = forms.ModelMultipleChoiceField(queryset=Item.objects.all(), required=False)
+    items = forms.ModelMultipleChoiceField(queryset=Item.objects.all(), required=True)
     class Meta:
         model=LineaBase
         exclude=['estado','fase']
