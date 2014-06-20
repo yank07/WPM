@@ -399,7 +399,7 @@ def edit_item(request, id_item):
 
                 item_nuevo.save()
                 if change == False:
-                    item_nuevo.history.get(history_id=item_nuevo.history.first().history_id-1).delete()
+                    item_nuevo.history.get(history_id=[h.history_id for h in item_nuevo.history.all()][1]).delete()
                     #item_nuevo.history.last().delete()
 
                 return HttpResponseRedirect('/item/listar_item/' + str(item_original.fase_id))
@@ -452,6 +452,7 @@ def revivir_item(request, id_item):
     item = Item.objects.get(id=id_item)
     item.estado = 'ACT'
     item.save()
+    item.history.get(history_id=[h.history_id for h in item.history.all()][1]).delete()
     items = Item.objects.filter(fase__id=item.fase_id).exclude(estado='ELIM')
     itemlist=[]
     for i in items:
@@ -758,7 +759,7 @@ def activar_item(request, id_item):
     if es_miembro(request.user.id, proyecto.id) and request.user in users:
         item.estado = 'ACT'
         item.save()
-        item.history.get(history_id=item.history.first().history_id-1).delete()
+        item.history.get(history_id=[h.history_id for h in item.history.all()][1]).delete()
     else:
         #error: no tiene permisos o no es miembro
         mensaje = 'Usted no es miembro del proyecto, o no tiene permisos'
@@ -780,7 +781,7 @@ def aprobar_item(request, id_item):
     if es_miembro(request.user.id, proyecto.id) and request.user in users:
         item.estado = "APROB"
         item.save()
-        item.history.get(history_id=item.history.first().history_id-1).delete()
+        item.history.get(history_id=[h.history_id for h in item.history.all()][1]).delete()
     else:
         #error: no tiene permisos o no es miembro
         mensaje = 'Usted no es miembro del proyecto, o no tiene permisos'

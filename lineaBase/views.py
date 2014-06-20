@@ -45,6 +45,7 @@ def crear_lb(request,id_fase):
                 item.estado = "BLOQ"
 
                 item.save()
+                item.history.get(history_id=[h.history_id for h in item.history.all()][1]).delete()
 
             return HttpResponseRedirect('/item/listar_item/'+ str(id_fase))
     else:
@@ -128,6 +129,7 @@ def cerrar_linea_base(request, id_lineabase):
         if item.estado == 'APROB':
             item.estado = 'BLOQ'
             item.save()
+            item.history.get(history_id=[h.history_id for h in item.history.all()][1]).delete()
     for item in items:
         if item.estado != 'BLOQ':
             cerrada = False
