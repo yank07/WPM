@@ -1774,10 +1774,10 @@ SELECT pg_catalog.setval('auth_permission_id_seq', 92, true);
 
 COPY auth_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) FROM stdin;
 4	pbkdf2_sha256$12000$rhqaXwNWzfWM$iOp850RRok2zYn417xuTm/FSo0VHBmU1gr8rJJsOu24=	2014-04-11 17:49:24.55173-04	f	user1				f	t	2014-04-11 17:49:24.551824-04
-7	pbkdf2_sha256$12000$VcPmjqL2ogHm$2HDFS4r0riH8lIxXzDITd0F5k3BVocPmtwW5U9wUZUM=	2014-06-16 12:19:59.735711-04	f	lauri	Lauri	lauri	lauri@localhost	f	t	2014-04-12 09:03:49.71836-04
-6	pbkdf2_sha256$12000$XXqDn77Q4CJX$0Qjur1GckZbMmxztQu4ff2eHAT8ynj+Oo612hlPBAR0=	2014-06-16 13:21:47.673272-04	f	cscg646				f	t	2014-04-12 08:19:49.47841-04
-1	pbkdf2_sha256$12000$LjIK66kpkWj2$N9HzkETcBLdpBAfGp5bxlNG3h5cfDMVVFznBN7MVP4g=	2014-06-19 19:00:35.36161-04	t	super			super@localhost	t	t	2014-04-09 17:23:20.625801-04
-2	pbkdf2_sha256$12000$wwrF2f6D48CV$f3vYfaAq1FhzbVeGDZ5QLygfAmQ/tdojTk1XZk7pjdY=	2014-06-19 19:35:01.175773-04	f	ccaballero	Cristhian	Caballero	ccaballero@localhost	f	t	2014-04-11 11:11:00.190428-04
+7	pbkdf2_sha256$12000$VcPmjqL2ogHm$2HDFS4r0riH8lIxXzDITd0F5k3BVocPmtwW5U9wUZUM=	2014-06-20 15:47:41.446382-04	f	lauri	Lauri	lauri	lauri@localhost	f	t	2014-04-12 09:03:49.71836-04
+1	pbkdf2_sha256$12000$LjIK66kpkWj2$N9HzkETcBLdpBAfGp5bxlNG3h5cfDMVVFznBN7MVP4g=	2014-06-20 16:14:40.601648-04	t	super			super@localhost	t	t	2014-04-09 17:23:20.625801-04
+2	pbkdf2_sha256$12000$wwrF2f6D48CV$f3vYfaAq1FhzbVeGDZ5QLygfAmQ/tdojTk1XZk7pjdY=	2014-06-20 16:52:40.446274-04	f	ccaballero	Cristhian	Caballero	ccaballero@localhost	f	t	2014-04-11 11:11:00.190428-04
+6	pbkdf2_sha256$12000$XXqDn77Q4CJX$0Qjur1GckZbMmxztQu4ff2eHAT8ynj+Oo612hlPBAR0=	2014-06-20 16:53:41.593994-04	f	cscg646				f	t	2014-04-12 08:19:49.47841-04
 \.
 
 
@@ -1787,6 +1787,7 @@ COPY auth_user (id, password, last_login, is_superuser, username, first_name, la
 
 COPY auth_user_groups (id, user_id, group_id) FROM stdin;
 34	2	11
+35	7	11
 \.
 
 
@@ -1794,7 +1795,7 @@ COPY auth_user_groups (id, user_id, group_id) FROM stdin;
 -- Name: auth_user_groups_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('auth_user_groups_id_seq', 34, true);
+SELECT pg_catalog.setval('auth_user_groups_id_seq', 35, true);
 
 
 --
@@ -1907,7 +1908,11 @@ bl56d0vorxk34tk28vkxmvwwysbredzp	YTc2OThjYmNmNjA0MzBjZDhkYTE3MzFkODlhOWEwZDMwMDF
 8ezv1raghi2b1ltxbpq09jh9mbz0gqmm	NjA3YTA0ZjQzN2NkM2ZkNzE0YzAyYzNiZGVkY2NlMjVhMWViMmQwZDp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6MX0=	2014-07-03 19:00:35.406333-04
 u1ttvmxf2wj4ugxakhjx54eil4ge1rtq	YzcyZDc1YTg2OWM0ZmQxOTg0OTdjNWE1YTc1OWFlZmE5NTBlOWNmNTp7fQ==	2014-07-03 19:34:31.771123-04
 9aexsp5fqyqrtkhnplvqt1uemaf8f53i	YzcyZDc1YTg2OWM0ZmQxOTg0OTdjNWE1YTc1OWFlZmE5NTBlOWNmNTp7fQ==	2014-07-03 19:34:35.287702-04
-r5kgxfe9nn2gcgywyrznoo14brs5pegp	YTc2OThjYmNmNjA0MzBjZDhkYTE3MzFkODlhOWEwZDMwMDFjNjM5OTp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6Mn0=	2014-07-03 19:35:01.309337-04
+6vistgvh3ho5eus2gkcttz8kwu644mjr	YzcyZDc1YTg2OWM0ZmQxOTg0OTdjNWE1YTc1OWFlZmE5NTBlOWNmNTp7fQ==	2014-07-03 19:53:14.019623-04
+h3eo1g7yukgbvejksizux324c09ql3vy	YTc2OThjYmNmNjA0MzBjZDhkYTE3MzFkODlhOWEwZDMwMDFjNjM5OTp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6Mn0=	2014-07-03 20:34:10.796318-04
+au8ajryhrdqg59osytqa58tmomtas36w	NjA3YTA0ZjQzN2NkM2ZkNzE0YzAyYzNiZGVkY2NlMjVhMWViMmQwZDp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6MX0=	2014-07-04 16:14:40.702085-04
+jzm8px2t63bg97gsredi0hpp2xat76uo	YmVmN2FiMDdmOWNhZDE2ZjcwZGNkZDlkNzlhMDY0OTY0YWQ1MWJiODp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6Nn0=	2014-07-04 16:53:41.6384-04
+3ut3stkm0ew1da40s6hxqlbgcttoupi6	YzcyZDc1YTg2OWM0ZmQxOTg0OTdjNWE1YTc1OWFlZmE5NTBlOWNmNTp7fQ==	2014-07-04 17:10:12.631986-04
 \.
 
 
@@ -2025,6 +2030,10 @@ COPY eav_value (id, entity_ct_id, entity_id, value_text, value_float, value_int,
 39	22	37	\N	\N	52	\N	\N	\N	\N	\N	2014-06-19 19:41:06.763573-04	2014-06-19 19:41:06.766883-04	9
 40	22	37	\N	\N	\N	2014-06-18 00:00:00-04	\N	\N	\N	\N	2014-06-19 19:41:06.850866-04	2014-06-19 19:41:06.855396-04	11
 41	22	37	asd	\N	\N	\N	\N	\N	\N	\N	2014-06-19 19:41:07.017145-04	2014-06-19 19:41:07.021237-04	10
+42	22	39	\N	\N	\N	\N	t	\N	\N	\N	2014-06-19 20:35:38.972633-04	2014-06-19 20:35:38.976381-04	12
+43	22	39	\N	\N	55	\N	\N	\N	\N	\N	2014-06-19 20:35:39.089837-04	2014-06-19 20:35:39.093927-04	9
+44	22	39	\N	\N	\N	2014-06-18 00:00:00-04	\N	\N	\N	\N	2014-06-19 20:35:39.189767-04	2014-06-19 20:35:39.192979-04	11
+45	22	39	hola	\N	\N	\N	\N	\N	\N	\N	2014-06-19 20:35:39.32406-04	2014-06-19 20:35:39.327821-04	10
 \.
 
 
@@ -2032,7 +2041,7 @@ COPY eav_value (id, entity_ct_id, entity_id, value_text, value_float, value_int,
 -- Name: eav_value_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('eav_value_id_seq', 41, true);
+SELECT pg_catalog.setval('eav_value_id_seq', 45, true);
 
 
 --
@@ -2042,46 +2051,27 @@ SELECT pg_catalog.setval('eav_value_id_seq', 41, true);
 COPY item_historicalitem (id, nombre, tipoitem_id, fase_id, complejidad, costo, estado, descripcion, observacion, version, fecha_creacion, fecha_modificacion, archivo, rango_valor_inicio, rango_valor_final, history_id, history_date, history_user_id, history_type) FROM stdin;
 28	item01_fase01	8	57	50	2555	ACT	ninguna		0	2014-06-19	2014-06-19	files/20091515434.pdf	0	0	136	2014-06-19 19:07:57.76251-04	\N	+
 29	item02_fase01	9	57	10	500	ACT	ninguna		0	2014-06-19	2014-06-19		0	0	137	2014-06-19 19:09:14.176474-04	\N	+
-29	item02_fase01	9	57	10	500	ACT	ninguna		1	2014-06-19	2014-06-19		13	15	138	2014-06-19 19:13:53.935936-04	\N	~
-28	item01_fase01	8	57	50	2555	REV	ninguna		1	2014-06-19	2014-06-19	files/20091515434.pdf	16	18	140	2014-06-19 19:14:51.0266-04	\N	~
-29	item02_fase01	9	57	10	500	REV	ninguna		1	2014-06-19	2014-06-19		13	15	141	2014-06-19 19:15:00.593326-04	\N	~
-28	item01_fase01	8	57	50	2555	APROB	ninguna		1	2014-06-19	2014-06-19	files/20091515434.pdf	16	18	143	2014-06-19 19:15:58.741437-04	\N	~
-29	item02_fase01	9	57	10	500	APROB	ninguna		1	2014-06-19	2014-06-19		13	15	145	2014-06-19 19:16:06.030572-04	\N	~
 28	item01_fase01	8	57	50	2555	BLOQ	ninguna		1	2014-06-19	2014-06-19	files/20091515434.pdf	16	18	146	2014-06-19 19:17:59.713915-04	\N	~
 29	item02_fase01	9	57	10	500	BLOQ	ninguna		1	2014-06-19	2014-06-19		13	15	147	2014-06-19 19:17:59.802625-04	\N	~
 30	item01_fase02	8	58	10	255	ACT	ni		0	2014-06-19	2014-06-19		0	0	148	2014-06-19 19:19:11.286266-04	\N	+
 31	item02_fase02	9	58	50	255	ACT	nina		0	2014-06-19	2014-06-19		0	0	149	2014-06-19 19:19:53.15602-04	\N	+
-31	item02_fase02	9	58	50	255	ACT	nina		0	2014-06-19	2014-06-19		0	0	150	2014-06-19 19:19:53.250529-04	\N	-
 32	item02_fase02	9	58	50	255	ACT	nina		0	2014-06-19	2014-06-19		0	0	151	2014-06-19 19:20:48.544039-04	\N	+
-32	item02_fase02	9	58	50	255	ACT	nina		1	2014-06-19	2014-06-19		19	22	152	2014-06-19 19:21:46.191192-04	\N	~
-30	item01_fase02	8	58	10	255	REV	ni		1	2014-06-19	2014-06-19		23	26	154	2014-06-19 19:22:45.261327-04	\N	~
-32	item02_fase02	9	58	50	255	REV	nina		1	2014-06-19	2014-06-19		19	22	156	2014-06-19 19:22:59.097594-04	\N	~
-30	item01_fase02	8	58	10	255	APROB	ni		1	2014-06-19	2014-06-19		23	26	158	2014-06-19 19:24:50.934602-04	\N	~
-32	item02_fase02	9	58	50	255	APROB	nina		1	2014-06-19	2014-06-19		19	22	160	2014-06-19 19:27:08.791128-04	\N	~
 30	item01_fase02	8	58	10	255	BLOQ	ni		1	2014-06-19	2014-06-19		23	26	161	2014-06-19 19:27:24.830912-04	\N	~
 32	item02_fase02	9	58	50	255	BLOQ	nina		1	2014-06-19	2014-06-19		19	22	162	2014-06-19 19:27:24.9192-04	\N	~
 33	item01_fase03	9	59	100	500	ACT	ninguna		0	2014-06-19	2014-06-19		0	0	163	2014-06-19 19:28:22.012804-04	\N	+
 34	item02_fase03	8	59	20	500	ACT	ninguna		0	2014-06-19	2014-06-19		0	0	164	2014-06-19 19:29:17.631262-04	\N	+
 34	item02_fase03	8	59	20	500	ACT	ninguna		1	2014-06-19	2014-06-19		27	30	165	2014-06-19 19:30:09.394376-04	\N	~
 33	item01_fase03	9	59	100	500	ACT	ninguna		1	2014-06-19	2014-06-19		31	33	166	2014-06-19 19:30:24.706521-04	\N	~
-33	item01_fase03	9	59	100	5000	ACT	ninguna		2	2014-06-19	2014-06-19		31	33	167	2014-06-19 19:31:04.664153-04	\N	~
-34	item02_fase03	8	59	20	500	REV	ninguna		2	2014-06-19	2014-06-19		34	37	169	2014-06-19 19:31:16.109155-04	\N	~
-33	item01_fase03	9	59	100	5000	REV	ninguna		2	2014-06-19	2014-06-19		31	33	171	2014-06-19 19:31:57.355058-04	\N	~
-34	item02_fase03	8	59	20	500	APROB	ninguna		2	2014-06-19	2014-06-19		34	37	173	2014-06-19 19:32:03.947309-04	\N	~
-33	item01_fase03	9	59	100	5000	APROB	ninguna		2	2014-06-19	2014-06-19		31	33	175	2014-06-19 19:32:26.134186-04	\N	~
-34	item02_fase03	8	59	20	500	BLOQ	ninguna		2	2014-06-19	2014-06-19		34	37	176	2014-06-19 19:32:36.535051-04	\N	~
 33	item01_fase03	9	59	100	5000	BLOQ	ninguna		2	2014-06-19	2014-06-19		31	33	177	2014-06-19 19:32:47.380968-04	\N	~
 35	it01_f01	8	54	20	255	ACT	nin		0	2014-06-19	2014-06-19		0	0	178	2014-06-19 19:38:05.340674-04	\N	+
-36	it02_f01	9	54	10	2555	REV	ni		0	2014-06-19	2014-06-19		0	0	180	2014-06-19 19:39:39.501726-04	\N	~
-35	it01_f01	8	54	20	255	REV	nin		0	2014-06-19	2014-06-19		0	0	182	2014-06-19 19:39:50.14618-04	\N	~
 36	it02_f01	9	54	10	2555	APROB	ni		0	2014-06-19	2014-06-19		0	0	184	2014-06-19 19:39:56.402322-04	\N	~
-35	it01_f01	8	54	20	255	APROB	nin		0	2014-06-19	2014-06-19		0	0	186	2014-06-19 19:39:59.235969-04	\N	~
-35	it01_f01	8	54	20	255	BLOQ	nin		0	2014-06-19	2014-06-19		0	0	187	2014-06-19 19:40:12.292153-04	\N	~
 37	it01_f02	9	55	50	2555	ACT	asd		0	2014-06-19	2014-06-19		0	0	188	2014-06-19 19:40:32.382404-04	\N	+
 37	it01_f02	9	55	50	2555	ACT	asd		1	2014-06-19	2014-06-19		38	41	189	2014-06-19 19:41:07.173824-04	\N	~
-37	it01_f02	9	55	70	2555	APROB	asd		2	2014-06-19	2014-06-19		38	41	192	2014-06-19 19:41:30.608422-04	\N	~
 37	it01_f02	9	55	70	2555	BLOQ	asd		2	2014-06-19	2014-06-19		38	41	193	2014-06-19 19:43:34.581255-04	\N	~
-38	it01_f03	8	56	20	255	ACT	asd		0	2014-06-19	2014-06-19		0	0	194	2014-06-19 19:44:51.674693-04	\N	+
+39	it03_f01	8	54	20	255	ACT	asdfsf		0	2014-06-19	2014-06-19		0	0	195	2014-06-19 20:35:12.312141-04	\N	+
+39	it03_f01	8	54	20	255	APROB	asdfsf		1	2014-06-19	2014-06-19		42	45	198	2014-06-19 20:35:49.937098-04	\N	~
+38	it01_f03	8	56	20	255	ACT	asd		2	2014-06-19	2014-06-20		0	0	202	2014-06-20 16:15:58.894986-04	\N	~
+34	item02_fase03	8	59	20	500	REV	ninguna		2	2014-06-19	2014-06-20		34	37	203	2014-06-20 16:53:58.406349-04	\N	~
 \.
 
 
@@ -2089,7 +2079,7 @@ COPY item_historicalitem (id, nombre, tipoitem_id, fase_id, complejidad, costo, 
 -- Name: item_historicalitem_history_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('item_historicalitem_history_id_seq', 194, true);
+SELECT pg_catalog.setval('item_historicalitem_history_id_seq', 203, true);
 
 
 --
@@ -2097,16 +2087,17 @@ SELECT pg_catalog.setval('item_historicalitem_history_id_seq', 194, true);
 --
 
 COPY item_item (id, nombre, tipoitem_id, fase_id, complejidad, costo, estado, descripcion, observacion, version, fecha_creacion, fecha_modificacion, archivo, rango_valor_inicio, rango_valor_final) FROM stdin;
+38	it01_f03	8	56	20	255	ACT	asd		2	2014-06-19	2014-06-20		0	0
+34	item02_fase03	8	59	20	500	REV	ninguna		2	2014-06-19	2014-06-20		34	37
 28	item01_fase01	8	57	50	2555	BLOQ	ninguna		1	2014-06-19	2014-06-19	files/20091515434.pdf	16	18
 29	item02_fase01	9	57	10	500	BLOQ	ninguna		1	2014-06-19	2014-06-19		13	15
 30	item01_fase02	8	58	10	255	BLOQ	ni		1	2014-06-19	2014-06-19		23	26
 32	item02_fase02	9	58	50	255	BLOQ	nina		1	2014-06-19	2014-06-19		19	22
-34	item02_fase03	8	59	20	500	BLOQ	ninguna		2	2014-06-19	2014-06-19		34	37
 33	item01_fase03	9	59	100	5000	BLOQ	ninguna		2	2014-06-19	2014-06-19		31	33
 36	it02_f01	9	54	10	2555	APROB	ni		0	2014-06-19	2014-06-19		0	0
 35	it01_f01	8	54	20	255	BLOQ	nin		0	2014-06-19	2014-06-19		0	0
 37	it01_f02	9	55	70	2555	BLOQ	asd		2	2014-06-19	2014-06-19		38	41
-38	it01_f03	8	56	20	255	ACT	asd		0	2014-06-19	2014-06-19		0	0
+39	it03_f01	8	54	20	255	APROB	asdfsf		1	2014-06-19	2014-06-19		42	45
 \.
 
 
@@ -2114,7 +2105,7 @@ COPY item_item (id, nombre, tipoitem_id, fase_id, complejidad, costo, estado, de
 -- Name: item_item_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('item_item_id_seq', 38, true);
+SELECT pg_catalog.setval('item_item_id_seq', 39, true);
 
 
 --
@@ -2138,7 +2129,9 @@ COPY item_relaciones (id, tipo_relacion, item_origen_id, item_destino_id, activo
 32	SUC	35	37	t	0	0
 33	SUC	35	37	t	0	1
 34	SUC	35	37	t	0	2
-35	SUC	37	38	t	2	0
+37	HIJ	29	28	t	1	0
+38	SUC	37	38	t	2	1
+35	SUC	37	38	t	2	2
 \.
 
 
@@ -2146,7 +2139,7 @@ COPY item_relaciones (id, tipo_relacion, item_origen_id, item_destino_id, activo
 -- Name: item_relaciones_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('item_relaciones_id_seq', 35, true);
+SELECT pg_catalog.setval('item_relaciones_id_seq', 38, true);
 
 
 --
@@ -2156,10 +2149,10 @@ SELECT pg_catalog.setval('item_relaciones_id_seq', 35, true);
 COPY "lineaBase_lineabase" (id, descripcion, estado, fase_id) FROM stdin;
 18	lb01_fase01	CERRADA	57
 19	lb01_fase02	CERRADA	58
-20	lb01_fase03	CERRADA	59
 21	lb02_fase03	CERRADA	59
 22	lb01_f01	CERRADA	54
 24	lb01_f02	CERRADA	55
+20	lb01_fase03	ABIERTA	59
 \.
 
 
@@ -2292,9 +2285,9 @@ SELECT pg_catalog.setval('proyecto_fase_id_seq', 59, true);
 --
 
 COPY proyecto_proyecto (id, usuario_id, nombre, presupuesto, observaciones, estado, numero_fases, fecha_creacion, fecha_modificacion, usuario_modificacion_id, imagen_grafo) FROM stdin;
-25	7	proyecto por iniciar	50000	ningua	Pendiente	3	2014-06-19	2014-06-19	1	
-27	2	proyecto a finalizar	50000	ninguna	Activo	3	2014-06-19	2014-06-19	1	grafos/proyecto_a_finalizar_15.png
-26	7	proyecto a la mitad	50000	ninguna	Activo	3	2014-06-19	2014-06-19	1	grafos/proyecto_a_la_mitad_3.png
+25	7	proyecto por iniciar	50000	ningua	Pendiente	3	2014-06-19	2014-06-20	1	grafos/proyecto_por_iniciar.png
+27	2	proyecto a finalizar	50000	ninguna	Activo	3	2014-06-19	2014-06-20	1	grafos/proyecto_a_finalizar.png
+26	7	proyecto a la mitad	50000	ninguna	Activo	3	2014-06-19	2014-06-20	1	grafos/proyecto_a_la_mitad_3.png
 \.
 
 
@@ -2350,6 +2343,7 @@ SELECT pg_catalog.setval('"solicitudCambio_comite_id_seq"', 3, true);
 --
 
 COPY "solicitudCambio_solicitud" (id, usuario_id, item_id, fecha_caducar, motivo, impacto, estado, voto_primero, voto_segundo, voto_tercero, conteo, resultado) FROM stdin;
+11	2	34	2014-06-26	error	20	APR	1	-1	1	3	1
 \.
 
 
@@ -2357,7 +2351,7 @@ COPY "solicitudCambio_solicitud" (id, usuario_id, item_id, fecha_caducar, motivo
 -- Name: solicitudCambio_solicitud_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('"solicitudCambio_solicitud_id_seq"', 10, true);
+SELECT pg_catalog.setval('"solicitudCambio_solicitud_id_seq"', 11, true);
 
 
 --
