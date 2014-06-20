@@ -486,7 +486,7 @@ def crear_sucesor(request, id_fase):
     item_list_destino=[]
     for item in Item.objects.filter(fase__id=id_fase):
         item_list_origen.append(item.id)
-    for item in Item.objects.filter(fase__id=int(id_fase)+1):
+    for item in Item.objects.filter(fase__id=int(id_fase)+1,estado='ACT'):
         item_list_destino.append(item.id)
 
     print item_list_origen
@@ -563,7 +563,7 @@ def crear_hijo(request, id_fase):
     fase = Fase.objects.get(id=id_fase)
     error = False
     item_list=[]
-    for item in Item.objects.filter(fase__id=id_fase):
+    for item in Item.objects.filter(fase__id=id_fase, estado='ACT'):
         item_list.append(item.id)
 
     if request.method == 'POST':

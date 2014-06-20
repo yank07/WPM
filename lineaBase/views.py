@@ -133,6 +133,7 @@ def cerrar_linea_base(request, id_lineabase):
     lb = LineaBase.objects.get(id=id_lineabase)
     items = lb.items.all()
     cerrada = True
+    context = RequestContext(request)
     for item in items:
         if item.estado == 'APROB':
             item.estado = 'BLOQ'
@@ -144,4 +145,7 @@ def cerrar_linea_base(request, id_lineabase):
     if cerrada:
         lb.estado = 'CERRADA'
         lb.save()
+    else:
+        mensaje = "Existen items no aprobados en la linea base"
+        return render_to_response('pagina_error.html', {'mensaje': mensaje}, context)
     return HttpResponseRedirect('/lineabase/admin_lb/'+ str(lb.fase.id))
